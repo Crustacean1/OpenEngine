@@ -3,7 +3,9 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "/home/kamil2/Libraries/GLAD",
+                "/home/kamil2/Libraries/glfw-3.3.2/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/g++",
