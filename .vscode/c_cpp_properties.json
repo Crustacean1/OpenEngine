@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "/home/kamil2/Libraries/GLAD",
-                "/home/kamil2/Libraries/glfw-3.3.2/include"
+                "/home/kamil2/Libraries/glfw-3.3.2/include",
+                "/home/kamil2/Libraries/glm"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/g++",
