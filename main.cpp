@@ -60,10 +60,10 @@ int main(int argc, char ** argv)
     v1.swapBuffer(buff1);
     v1.swapBuffer(buff2);
 
-    buff1.setBuffer(std::shared_ptr<unsigned int>(new unsigned int[3]{0,1,2}),3);
+    buff1.setBuffer(std::shared_ptr<unsigned int>(new unsigned int[6]{0,1,2,0,3,2}),6);
     buff1.flush();
 
-    buff2.setBuffer(std::shared_ptr<OpenEngine::Vertex3p>(new OpenEngine::Vertex3p[3]{glm::vec3(-0.5f,-0.25f,0.f),glm::vec3(0.f,0.75f,0.f),glm::vec3(0.5f,-0.25f,0)}),3);
+    buff2.setBuffer(std::shared_ptr<OpenEngine::Vertex3p>(new OpenEngine::Vertex3p[34]{glm::vec3(-0.5f,0.f,0.f),glm::vec3(0.f,0.75f,0.f),glm::vec3(0.5f,0.f,0),glm::vec3(0.f,-0.75f,0.f)}),4);
     buff2.flush();
 
 
@@ -74,7 +74,7 @@ int main(int argc, char ** argv)
         glClear(GL_COLOR_BUFFER_BIT);
         shader1.use();
         v1.bind();
-        glDrawElements(GL_TRIANGLES,3,GL_UNSIGNED_INT,0);
+        glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
         v1.unbind();
 
         glfwSwapBuffers(window);
