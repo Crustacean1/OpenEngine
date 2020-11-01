@@ -78,11 +78,49 @@ void Shader::load(const char *vs, const char *fs, const char *gs)
         }
     }
 }
+void Shader::loadUniforms()
+{
+    GLint count;
+    GLint size;
+    constexpr GLint bufSize= 32;
+    GLenum type;
+    GLchar name[bufSize];
+    GLsizei length;
+
+    glGetProgramiv(ID,GL_ACTIVE_ATTRIBUTES,&count);
+    for(GLint i = 0;i<count;i++)
+    {
+        glGetActiveUniform(ID,(GLuint)i,bufSize,&length,&size,&type,name);
+        uniforms[name]= glGetUniformLocation(ID,name);
+    }
+}
 Shader::Shader(const char *vs, const char *fs, const char *gs)
 {
     load(vs, fs, gs);
+    loadUniforms();
 }
 void Shader::use()
 {
     glUseProgram(ID);
+}
+
+void Shader::set(const char * name, int var)
+{
+    glUniform1i(uniforms[name],var);
+}
+void Shader::set(const char * name, float var)
+{   
+    glUniform1f(uniforms[name],var);
+}
+void Shader::set(const char * name, glm::vec3 var)
+{
+    glUniform3fv(uniforms[name],1,glm::value_ptr(var));
+}
+void Shader::set(const char * name, glm::vec4 var)
+{
+    glUniform4fv(uniforms[name],1,glm::value_ptr(var));
+}
+void Shader::set(const char * name, glm::mat4 var)
+{
+    glUniformMatrix4fv(uniforms[name],1,GL_FALSE,glm::value_ptr(var));
 }

@@ -1,13 +1,15 @@
 #ifndef OBJECT
 #define OBJECT
 
+
 class Object
 {
     //Position, parent , children
+    static char * incrementIndex();
+    static char * mainIndex;
+    char * index;
 public:
-    virtual void render() = 0;// With renderer???
-    virtual void onStart() = 0;
-    virtual void update(double delta) = 0;
+    
 
     //global position
     //local position
