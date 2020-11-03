@@ -1,7 +1,7 @@
 #ifndef D_VAO
 #define D_VAO
 
-#include "Buffer.h"
+#include "../Buffer/Buffer.h"
 
 namespace OpenEngine
 {

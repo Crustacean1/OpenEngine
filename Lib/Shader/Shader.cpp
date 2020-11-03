@@ -67,7 +67,7 @@ void Shader::load(const char *vs, const char *fs, const char *gs)
     if (!success)
     {
         glGetProgramInfoLog(ID, 512, NULL, infoLog);
-        std::cout <<"failed "<< infoLog << std::endl;
+        std::cout <<"In shader.cpp: "<< infoLog << std::endl;
         throw "Failed to link shader";
     }
     for (int i = 0; i < 3; i++)

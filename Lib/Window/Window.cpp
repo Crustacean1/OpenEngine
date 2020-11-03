@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "Exception.h"
+#include "../Exception/Exception.h"
 
 namespace OpenEngine
 {

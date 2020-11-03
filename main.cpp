@@ -1,8 +1,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "Lib/VAO.h"
-#include "Lib/Shader.h"
+#include "Lib/VAO/VAO.h"
+#include "Lib/Shader/Shader.h"
 
 void framebuffer_size_callback(GLFWwindow * widnow,int width,int height)
 {
@@ -51,7 +51,7 @@ int main(int argc, char ** argv)
 
     //Testing area
 
-    Shader shader1("Shaders/shader1.vert","Shaders/shader1.frag");
+    Shader shader1("Shaders/Shader1/shader1.vert","Shaders/Shader1/shader1.frag");
 
     OpenEngine::Buffer<unsigned int,GL_ELEMENT_ARRAY_BUFFER> buff1;
     OpenEngine::Buffer<OpenEngine::Vertex3p,GL_ARRAY_BUFFER> buff2;
@@ -65,7 +65,6 @@ int main(int argc, char ** argv)
 
     buff2.setBuffer(std::shared_ptr<OpenEngine::Vertex3p>(new OpenEngine::Vertex3p[34]{glm::vec3(-0.5f,0.f,0.f),glm::vec3(0.f,0.75f,0.f),glm::vec3(0.5f,0.f,0),glm::vec3(0.f,-0.75f,0.f)}),4);
     buff2.flush();
-
 
     //End of testing area
 
