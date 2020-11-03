@@ -1,6 +1,9 @@
 #ifndef INPUT
 #define INPUT
 
+#include "Mouse.h"
+#include "Keyboard.h"
+
 class GLFWwindow;
 
 namespace OpenEngine
@@ -9,11 +12,13 @@ namespace OpenEngine
     {
     public:
         virtual void mouseMovementCallback(GLFWwindow *window, double xpos, double ypos) = 0;
+        ~MouseMovementInput(){Mouse::getMouse()->dropMovementCallback(this);}
     };
     class MouseButtonInput
     {
     public:
         virtual void mouseButtonCallback(GLFWwindow *window, int button, int action, int mode) = 0;
+        ~MouseButtonInput(){Mouse::getMouse()->dropButtonCallback(this);}
     };
     class KeyboardInput
     {

@@ -57,6 +57,7 @@ namespace OpenEngine
         //Copy/Move constructor
         //Tags (rather not)
         //Add serializable class
+        //Will contain Component©
     };
 }; // namespace OpenEngine
 
