@@ -22,6 +22,7 @@ namespace OpenEngine
         const std::string index = incrementIndex(mainIndex);
 
         std::weak_ptr<Object> parent;
+
         std::map<std::string, std::shared_ptr<Object>> children;
 
         glm::dquat localRotation;
@@ -30,7 +31,7 @@ namespace OpenEngine
 
     public:
         Object(std::shared_ptr<Object> _parent);
-        Object(std::shared_ptr<Scene> _parent);
+        Object();
         
         std::string getId() const;
 
@@ -39,13 +40,36 @@ namespace OpenEngine
 
         void add(std::shared_ptr<Object> _object);
 
+        void drop(std::string index);
+
+        //Global state
+
         glm::vec3 getGlobalPosition();
         glm::vec3 getGlobalScale();
         glm::dquat getGlobalRotation();
 
+        void rotateGlobal(glm::dquat rotation);
+        void translateGlobal(glm::vec3 disp);
+        void scaleGlobal(glm::vec3 scale);
+
+        void setGlobalRotation(glm::dquat rotation);
+        void setGlobalPosition(glm::vec3 disp);
+        void setGlobalScale(glm::vec3 scale);
+
+        //Local state
+
         glm::vec3 getLocalPosition();
         glm::vec3 getLocalScale();
         glm::dquat getLocalRotation();
+        
+        void rotateLocal(glm::dquat rotation);
+        void translateLocal(glm::vec3 disp);
+        void scaleLocal(glm::vec3 scale);
+
+        void setLocalRotation(glm::dquat rotation);
+        void setLocalPosition(glm::vec3 disp);
+        void setLocalScale(glm::vec3 scale);
+
 
         //global position
         //local position

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <glad/glad.h>
 
-unsigned int Shader::loadSubShader(const char *filename, unsigned int target)
+unsigned int OpenEngine::Shader::loadSubShader(const char *filename, unsigned int target)
 {
     std::fstream file(filename);
     if (!file.is_open())
@@ -35,7 +35,7 @@ unsigned int Shader::loadSubShader(const char *filename, unsigned int target)
     return shader;
 }
 
-void Shader::load(const char *vs, const char *fs, const char *gs)
+void OpenEngine::Shader::load(const char *vs, const char *fs, const char *gs)
 {
     ID = glCreateProgram();
     unsigned int shaders[3];
@@ -78,7 +78,7 @@ void Shader::load(const char *vs, const char *fs, const char *gs)
         }
     }
 }
-void Shader::loadUniforms()
+void OpenEngine::Shader::loadUniforms()
 {
     GLint count;
     GLint size;
@@ -94,33 +94,33 @@ void Shader::loadUniforms()
         uniforms[name]= glGetUniformLocation(ID,name);
     }
 }
-Shader::Shader(const char *vs, const char *fs, const char *gs)
+OpenEngine::Shader::Shader(const char *vs, const char *fs, const char *gs)
 {
     load(vs, fs, gs);
     loadUniforms();
 }
-void Shader::use()
+void OpenEngine::Shader::use()
 {
     glUseProgram(ID);
 }
 
-void Shader::set(const char * name, int var)
+void OpenEngine::Shader::set(const char * name, int var)
 {
     glUniform1i(uniforms[name],var);
 }
-void Shader::set(const char * name, float var)
+void OpenEngine::Shader::set(const char * name, float var)
 {   
     glUniform1f(uniforms[name],var);
 }
-void Shader::set(const char * name, glm::vec3 var)
+void OpenEngine::Shader::set(const char * name, glm::vec3 var)
 {
     glUniform3fv(uniforms[name],1,glm::value_ptr(var));
 }
-void Shader::set(const char * name, glm::vec4 var)
+void OpenEngine::Shader::set(const char * name, glm::vec4 var)
 {
     glUniform4fv(uniforms[name],1,glm::value_ptr(var));
 }
-void Shader::set(const char * name, glm::mat4 var)
+void OpenEngine::Shader::set(const char * name, glm::mat4 var)
 {
     glUniformMatrix4fv(uniforms[name],1,GL_FALSE,glm::value_ptr(var));
 }

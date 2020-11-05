@@ -2,25 +2,28 @@
 #define MESHRENDERER
 
 #include "Renderer.h"
-#include "../Mesh/Mesh.h"
 
 namespace OpenEngine
 {
-    class MeshRenderer :public Renderer
+    class Mesh;
+    class Shader;
+    class MeshRenderer : public Renderer
     {
+    protected:
         std::shared_ptr<Mesh> myMesh;
-        std::shared_ptr<Shader> myShader;
-        public:
 
-        void render();
-        void prepareRender();
-        
-        std::shared_ptr<Shader> getShader();
-        std::shared_ptr<Mesh> getmesh();
+        unsigned int mode;
 
-        void setMesh(std::shared_ptr<Mesh> _mesh);
-        void setShader(std::shared_ptr<Shader> _shader);
+    public:
+        MeshRenderer();
+        MeshRenderer(std::shared_ptr<Mesh> _mesh, std::shared_ptr<Render> _render = nullptr, std::shared_ptr<Shader> _shader = nullptr) : myMesh(_mesh), Renderer::Renderer(_render, _shader) {}
+
+        void render() override;
+        void prepare() override;
+
+        std::shared_ptr<Mesh> getMesh() { return myMesh; }
+        void setMesh(std::shared_ptr<Mesh> _mesh) { myMesh = _mesh; }
     };
-};
+}; // namespace OpenEngine
 
 #endif /*MESHRENDERER*/

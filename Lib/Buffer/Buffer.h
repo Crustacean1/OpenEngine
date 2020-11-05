@@ -125,7 +125,7 @@ namespace OpenEngine //tuple or inheritance
         }
         void setBuffer(unsigned int _size)
         {
-            data = new T[_size];
+            data = std::shared_ptr<T>(new T[_size]);
             size = _size;
         }
         void flush()

@@ -17,6 +17,9 @@ namespace OpenEngine
         void generateTorus(unsigned int resolution = 10,unsigned int size =1);
         void generateSphere(unsigned int resolution = 10,unsigned int size =1);
         void generatePlane(unsigned int resolution = 10, unsigned int size = 1);
+
+        unsigned int getMeshSize(){return indices.getSize();}
+        void bind(){vao.bind();}
     };
 }; // namespace OpenEngine
 
