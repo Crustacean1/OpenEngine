@@ -3,8 +3,6 @@
 
 #include <iostream>
 
-
-
 #include <memory>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -55,6 +53,23 @@ namespace OpenEngine //tuple or inheritance
             glEnableVertexAttribArray(2);
         }
     };
+    struct VIndex
+    {
+        unsigned int indices[3];
+        VIndex() {}
+        VIndex(unsigned int a, unsigned int b, unsigned int c)
+        {
+            indices[0] = a;
+            indices[1] = b;
+            indices[2] = c;
+        }
+        void set(unsigned int a, unsigned int b, unsigned int c)
+        {
+            indices[0] = a;
+            indices[1] = b;
+            indices[2] = c;
+        }
+    };
 
     template <typename T, int target>
     class Buffer
@@ -88,7 +103,7 @@ namespace OpenEngine //tuple or inheritance
         }
 
     public:
-        Buffer() {initBuffer();}
+        Buffer() { initBuffer(); }
         template <typename... Types>
         Buffer(Types... types)
         {
@@ -99,14 +114,18 @@ namespace OpenEngine //tuple or inheritance
         }
         Buffer(unsigned int _size)
         {
-            data = new T[_size];
-            size = _size;
+            setBuffer(_size);
             initBuffer();
             flush();
         }
         void setBuffer(std::shared_ptr<T> _data, unsigned int _size)
         {
             data = _data;
+            size = _size;
+        }
+        void setBuffer(unsigned int _size)
+        {
+            data = new T[_size];
             size = _size;
         }
         void flush()
@@ -125,18 +144,20 @@ namespace OpenEngine //tuple or inheritance
                 T::setAttribs();
             }
         }
-        Buffer<T,target>& operator=(Buffer<T,target> buff)
+        Buffer<T, target> &operator=(Buffer<T, target> buff)
         {
             ID = buff.ID;
             active = buff.active;
             size = buff.size;
-            memcpy(data,buff.data,sizeof(T)*size);
+            memcpy(data, buff.data, sizeof(T) * size);
             return *this;
         }
         ~Buffer()
         {
             deleteBuffer();
         }
+        unsigned int getSize() { return size; }
+        std::shared_ptr<T> getData() { return data; }
     };
 
 }; // namespace OpenEngine

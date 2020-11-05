@@ -2,17 +2,24 @@
 #define MESHRENDERER
 
 #include "Renderer.h"
-#include "../Buffer/Buffer.h"
+#include "../Mesh/Mesh.h"
 
 namespace OpenEngine
 {
     class MeshRenderer :public Renderer
     {
-        Buffer<unsigned int,GL_ELEMENT_ARRAY_BUFFER> indices;
-        Buffer<Vertex3p,GL_ARRAY_BUFFER> vertices;
+        std::shared_ptr<Mesh> myMesh;
+        std::shared_ptr<Shader> myShader;
         public:
+
         void render();
         void prepareRender();
+        
+        std::shared_ptr<Shader> getShader();
+        std::shared_ptr<Mesh> getmesh();
+
+        void setMesh(std::shared_ptr<Mesh> _mesh);
+        void setShader(std::shared_ptr<Shader> _shader);
     };
 };
 

@@ -14,7 +14,7 @@ target := $(shell pwd | xargs basename)
 
 .PHONY = test prep clean %.h
 
-${target}: ${objects}
+${target}: test ${objects}
 	g++ -o ${target} ${objects} -g -std=c++20 -L/home/kamil2/Libraries/glfw-3.3.2/build/src -lglfw3 -lrt -lm -ldl -lX11 -lpthread -lGL
 
 %.o: %.cpp ${headers}
@@ -22,7 +22,6 @@ ${target}: ${objects}
 
 %.h: %.cpp
 	touch ${subst cpp,h,$<}
-
 test:
 	@echo obj targets: ${objects}
 prep:
