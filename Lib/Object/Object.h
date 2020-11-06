@@ -29,18 +29,16 @@ namespace OpenEngine
         glm::vec3 localScale;
         glm::vec3 localPosition;
 
+        // Scale->rotation->translation
+
     public:
         Object(std::shared_ptr<Object> _parent);
-        Object();
-        
         std::string getId() const;
 
         std::shared_ptr<Object> find(const std::string &_id);
         std::shared_ptr<Object> drop(const std::string &_id);
 
-        void add(std::shared_ptr<Object> _object);
-
-        void drop(std::string index);
+        void add(const std::shared_ptr<Object> & _object);
 
         //Global state
 

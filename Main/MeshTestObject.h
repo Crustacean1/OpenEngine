@@ -2,14 +2,21 @@
 #define MESHTESTOBJECT
 
 #include "../Lib/Object/Object.h"
-#include "../Lib/Mesh/Mesh.h"
-#include "../Lib/Render/MeshRenderer.h"
 
-class MeshTestObject :Object
+namespace OpenEngine
 {
-    OpenEngine::MeshRenderer render;
-    public:
-    
+    class MeshRenderer;
+    class Render;
+    class Shader;
 }
+
+class MeshTestObject : OpenEngine::Object
+{
+    std::shared_ptr<OpenEngine::MeshRenderer> renderer;
+
+public:
+    MeshTestObject(Object _object) : Object::Object(_object) {}
+    void init(const std::shared_ptr<OpenEngine::Render> & _render,const std::shared_ptr<OpenEngine::Shader> & shader);
+};
 
 #endif /*MESHTESTOBJECT*/

@@ -17,3 +17,12 @@ std::string OpenEngine::Object::incrementIndex(std::string & index)
     }
     return index;
 }
+
+OpenEngine::Object::Object(std::shared_ptr<Object> _parent) : parent(_parent)
+{
+
+}
+std::string OpenEngine::Object::getId() const
+{
+    return index;
+}

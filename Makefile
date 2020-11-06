@@ -17,7 +17,7 @@ target := $(shell pwd | xargs basename)
 ${target}: test ${objects}
 	g++ -o ${target} ${objects} -g -std=c++20 -L/home/kamil2/Libraries/glfw-3.3.2/build/src -lglfw3 -lrt -lm -ldl -lX11 -lpthread -lGL
 
-%.o: %.cpp ${headers}
+%.o: %.cpp %.h
 	g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c $< -o ${subst cpp,o,$<}
 
 %.h: %.cpp

@@ -17,6 +17,7 @@ namespace OpenEngine
         {
             return window;
         }
+        ~Window();
     };
 
 };     // namespace OpenEngine

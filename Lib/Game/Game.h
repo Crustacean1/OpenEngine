@@ -16,6 +16,7 @@ namespace OpenEngine
     public:
         Game();
         void initGame();
+        void loadGame();//For testing , will be replaced
         void gameLoop();
 
         void addScene(std::shared_ptr<Scene> _scene);

@@ -4,8 +4,10 @@
 int main(int argc, char ** argv)
 {
     OpenEngine::Game game;
+    
     game.initGame();
-    OpenEngine::Scene scene1;
+    game.loadGame();
+    game.gameLoop();
     
     return 0;
 }
