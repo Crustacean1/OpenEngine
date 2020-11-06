@@ -20,7 +20,7 @@ void OpenEngine::Mesh::generatePlane(unsigned int resolution,float size)
     {
         for(int j = 0;j<resolution;j++)
         {
-            _vert[k++].pos = glm::vec3(-size+(float)2*size*i/(resolution-1),-size+(float)2*size*j/(resolution-1),-1);
+            _vert[k++].pos = glm::vec3(-size+(float)2*size*i/(resolution-1),-size+(float)2*size*j/(resolution-1),0);
         }
     }
     

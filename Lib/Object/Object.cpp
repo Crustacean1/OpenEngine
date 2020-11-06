@@ -42,10 +42,10 @@ glm::dquat OpenEngine::Object::getGlobalRotation()
 }
 glm::dquat OpenEngine::Object::getGlobalScale()
 {
-    return glm::dquat(globalScale.x * localScale.x,
+    return glm::dquat(globalScale.w * localScale.w,
+                      globalScale.x * localScale.x,
                       globalScale.y * localScale.y,
-                      globalScale.z * localScale.z,
-                      globalScale.w * localScale.w);
+                      globalScale.z * localScale.z);
 }
 
 // Local getters
@@ -99,9 +99,9 @@ void OpenEngine::Object::setGlobalScale(glm::vec3 _scale)
 {
     localScale = glm::dquat(
         0,
-        _scale.x / globalScale.y,
-        _scale.y / globalScale.z,
-        _scale.z / globalScale.w);
+        _scale.x / globalScale.x,
+        _scale.y / globalScale.y,
+        _scale.z / globalScale.z);
     if (parent.lock() == nullptr)
     {
         globalScale = localScale;
@@ -115,7 +115,7 @@ void OpenEngine::Object::setGlobalRotation(glm::dquat _rotation)
 }
 void OpenEngine::Object::setGlobalPosition(glm::vec3 _pos)
 {
-    localPosition = glm::inverse(localRotation) * glm::dquat(0, (_pos.x - globalPosition.y) / localScale.y, (_pos.y - globalPosition.z) / localScale.z, (_pos.z - globalPosition.w) / localScale.w) * glm::inverse(glm::conjugate(localRotation));
+    localPosition = glm::inverse(localRotation) * glm::dquat(0, (_pos.x - globalPosition.x) / localScale.x, (_pos.y - globalPosition.y) / localScale.y, (_pos.z - globalPosition.z) / localScale.z) * glm::inverse(glm::conjugate(localRotation));
     flushTransform();
 }
 

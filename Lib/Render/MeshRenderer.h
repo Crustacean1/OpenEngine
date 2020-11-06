@@ -7,16 +7,15 @@ namespace OpenEngine
 {
     class Mesh;
     class Shader;
+    class Object;
     class MeshRenderer : public Renderer
     {
     protected:
         std::shared_ptr<Mesh> myMesh;
-
         unsigned int mode;
 
     public:
-        MeshRenderer();
-        MeshRenderer(std::shared_ptr<Mesh> _mesh, std::shared_ptr<Render> _render = nullptr, std::shared_ptr<Shader> _shader = nullptr) : myMesh(_mesh), Renderer::Renderer(_render, _shader) {}
+        MeshRenderer(Object * object, std::shared_ptr<Mesh> _mesh = nullptr, std::shared_ptr<Render> _render = nullptr, std::shared_ptr<Shader> _shader = nullptr);
 
         void render() override;
         void prepare() override;
