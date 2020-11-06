@@ -26,10 +26,15 @@ namespace OpenEngine
         std::map<std::string, std::shared_ptr<Object>> children;
 
         glm::dquat localRotation;
-        glm::vec3 localScale;
-        glm::vec3 localPosition;
+        glm::dquat localScale;
+        glm::dquat localPosition;
+
+        glm::dquat globalRotation;
+        glm::dquat globalScale;
+        glm::dquat globalPosition;
 
         // Scale->rotation->translation
+        void flushTransform();
 
     public:
         Object(std::shared_ptr<Object> _parent);
@@ -42,8 +47,8 @@ namespace OpenEngine
 
         //Global state
 
-        glm::vec3 getGlobalPosition();
-        glm::vec3 getGlobalScale();
+        glm::dquat getGlobalPosition();
+        glm::dquat getGlobalScale();
         glm::dquat getGlobalRotation();
 
         void rotateGlobal(glm::dquat rotation);
@@ -56,8 +61,8 @@ namespace OpenEngine
 
         //Local state
 
-        glm::vec3 getLocalPosition();
-        glm::vec3 getLocalScale();
+        glm::dquat getLocalPosition();
+        glm::dquat getLocalScale();
         glm::dquat getLocalRotation();
         
         void rotateLocal(glm::dquat rotation);
@@ -67,7 +72,6 @@ namespace OpenEngine
         void setLocalRotation(glm::dquat rotation);
         void setLocalPosition(glm::vec3 disp);
         void setLocalScale(glm::vec3 scale);
-
 
         //global position
         //local position

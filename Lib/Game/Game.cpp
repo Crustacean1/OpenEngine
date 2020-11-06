@@ -23,6 +23,8 @@ void OpenEngine::Game::loadGame()
 
     std::shared_ptr<Shader> shader1(new Shader("Shaders/Shader1/shader1.vert","Shaders/Shader1/shader1.frag"));
 
+    
+
     MeshTestObject * obj = new MeshTestObject(std::shared_ptr<Object>(nullptr));
     obj->init(sRender,shader1);
 
