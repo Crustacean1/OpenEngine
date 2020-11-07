@@ -19,16 +19,22 @@ void OpenEngine::Game::initGame()
 void OpenEngine::Game::loadGame()
 {
     glfwSetInputMode(window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
+
     Mouse::createMouse(window);
     Mouse * mouse = Mouse::getMouse();
+
+    Keyboard::createKeyboard(window);
+    Keyboard * keyboard = Keyboard::getKeyboard();
 
     scenes[1] = std::shared_ptr<Scene>(new Scene);
     currentScene = scenes[1];
 
     CameraObject * camObj = (new CameraObject(nullptr));
     camObj->init();
-    camObj->setLocalPosition(glm::vec3(0,0,-2));
+    camObj->setLocalPosition(glm::vec3(0,0,-5));
+
     mouse->addMovementCallback(camObj->getControler());
+    keyboard->addKeyCallback(camObj->getControler());
 
     std::shared_ptr<Render> sRender((Render*)new SimpleRender(camObj->getCamera()));
     currentScene->add(sRender);

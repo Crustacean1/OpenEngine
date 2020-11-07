@@ -8,7 +8,6 @@
 #include <string>
 #include <map>
 
-
 namespace OpenEngine
 {
     class Scene;
@@ -25,25 +24,24 @@ namespace OpenEngine
 
         std::map<std::string, std::shared_ptr<Object>> children;
 
-        glm::dquat localRotation;
-        glm::dquat localScale;
-        glm::dquat localPosition;
-
         glm::dquat globalRotation;
         glm::dquat globalScale;
         glm::dquat globalPosition;
 
         // Scale->rotation->translation
-        void flushTransform();
 
     public:
+        glm::dquat localRotation;
+        glm::dquat localScale;
+        glm::dquat localPosition;
+
         Object(std::shared_ptr<Object> _parent);
         std::string getId() const;
 
         std::shared_ptr<Object> find(const std::string &_id);
         std::shared_ptr<Object> drop(const std::string &_id);
 
-        void add(const std::shared_ptr<Object> & _object);
+        void add(const std::shared_ptr<Object> &_object);
 
         //Global state
 
@@ -64,14 +62,12 @@ namespace OpenEngine
         glm::vec3 getLocalPosition();
         glm::vec3 getLocalScale();
         glm::dquat getLocalRotation();
-        
-        void rotateLocal(glm::dquat rotation);
-        void translateLocal(glm::vec3 disp);
-        void scaleLocal(glm::vec3 scale);
 
         void setLocalRotation(glm::dquat rotation);
         void setLocalPosition(glm::vec3 disp);
         void setLocalScale(glm::vec3 scale);
+
+        void flushTransform();
 
         //global position
         //local position

@@ -6,15 +6,19 @@
 #include "../Lib/Input/Input.h"
 #include <iostream>
 
-class CameraControler : public OpenEngine::MouseMovementInput
+class CameraControler : public OpenEngine::MouseMovementInput, public OpenEngine::KeyInput
 {
     OpenEngine::Object & owner;
 public:
 
     double xfactor = 0.002;
     double yfactor = -0.002;
+
+    double camSpeed = 0.1;
+
     CameraControler(OpenEngine::Object & obj): owner(obj){}
     void mouseMovementCallback(GLFWwindow *window, double xpos, double ypos);
+    void keyCallback(GLFWwindow * window,int key,int scancode,int action,int mode);
 };
 
 class CameraObject : public OpenEngine::Object
