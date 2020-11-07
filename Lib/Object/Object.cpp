@@ -68,29 +68,18 @@ glm::dquat OpenEngine::Object::getLocalScale()
 void OpenEngine::Object::setLocalPosition(glm::vec3 _pos)
 {
     localPosition = glm::quat(0, _pos);
-    if (parent.lock() == nullptr)
-    {
-        globalRotation = localRotation;
-    }
     flushTransform();
 }
 void OpenEngine::Object::setLocalRotation(glm::dquat _rotation)
 {
     localRotation = _rotation;
-    return;
-    if (parent.lock() == nullptr)
-    {
-        globalRotation = localRotation;
-    }
+    
     flushTransform();
 }
 void OpenEngine::Object::setLocalScale(glm::vec3 _scale)
 {
     localScale = glm::dquat(0, _scale);
-    if (parent.lock() == nullptr)
-    {
-        globalRotation = localRotation;
-    }
+
     flushTransform();
 }
 

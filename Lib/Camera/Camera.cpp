@@ -10,14 +10,14 @@ glm::mat4 OpenEngine::Camera::getMatrix(glm::dquat _position)
     glm::mat4 a = glm::mat4(1.f);
     glm::mat4 b =(glm::mat4_cast(view));
     //a = glm::mat4(1.f);
+
     a = glm::translate(a,-glm::vec3(owner->getGlobalPosition().x,owner->getGlobalPosition().y,owner->getGlobalPosition().z));
+    a = a*b;
 
 
-    a = b*a;
-
-    a = glm::scale(a,glm::vec3(owner->getGlobalScale().x,owner->getGlobalScale().y,owner->getGlobalScale().z));
+    //a = glm::scale(a,glm::vec3(owner->getGlobalScale().x,owner->getGlobalScale().y,owner->getGlobalScale().z));
     //a= glm::mat4(1.f);
-    return projMat*b;
+    return projMat*a;
 }
 
 void OpenEngine::Camera::computeProjectionMatrix()

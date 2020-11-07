@@ -11,7 +11,7 @@ class CameraControler : public OpenEngine::MouseMovementInput
     OpenEngine::Object & owner;
 public:
 
-    double xfactor = -0.002;
+    double xfactor = 0.002;
     double yfactor = -0.002;
     CameraControler(OpenEngine::Object & obj): owner(obj){}
     void mouseMovementCallback(GLFWwindow *window, double xpos, double ypos);

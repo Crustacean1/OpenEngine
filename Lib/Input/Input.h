@@ -20,15 +20,15 @@ namespace OpenEngine
         virtual void mouseButtonCallback(GLFWwindow *window, int button, int action, int mode) = 0;
         ~MouseButtonInput(){Mouse::getMouse()->dropButtonCallback(this);}
     };
-    class KeyboardInput
+    class KeyInput
     {
     public:
-        virtual void keyboardCallback(GLFWwindow *window, int key, int scancode, int action, int mods) = 0;
+        virtual void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) = 0;
     };
     class CharInput
     {
     public:
-        virtual void charInput(GLFWwindow *window, unsigned int codepoint) = 0;
+        virtual void charCallback(GLFWwindow *window, unsigned int codepoint) = 0;
     };
 }; // namespace OpenEngine
 
