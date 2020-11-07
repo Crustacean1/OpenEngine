@@ -27,7 +27,7 @@ void OpenEngine::Game::loadGame()
 
     CameraObject * camObj = (new CameraObject(nullptr));
     camObj->init();
-    camObj->setLocalPosition(glm::vec3(0,0,5));
+    camObj->setLocalPosition(glm::vec3(0,0,-2));
     mouse->addMovementCallback(camObj->getControler());
 
     std::shared_ptr<Render> sRender((Render*)new SimpleRender(camObj->getCamera()));

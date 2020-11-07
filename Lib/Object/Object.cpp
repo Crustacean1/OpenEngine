@@ -32,35 +32,40 @@ std::string OpenEngine::Object::getId() const
 
 // Global getters
 
-glm::dquat OpenEngine::Object::getGlobalPosition()
+glm::vec3 OpenEngine::Object::getGlobalPosition()
 {
-    return globalRotation * localRotation * (globalPosition + localPosition) * glm::conjugate(localRotation) * glm::conjugate(globalRotation);
+    auto res = globalPosition + 
+    (globalRotation * localRotation * 
+    glm::dquat(localPosition.w*localScale.w,localPosition.x*localScale.x,localPosition.y*localPosition.y,localPosition.z*localPosition.z)
+    * glm::conjugate(localRotation) * glm::conjugate(globalRotation));
+    return glm::vec3(res.x,res.y,res.z);
 }
 glm::dquat OpenEngine::Object::getGlobalRotation()
 {
     return globalRotation * localRotation;
 }
-glm::dquat OpenEngine::Object::getGlobalScale()
+glm::vec3 OpenEngine::Object::getGlobalScale()
 {
-    return glm::dquat(globalScale.w * localScale.w,
+    auto res = glm::dquat(globalScale.w * localScale.w,
                       globalScale.x * localScale.x,
                       globalScale.y * localScale.y,
                       globalScale.z * localScale.z);
+    return glm::vec3(res.x,res.y,res.z);
 }
 
 // Local getters
 
-glm::dquat OpenEngine::Object::getLocalPosition()
+glm::vec3 OpenEngine::Object::getLocalPosition()
 {
-    return localPosition;
+    return glm::vec3(localPosition.x,localPosition.y,localPosition.z);
 }
 glm::dquat OpenEngine::Object::getLocalRotation()
 {
     return localRotation;
 }
-glm::dquat OpenEngine::Object::getLocalScale()
+glm::vec3 OpenEngine::Object::getLocalScale()
 {
-    return localScale;
+    return glm::vec3(localScale.x,localScale.y,localScale.z);
 }
 
 //Local setters

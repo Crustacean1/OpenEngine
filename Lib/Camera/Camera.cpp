@@ -4,18 +4,20 @@
 OpenEngine::Camera::Camera(Object * object,double _fov,double _aspect,double _n,double _f) : owner(object),
                             projMat(* new glm::mat4(1.f)),fov(_fov),aspect(_aspect),near(_n),far(_f){computeProjectionMatrix();}
 
-glm::mat4 OpenEngine::Camera::getMatrix(glm::dquat _position)
+glm::mat4 OpenEngine::Camera::getMatrix(glm::vec3 _position,glm::dquat _rotation,glm::vec3 _scale)// invalid parameters TODO
 {
-    glm::dquat view = glm::inverse(owner->getGlobalRotation());
+    //glm::dquat view = glm::inverse(owner->getGlobalRotation());
     glm::mat4 a = glm::mat4(1.f);
-    glm::mat4 b =(glm::mat4_cast(view));
-    //a = glm::mat4(1.f);
 
-    a = glm::translate(a,-glm::vec3(owner->getGlobalPosition().x,owner->getGlobalPosition().y,owner->getGlobalPosition().z));
-    a = a*b;
+    //Object transforms
+    a = glm::scale(a,_scale);
+    a = (glm::mat4)glm::mat4_cast(_rotation)*a;
+    a = glm::translate(a,_position);
 
+    //Camera transforms, can be buffererd per frame
+    a = glm::translate(a,-owner->getGlobalPosition());
+    a = a*(glm::mat4)glm::mat4_cast(glm::inverse(owner->getGlobalRotation()));
 
-    //a = glm::scale(a,glm::vec3(owner->getGlobalScale().x,owner->getGlobalScale().y,owner->getGlobalScale().z));
     //a= glm::mat4(1.f);
     return projMat*a;
 }

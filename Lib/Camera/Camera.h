@@ -29,7 +29,7 @@ namespace OpenEngine
         public:
         Camera(Object * object,double _fov = 45,double _aspect = 1,double _n = 0.1,double _f = 100);
 
-        glm::mat4  getMatrix(glm::dquat _position);
+        glm::mat4  getMatrix(glm::vec3 _position,glm::dquat rotatation,glm::vec3 scale);
 
         void setFov(double _fov){fov = _fov;}
         void setCutoff(double _n,double _f){near = _n;far = _f;}

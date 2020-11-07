@@ -47,8 +47,8 @@ namespace OpenEngine
 
         //Global state
 
-        glm::dquat getGlobalPosition();
-        glm::dquat getGlobalScale();
+        glm::vec3 getGlobalPosition();
+        glm::vec3 getGlobalScale();
         glm::dquat getGlobalRotation();
 
         void rotateGlobal(glm::dquat rotation);
@@ -61,8 +61,8 @@ namespace OpenEngine
 
         //Local state
 
-        glm::dquat getLocalPosition();
-        glm::dquat getLocalScale();
+        glm::vec3 getLocalPosition();
+        glm::vec3 getLocalScale();
         glm::dquat getLocalRotation();
         
         void rotateLocal(glm::dquat rotation);
