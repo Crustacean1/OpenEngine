@@ -66,5 +66,5 @@ void OpenEngine::Mouse::dropButtonCallback(MouseButtonInput *_minput)
         }
     }
 }
-
+OpenEngine::Mouse * OpenEngine::Mouse::getMouse(){return ptr;}
 OpenEngine::Mouse::Mouse(){}
