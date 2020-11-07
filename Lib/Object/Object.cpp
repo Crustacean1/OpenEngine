@@ -77,6 +77,7 @@ void OpenEngine::Object::setLocalPosition(glm::vec3 _pos)
 void OpenEngine::Object::setLocalRotation(glm::dquat _rotation)
 {
     localRotation = _rotation;
+    return;
     if (parent.lock() == nullptr)
     {
         globalRotation = localRotation;
