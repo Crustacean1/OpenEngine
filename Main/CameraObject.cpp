@@ -17,24 +17,20 @@ void CameraControler::keyCallback(GLFWwindow *window, int key, int scancode, int
         switch (key)
         {
         case GLFW_KEY_W:
-            owner.localPosition+=glm::dquat(0,0,0,1)*camSpeed;
-            //owner.localPosition += (owner.localRotation * glm::dquat(0, 0, 0, 1) * glm::conjugate(owner.localRotation)) * camSpeed;
+            owner.localPosition += (owner.localRotation * glm::dquat(0, 0, 0, -1) * glm::conjugate(owner.localRotation)) * camSpeed;
             break;
         case GLFW_KEY_A:
-            owner.localPosition+=glm::dquat(0,-1,0,0)*camSpeed;
-            //owner.localPosition += (owner.localRotation * glm::dquat(0, -1, 0, 0) * glm::conjugate(owner.localRotation)) * camSpeed;
+            owner.localPosition += (owner.localRotation * glm::dquat(0, -1, 0, 0) * glm::conjugate(owner.localRotation)) * camSpeed;
             break;
         case GLFW_KEY_D:
-            owner.localPosition+=glm::dquat(0,1,0,0)*camSpeed;
-            //owner.localPosition += (owner.localRotation * glm::dquat(0, 1, 0, 0) * glm::conjugate(owner.localRotation)) * camSpeed;
+            owner.localPosition += (owner.localRotation * glm::dquat(0, 1, 0, 0) * glm::conjugate(owner.localRotation)) * camSpeed;
             break;
         case GLFW_KEY_S:
-            owner.localPosition+=glm::dquat(0,0,0,-1)*camSpeed;
-            //owner.localPosition += (owner.localRotation * glm::dquat(0, 0, 0, -1) * glm::conjugate(owner.localRotation)) * camSpeed;
+            owner.localPosition += (owner.localRotation * glm::dquat(0, 0, 0, 1) * glm::conjugate(owner.localRotation)) * camSpeed;
             break;
         default:
             break;
         }
-        //owner.flushTransform();
+        owner.flushTransform();
     }
 }

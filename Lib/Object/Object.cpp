@@ -36,7 +36,7 @@ glm::vec3 OpenEngine::Object::getGlobalPosition()
 {
     auto res = globalPosition + 
     (globalRotation *
-    glm::dquat(localPosition.w*localScale.w,localPosition.x*localScale.x,localPosition.y*localPosition.y,localPosition.z*localPosition.z)
+    glm::dquat(localPosition.w*globalScale.w,localPosition.x*globalScale.x,localPosition.y*globalScale.y,localPosition.z*globalScale.z)
     * glm::conjugate(globalRotation));
     return glm::vec3(res.x,res.y,res.z);
 }
