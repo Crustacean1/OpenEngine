@@ -15,7 +15,7 @@ void display(OpenEngine::Vertex3p *v)
 void OpenEngine::MeshRenderer::render()
 {
     myMesh->bind();
-    glDrawElements(mode, myMesh->getMeshSize() * 3, GL_UNSIGNED_INT, 0);
+    glDrawElements(mode, myMesh->getMeshSize() , GL_UNSIGNED_INT, 0);
 }
 void OpenEngine::MeshRenderer::prepare()
 {
