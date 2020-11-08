@@ -21,29 +21,31 @@ namespace OpenEngine
         Buffer<V, GL_ARRAY_BUFFER> vertices;
         VAO vao;
 
+        unsigned int shape = GL_TRIANGLES;
+
     public:
         SimpleMesh();
-        void generateCube(unsigned int resolution = 10, float size = 1);
-        void generateTorus(unsigned int resolution = 10, float size = 1);
-        void generateSphere(unsigned int resolution = 10, float size = 1);
-        void generatePlane(unsigned int resolution = 10, float size = 1);
-        void generateGrid(unsigned int resolution = 10, float size = 10);
+        static SimpleMesh<Vertex3pcn,V3Index> generateCube(unsigned int resolution = 10, float size = 1);
+        static SimpleMesh<Vertex3pcn,V3Index> generateTorus(unsigned int resolution = 10, float size = 1);
+        static SimpleMesh<Vertex3pcn,V3Index> generateSphere(unsigned int resolution = 10, float size = 1);
+        static SimpleMesh<Vertex3p,V3Index> generatePlane(unsigned int resolution = 10, float size = 1);
+        static SimpleMesh<Vertex3p,V2Index> generateGrid(unsigned int resolution = 10, float size = 10);
 
         unsigned int getMeshSize() override { return indices.getSize()*3; }
         void bind() override { vao.bind(); }
         friend MeshRenderer;
     };
-}; // namespace OpenEngine
 
 //Implementation
 
 template<typename V,typename I>
-void OpenEngine::SimpleMesh<V,I>::generatePlane(unsigned int resolution, float size)
+SimpleMesh<Vertex3p,V3Index> SimpleMesh<V,I>::generatePlane(unsigned int resolution, float size)
 {
-    vertices.setBuffer(resolution * resolution);
-    indices.setBuffer((resolution - 1) * (resolution - 1) * 2);
-    auto _ind = indices.getData().get();
-    auto _vert = vertices.getData().get();
+    SimpleMesh<Vertex3p,V3Index> mesh;
+    mesh.vertices.setBuffer(resolution * resolution);
+    mesh.indices.setBuffer((resolution - 1) * (resolution - 1) * 2);
+    auto _ind = mesh.indices.getData().get();
+    auto _vert = mesh.vertices.getData().get();
 
     for (unsigned int i = 0, k = 0; i + 1 < resolution; i++)
     {
@@ -62,23 +64,27 @@ void OpenEngine::SimpleMesh<V,I>::generatePlane(unsigned int resolution, float s
         }
     }
 
-    vertices.flush();
-    indices.flush();
-    vao.swapBuffer(vertices);
-    vao.swapBuffer(indices);
+    mesh.vertices.flush();
+    mesh.indices.flush();
+    mesh.vao.swapBuffer(vertices);
+    mesh.vao.swapBuffer(indices);
+    return mesh;
+
 }
 
 template<typename V,typename I>
-OpenEngine::SimpleMesh<V,I>::SimpleMesh() {}
+SimpleMesh<V,I>::SimpleMesh() {}
 
 template<typename V,typename I>
-void OpenEngine::SimpleMesh<V,I>::generateGrid(unsigned int resolution, float size)
+SimpleMesh<Vertex3p,V2Index> SimpleMesh<V,I>::generateGrid(unsigned int resolution, float size)
 {
-    vertices.setBuffer(6 * resolution * resolution);
-    indices.setBuffer(3 * resolution * resolution);
+    SimpleMesh<Vertex3p,V2Index> mesh;
 
-    auto _ind = indices.getData().get();
-    auto _vert = vertices.getData().get();
+    mesh.vertices.setBuffer(6 * resolution * resolution);
+    mesh.indices.setBuffer(3 * resolution * resolution);
+
+    auto _ind = mesh.indices.getData().get();
+    auto _vert = mesh.vertices.getData().get();
 
     for (int i = 0, k = 0; i < resolution; i++)
     {
@@ -94,14 +100,18 @@ void OpenEngine::SimpleMesh<V,I>::generateGrid(unsigned int resolution, float si
             _vert[k++].pos = glm::vec3(size, 0, 0);
         }
     }
-    for (int i = 0, k = 0; i < resolution; i++)
+    for (int i = 0, k = 0,l = 0; i < resolution*resolution*3; i++)
     {
-        for(int j = 0;j<resolution;j++)
-        {
-            _ind[k].set()
-        }
+        _ind[k++].set(l++,l++);
     }
+
+    mesh.vertices.flush();
+    mesh.indices.flush();
+    mesh.vao.swapBuffer(mesh.vertices);
+    mesh.vao.swapBuffer(mesh.indices);
+    return mesh;
 }
 
 
+}; // namespace OpenEngine
 #endif /*MESH*/
