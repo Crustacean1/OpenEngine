@@ -5,6 +5,7 @@
 #include "../Shader/Shader.h"
 #include "../Camera/Camera.h"
 #include "../Input/Mouse.h"
+#include "../Mesh/Mesh.h"
 #include <GLFW/glfw3.h>
 #include <iostream>
 
@@ -43,9 +44,13 @@ void OpenEngine::Game::loadGame()
     std::shared_ptr<Shader> shader2(new Shader("Shaders/Shader2/shader2.vert","Shaders/Shader2/shader2.frag"));
 
     MeshTestObject * obj = new MeshTestObject(std::shared_ptr<Object>(nullptr));
-    obj->init(sRender,shader2);
+    obj->init(sRender,SimpleMesh<Vertex3p,V3Index>::generatePlane(),shader2);
+
+    MeshTestObject * obj2(new MeshTestObject(std::shared_ptr<Object>(nullptr)));
+    obj2->init(sRender,SimpleMesh<Vertex3p,V2Index>::generateGrid(5,15),shader2);
 
     currentScene->add(std::shared_ptr<Object>((Object*)obj));
+    currentScene->add(std::shared_ptr<Object>((Object*)obj2));
     currentScene->add(std::shared_ptr<Object>(camObj));
     std::cout<<"Game loaded\n";
 }
