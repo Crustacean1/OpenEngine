@@ -55,7 +55,8 @@ namespace OpenEngine //tuple or inheritance
     };
     struct V3Index
     {
-        unsigned int indices[3];
+        static const int size = 3;
+        unsigned int indices[size];
         V3Index() {}
         V3Index(unsigned int a, unsigned int b, unsigned int c)
         {
@@ -72,7 +73,8 @@ namespace OpenEngine //tuple or inheritance
     };
     struct V2Index
     {
-        unsigned int indices[2];
+        static const int size = 2;
+        unsigned int indices[size];
         V2Index() {}
         V2Index(unsigned int a, unsigned int b)
         {
