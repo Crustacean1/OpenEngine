@@ -53,11 +53,11 @@ namespace OpenEngine //tuple or inheritance
             glEnableVertexAttribArray(2);
         }
     };
-    struct VIndex
+    struct V3Index
     {
         unsigned int indices[3];
-        VIndex() {}
-        VIndex(unsigned int a, unsigned int b, unsigned int c)
+        V3Index() {}
+        V3Index(unsigned int a, unsigned int b, unsigned int c)
         {
             indices[0] = a;
             indices[1] = b;
@@ -70,6 +70,22 @@ namespace OpenEngine //tuple or inheritance
             indices[2] = c;
         }
     };
+    struct V2Index
+    {
+        unsigned int indices[2];
+        V2Index() {}
+        V2Index(unsigned int a, unsigned int b)
+        {
+            indices[0] = a;
+            indices[1] = b;
+        }
+        void set(unsigned int a, unsigned int b)
+        {
+            indices[0] = a;
+            indices[1] = b;
+        }
+    };
+
 
     template <typename T, int target>
     class Buffer
