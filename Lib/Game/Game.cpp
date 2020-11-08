@@ -51,7 +51,7 @@ void OpenEngine::Game::loadGame()
 }
 void OpenEngine::Game::gameLoop()
 {
-    glClearColor(0.5f,0.2f,0.4f,1.f);
+    glClearColor(0.f,0.f,0.f,1.f);
     while(!glfwWindowShouldClose(window))
     {
         glfwPollEvents();
