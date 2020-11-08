@@ -23,7 +23,7 @@ namespace OpenEngine
     class KeyInput
     {
     public:
-        virtual void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) = 0;
+        virtual void keyCallback(GLFWwindow * window,double delta) = 0;
     };
     class CharInput
     {

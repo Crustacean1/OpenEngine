@@ -11,26 +11,24 @@ void CameraControler::mouseMovementCallback(GLFWwindow *window, double xpos, dou
 {
     owner.setLocalRotation(glm::angleAxis((float)(xpos * xfactor), glm::vec3(0, 1, 0)) * glm::angleAxis((float)(ypos * yfactor), glm::vec3(1, 0, 0)));
 }
-void CameraControler::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mode)
+void CameraControler::keyCallback(GLFWwindow *window, double delta)
 {
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
-        switch (key)
-        {
-        case GLFW_KEY_W:
-            owner.localPosition += (owner.localRotation * glm::dquat(0, 0, 0, -1) * glm::conjugate(owner.localRotation)) * camSpeed;
-            break;
-        case GLFW_KEY_A:
-            owner.localPosition += (owner.localRotation * glm::dquat(0, -1, 0, 0) * glm::conjugate(owner.localRotation)) * camSpeed;
-            break;
-        case GLFW_KEY_D:
-            owner.localPosition += (owner.localRotation * glm::dquat(0, 1, 0, 0) * glm::conjugate(owner.localRotation)) * camSpeed;
-            break;
-        case GLFW_KEY_S:
-            owner.localPosition += (owner.localRotation * glm::dquat(0, 0, 0, 1) * glm::conjugate(owner.localRotation)) * camSpeed;
-            break;
-        default:
-            break;
-        }
-        owner.flushTransform();
+        owner.localPosition += (owner.localRotation * glm::dquat(0, 0, 0, -1) * glm::conjugate(owner.localRotation)) * camSpeed * delta;
     }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    {
+        owner.localPosition += (owner.localRotation * glm::dquat(0, -1, 0, 0) * glm::conjugate(owner.localRotation)) * camSpeed * delta;
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    {
+        owner.localPosition += (owner.localRotation * glm::dquat(0, 0, 0, 1) * glm::conjugate(owner.localRotation)) * camSpeed * delta;
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    {
+        owner.localPosition += (owner.localRotation * glm::dquat(0, 1, 0, 0) * glm::conjugate(owner.localRotation)) * camSpeed * delta;
+    }
+
+    owner.flushTransform();
 }

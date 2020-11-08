@@ -59,5 +59,6 @@ void OpenEngine::Game::gameLoop()
         currentScene->update();
         currentScene->render();
         glfwSwapBuffers(window);
+        Keyboard::keyCallbackInvoker(0.02);
     }
 }

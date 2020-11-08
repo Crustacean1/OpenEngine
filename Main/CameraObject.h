@@ -14,11 +14,11 @@ public:
     double xfactor = 0.002;
     double yfactor = -0.002;
 
-    double camSpeed = 0.1;
+    double camSpeed = 2;
 
     CameraControler(OpenEngine::Object & obj): owner(obj){}
     void mouseMovementCallback(GLFWwindow *window, double xpos, double ypos);
-    void keyCallback(GLFWwindow * window,int key,int scancode,int action,int mode);
+    void keyCallback(GLFWwindow * window,double delta);
 };
 
 class CameraObject : public OpenEngine::Object

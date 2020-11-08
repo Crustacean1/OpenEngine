@@ -14,14 +14,14 @@ void OpenEngine::Keyboard::createKeyboard(GLFWwindow *_window)
         return;
     }
     ptr = new Keyboard();
-    glfwSetKeyCallback(_window, OpenEngine::Keyboard::keyCallbackInvoker);
+    ptr->window = _window;
     glfwSetCharCallback(_window, charCallbackInvoker);
 }
-void OpenEngine::Keyboard::keyCallbackInvoker(GLFWwindow *window, int key, int scancode, int action, int mode)
+void OpenEngine::Keyboard::keyCallbackInvoker(double delta)
 {
     for (const auto &callback : ptr->keyCallbacks)
     {
-        callback.second(window, key, scancode, action, mode);
+        callback.second(delta);
     }
 }
 void OpenEngine::Keyboard::charCallbackInvoker(GLFWwindow *window, unsigned int codepoint)
@@ -34,7 +34,7 @@ void OpenEngine::Keyboard::charCallbackInvoker(GLFWwindow *window, unsigned int 
 
 void OpenEngine::Keyboard::addKeyCallback(std::shared_ptr<KeyInput> _kinput)
 {
-    keyCallbacks.push_front(std::pair<std::shared_ptr<KeyInput>, std::function<void(GLFWwindow *, int, int, int, int)>>(_kinput, std::bind(&KeyInput::keyCallback, _kinput, _1, _2, _3, _4, _5)));
+    keyCallbacks.push_front(std::pair<std::shared_ptr<KeyInput>, std::function<void(double)>>(_kinput, std::bind(&KeyInput::keyCallback, _kinput,window, _1)));
 }
 void OpenEngine::Keyboard::dropKeyCallback(KeyInput *_kinput)
 {
