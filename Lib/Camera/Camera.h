@@ -27,7 +27,7 @@ namespace OpenEngine
         enum :unsigned int {ORTHOGONAL,PERSPECTIVE} projectionType;
 
         public:
-        Camera(Object * object,double _fov = 45,double _aspect = 1,double _n = 0.1,double _f = 100);
+        Camera(Object * object,double _fov = 45,double _aspect = 8.f/6.f,double _n = 0.1,double _f = 100);
 
         glm::mat4  getMatrix(glm::vec3 _position,glm::dquat rotatation,glm::vec3 scale);
 

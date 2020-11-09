@@ -13,6 +13,7 @@ void CameraControler::mouseMovementCallback(GLFWwindow *window, double xpos, dou
 }
 void CameraControler::keyCallback(GLFWwindow *window, double delta)
 {
+    delta = delta*(1+(glfwGetKey(window,GLFW_KEY_LEFT_ALT))*1.5);
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
         owner.localPosition += (owner.localRotation * glm::dquat(0, 0, 0, -1) * glm::conjugate(owner.localRotation)) * camSpeed * delta;
