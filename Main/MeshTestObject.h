@@ -11,7 +11,7 @@ namespace OpenEngine
     class Mesh;
 } // namespace OpenEngine
 
-class MeshTestObject : OpenEngine::Object
+class MeshTestObject : public OpenEngine::Object
 {
     std::shared_ptr<OpenEngine::MeshRenderer> renderer;
 

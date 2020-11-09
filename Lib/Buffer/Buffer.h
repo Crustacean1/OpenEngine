@@ -29,10 +29,10 @@ namespace OpenEngine //tuple or inheritance
         glm::vec3 col;
         static void setAttribs()
         {
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
             glEnableVertexAttribArray(0);
 
-            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)(sizeof(float) * 3));
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(sizeof(float) * 3));
             glEnableVertexAttribArray(1);
         }
     };
@@ -43,13 +43,13 @@ namespace OpenEngine //tuple or inheritance
         glm::vec3 norm;
         static void setAttribs()
         {
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void *)0);
             glEnableVertexAttribArray(0);
 
-            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)(sizeof(float) * 3));
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void *)(sizeof(float) * 3));
             glEnableVertexAttribArray(1);
 
-            glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)(sizeof(float) * 6));
+            glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void *)(sizeof(float) * 6));
             glEnableVertexAttribArray(2);
         }
     };
@@ -167,6 +167,7 @@ namespace OpenEngine //tuple or inheritance
             ID = buff.ID;
             active = buff.active;
             size = buff.size;
+            buff.data = new T[size];
             memcpy(data, buff.data, sizeof(T) * size);
             return *this;
         }
