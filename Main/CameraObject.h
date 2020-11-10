@@ -27,7 +27,7 @@ class CameraObject : public OpenEngine::Object
     std::shared_ptr<CameraControler> controler;
 
 public:
-    CameraObject(Object * obj) : OpenEngine::Object::Object(obj) {}
+    CameraObject() : OpenEngine::Object::Object() {}
     void init();
     std::shared_ptr<OpenEngine::Camera> getCamera() { return camera; }
     std::shared_ptr<CameraControler> getControler(){return controler;}
