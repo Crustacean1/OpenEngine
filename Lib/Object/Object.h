@@ -20,7 +20,7 @@ namespace OpenEngine
 
         const std::string index = incrementIndex(mainIndex);
 
-        Object * parent =nullptr;
+        Object *parent = nullptr;
 
         std::map<std::string, Object *> children;
 
@@ -35,7 +35,7 @@ namespace OpenEngine
         glm::dquat localScale;
         glm::dquat localPosition;
 
-        Object(Object * _parent);
+        Object();
         std::string getId() const;
 
         std::shared_ptr<Object> find(const std::string &_id);
@@ -68,6 +68,8 @@ namespace OpenEngine
         void setLocalScale(glm::vec3 scale);
 
         void flushTransform();
+
+        void addChild(Object * _child);
 
         //global position
         //local position

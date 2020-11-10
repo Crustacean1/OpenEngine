@@ -18,18 +18,24 @@ std::string OpenEngine::Object::incrementIndex(std::string &index)
     return index;
 }
 
-OpenEngine::Object::Object(Object * _parent) : parent(_parent)
+OpenEngine::Object::Object()
 {
     localRotation = globalRotation = glm::dquat(1, 0, 0, 0);
     localScale = globalScale = glm::dquat(0, 1, 1, 1);
     localPosition = globalPosition = glm::dquat(0, 0, 0, 0);
-    if (_parent != nullptr)
+    if (parent != nullptr)
     {
-        globalPosition = glm::dquat(0, _parent->getGlobalPosition());
-        globalRotation = _parent->getGlobalRotation();
-        globalScale = glm::dquat(0, _parent->getGlobalScale());
-        _parent->children[getId()] = this;
+        globalPosition = glm::dquat(0, parent->getGlobalPosition());
+        globalRotation = parent->getGlobalRotation();
+        globalScale = glm::dquat(0, parent->getGlobalScale());
+        parent->children[getId()] = this;
     }
+    flushTransform();
+}
+void OpenEngine::Object::addChild(OpenEngine::Object * _obj)
+{
+    children[_obj->getId()] = _obj;
+    _obj->parent = this;
     flushTransform();
 }
 std::string OpenEngine::Object::getId() const
@@ -43,7 +49,8 @@ glm::vec3 OpenEngine::Object::getGlobalPosition()
 {
     auto res = globalPosition +
                (globalRotation *
-                glm::dquat(localPosition.w * globalScale.w, localPosition.x * globalScale.x, localPosition.y * globalScale.y, localPosition.z * globalScale.z) * glm::conjugate(globalRotation));
+                glm::dquat(localPosition.w * globalScale.w, localPosition.x * globalScale.x, localPosition.y * globalScale.y, localPosition.z * globalScale.z) *
+                glm::conjugate(globalRotation));
     return glm::vec3(res.x, res.y, res.z);
 }
 glm::dquat OpenEngine::Object::getGlobalRotation()
@@ -101,10 +108,6 @@ void OpenEngine::Object::setGlobalScale(glm::vec3 _scale)
         _scale.x / globalScale.x,
         _scale.y / globalScale.y,
         _scale.z / globalScale.z);
-    if (parent == nullptr)
-    {
-        globalScale = localScale;
-    }
     flushTransform();
 }
 void OpenEngine::Object::setGlobalRotation(glm::dquat _rotation)
@@ -128,12 +131,15 @@ void OpenEngine::Object::flushTransform()
                             parent->globalScale.z * parent->localScale.z,
                             parent->globalScale.w * parent->localScale.w);
         _rot = parent->globalRotation * parent->localRotation;
-        _pos = glm::dquat(parent->globalScale.x * parent->localPosition.x,
+        _pos = glm::dquat(parent->globalScale.w * parent->localPosition.w,
+                          parent->globalScale.x * parent->localPosition.x,
                           parent->globalScale.y * parent->localPosition.y,
-                          parent->globalScale.z * parent->localPosition.z,
-                          parent->globalScale.w * parent->localPosition.w);
+                          parent->globalScale.z * parent->localPosition.z);
         _pos = parent->globalRotation * _pos * glm::conjugate(parent->globalRotation);
         _pos += parent->globalPosition;
+        globalPosition = _pos;
+        globalRotation = _rot;
+        globalScale = _scale;
     }
     for (const auto &child : children)
     {

@@ -4,6 +4,7 @@
 #include "../Lib/Object/Object.h"
 #include "../Lib/Component/Behaviour.h"
 #include "../Lib/Component/BehaviourManager.h"
+#include <iostream>
 
 namespace OpenEngine
 {
@@ -30,10 +31,9 @@ class MeshTestObject : public OpenEngine::Object
     std::shared_ptr<RotationController> controller;
 
 public:
-    MeshTestObject(Object _object,OpenEngine::BehaviourManager & manager,glm::vec3 _ax = glm::vec3(0,1,0)) :
-     Object::Object(_object),
-     controller(manager.factory.create<RotationController>(*this,manager.factory,_ax))
-     {}
+    MeshTestObject(OpenEngine::BehaviourManager & manager,glm::vec3 _ax = glm::vec3(0,1,0)) :
+     Object::Object(),
+     controller(manager.factory.create<RotationController>(*this,manager.factory,_ax)){}
     void init(const std::shared_ptr<OpenEngine::Render> &_render, std::shared_ptr<OpenEngine::Mesh> _mesh, const std::shared_ptr<OpenEngine::Shader> &shader);
 };
 

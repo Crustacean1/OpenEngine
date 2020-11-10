@@ -27,7 +27,7 @@ void OpenEngine::Game::loadGame()
 
     //Input Setup
 
-    //glfwSetInputMode(window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
 
     Mouse::createMouse(window);
     Mouse * mouse = Mouse::getMouse();
@@ -40,7 +40,7 @@ void OpenEngine::Game::loadGame()
     scenes[1] = std::shared_ptr<Scene>(new Scene);
     currentScene = scenes[1];
 
-    CameraObject * camObj = (new CameraObject(nullptr));
+    CameraObject * camObj = (new CameraObject());
     camObj->init();
     camObj->setLocalPosition(glm::vec3(0,0,-5));
 
@@ -61,24 +61,26 @@ void OpenEngine::Game::loadGame()
     std::shared_ptr<Shader> shader2(new Shader("Shaders/Shader2/shader2.vert","Shaders/Shader2/shader2.frag"));
     std::shared_ptr<Shader> shader3(new Shader("Shaders/Shader3/shader3.vert","Shaders/Shader3/shader3.frag"));
 
-    auto obj = (new MeshTestObject(nullptr,*dummyManager));
+    auto obj = new MeshTestObject(*dummyManager);
     obj->init(sRender,SimpleMesh<Vertex3p,V3Index>::generatePlane(),shader2);
 
-    auto obj2 =(new MeshTestObject(nullptr,*dummyManager));
+    auto obj2 =new MeshTestObject(*dummyManager);
     obj2->init(sRender,SimpleMesh<Vertex3p,V2Index>::generateGrid(5,15),shader2);
 
-    auto obj3 = (new MeshTestObject(nullptr,*bManager,glm::vec3(1,0,0)));
+    auto obj3 = new MeshTestObject(*bManager,glm::vec3(1,0,0));
     obj3->init(sRender,SimpleMesh<Vertex3pc,V3Index>::generateSphere(25,1),shader3);
     obj3->localPosition = glm::dquat(0,0,0,6);
 
-    auto obj4 = (new MeshTestObject(obj3,*bManager));
+    auto obj4 = new MeshTestObject(*bManager);
     obj4->init(sRender,SimpleMesh<Vertex3pcn,V3Index>::generateTorus(35,2,0.3),shader3);
     obj4->localPosition = glm::dquat(0,0,0,0);
+
+    obj3->addChild(obj4);
 
     currentScene->add(obj);
     currentScene->add(obj2);
     currentScene->add(obj3);
-    currentScene->add(obj4);
+    //currentScene->add(obj4);
     currentScene->add(camObj);
     std::cout<<"Game loaded\n";
 }
