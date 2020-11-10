@@ -1,7 +1,8 @@
 #include "Scene.h"
-
+#include <GLFW/glfw3.h>
 #include "../Object/Object.h"
 #include "../Render/Render.h"
+#include "../Component/BehaviourManager.h"
 
 void OpenEngine::Scene::render()
 {
@@ -12,13 +13,15 @@ void OpenEngine::Scene::render()
 }
 void OpenEngine::Scene::update()
 {
-
+    time2 = glfwGetTime();
+    bManager->update(time2-time1);
+    time1 = time2;
 }
 
 void OpenEngine::Scene::init()
 {
 }
-void OpenEngine::Scene::add(std::shared_ptr<Object> _object)
+void OpenEngine::Scene::add(Object* _object)
 {
     if (objects.find(_object->getId()) != objects.end())
     {
@@ -26,7 +29,7 @@ void OpenEngine::Scene::add(std::shared_ptr<Object> _object)
     }
     objects[_object->getId()] = _object;
 }
-std::shared_ptr<OpenEngine::Object> OpenEngine::Scene::drop(std::shared_ptr<Object> _object)
+OpenEngine::Object * OpenEngine::Scene::drop(Object * _object)
 {
     objects.erase(objects.find(_object->getId()));
 }

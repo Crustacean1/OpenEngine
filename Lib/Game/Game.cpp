@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "../Component/BehaviourManager.h"
 #include "../../Main/MeshTestObject.h"
 #include "../../Main/CameraObject.h"
 #include "../Render/SimpleRender.h"
@@ -19,15 +20,22 @@ void OpenEngine::Game::initGame()
 }
 void OpenEngine::Game::loadGame()
 {
-    glfwSetInputMode(window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
+
+    //OpenGL Setup 
 
     glEnable(GL_DEPTH_TEST);
+
+    //Input Setup
+
+    //glfwSetInputMode(window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
 
     Mouse::createMouse(window);
     Mouse * mouse = Mouse::getMouse();
 
     Keyboard::createKeyboard(window);
     Keyboard * keyboard = Keyboard::getKeyboard();
+
+    //Scene Setup
 
     scenes[1] = std::shared_ptr<Scene>(new Scene);
     currentScene = scenes[1];
@@ -39,6 +47,13 @@ void OpenEngine::Game::loadGame()
     mouse->addMovementCallback(camObj->getControler());
     keyboard->addKeyCallback(camObj->getControler());
 
+    std::shared_ptr<BehaviourManager> bManager(new BehaviourManager);
+    std::shared_ptr<BehaviourManager> dummyManager(new BehaviourManager);
+
+    currentScene->set(bManager);
+
+    //Object Setup
+
     std::shared_ptr<Render> sRender((Render*)new SimpleRender(camObj->getCamera()));
     currentScene->add(sRender);
 
@@ -46,17 +61,17 @@ void OpenEngine::Game::loadGame()
     std::shared_ptr<Shader> shader2(new Shader("Shaders/Shader2/shader2.vert","Shaders/Shader2/shader2.frag"));
     std::shared_ptr<Shader> shader3(new Shader("Shaders/Shader3/shader3.vert","Shaders/Shader3/shader3.frag"));
 
-    auto obj = std::shared_ptr<MeshTestObject>(new MeshTestObject(std::shared_ptr<Object>(nullptr)));
+    auto obj = (new MeshTestObject(nullptr,*dummyManager));
     obj->init(sRender,SimpleMesh<Vertex3p,V3Index>::generatePlane(),shader2);
 
-    auto obj2 = std::shared_ptr<MeshTestObject>(new MeshTestObject(std::shared_ptr<Object>(nullptr)));
+    auto obj2 =(new MeshTestObject(nullptr,*dummyManager));
     obj2->init(sRender,SimpleMesh<Vertex3p,V2Index>::generateGrid(5,15),shader2);
 
-    auto obj3 = std::shared_ptr<MeshTestObject>(new MeshTestObject(std::shared_ptr<Object>(nullptr)));
+    auto obj3 = (new MeshTestObject(nullptr,*bManager,glm::vec3(1,0,0)));
     obj3->init(sRender,SimpleMesh<Vertex3pc,V3Index>::generateSphere(25,1),shader3);
     obj3->localPosition = glm::dquat(0,0,0,6);
 
-    auto obj4 = std::shared_ptr<MeshTestObject>(new MeshTestObject(std::shared_ptr<Object>(obj3)));
+    auto obj4 = (new MeshTestObject(obj3,*bManager));
     obj4->init(sRender,SimpleMesh<Vertex3pcn,V3Index>::generateTorus(35,2,0.3),shader3);
     obj4->localPosition = glm::dquat(0,0,0,0);
 
@@ -64,7 +79,7 @@ void OpenEngine::Game::loadGame()
     currentScene->add(obj2);
     currentScene->add(obj3);
     currentScene->add(obj4);
-    currentScene->add(std::shared_ptr<Object>(camObj));
+    currentScene->add(camObj);
     std::cout<<"Game loaded\n";
 }
 void OpenEngine::Game::gameLoop()

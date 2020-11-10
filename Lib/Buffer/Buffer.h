@@ -179,6 +179,6 @@ namespace OpenEngine //tuple or inheritance
         std::shared_ptr<T> getData() { return data; }
     };
 
-} // namespace OpenEngine
+}; // namespace OpenEngine
 
 #endif /*BUFFER*/
