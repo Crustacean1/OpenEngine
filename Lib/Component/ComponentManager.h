@@ -1,6 +1,8 @@
 #ifndef COMPONENTMANAGER
 #define COMPONENTMANAGER
 
+#include "ComponentFactory.h"
+
 namespace OpenEngine
 {
     template<typename T>
@@ -9,9 +11,11 @@ namespace OpenEngine
     template<typename T>
     class ComponentManager
     {
+        protected:
+        std::set<T*> getComponents(){return factory.components;}
         public:
         ComponentFactory<T> factory;
-        virtual void update(double delta);
+        virtual void update(double delta) = 0;
     };
 };
 
