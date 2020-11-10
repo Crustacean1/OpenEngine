@@ -10,9 +10,9 @@ namespace OpenEngine
     class Component
     {
         friend ComponentFactory<Component>;
-        Object & object;
         ComponentFactory<Component> & factory;
-        
+        protected:
+        Object & object;
         Component(Object & obj,ComponentFactory<Component> & _fact);
     public:
         ~Component();
