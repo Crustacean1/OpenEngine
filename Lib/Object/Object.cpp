@@ -23,6 +23,12 @@ OpenEngine::Object::Object(std::shared_ptr<Object> _parent) : parent(_parent)
     localRotation = globalRotation = glm::dquat(1, 0, 0, 0);
     localScale = globalScale = glm::dquat(0, 1, 1, 1);
     localPosition = globalPosition = glm::dquat(0, 0, 0, 0);
+    if(_parent!=nullptr)
+    {
+        globalPosition = glm::dquat(0,_parent->getGlobalPosition());
+        globalRotation = _parent->getGlobalRotation();
+        globalScale = glm::dquat(0,_parent->getGlobalScale());
+    }
     flushTransform();
 }
 std::string OpenEngine::Object::getId() const
