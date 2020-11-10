@@ -10,12 +10,12 @@ glm::mat4 OpenEngine::Camera::getMatrix(glm::vec3 _position,glm::dquat _rotation
     glm::mat4 a = glm::mat4(1.f);
 
     //Object transforms
-    a = glm::scale(a,_scale);
+
+    a = glm::translate(a,_position-owner->getGlobalPosition());
+
     a = a*(glm::mat4)glm::mat4_cast(_rotation);
-    a = glm::translate(a,_position);
 
     //Camera transforms, can be buffererd per frame
-    a = glm::translate(a,-owner->getGlobalPosition());
     a = (glm::mat4)glm::mat4_cast(glm::inverse(owner->getGlobalRotation()))*a;
 
     //a= glm::mat4(1.f);

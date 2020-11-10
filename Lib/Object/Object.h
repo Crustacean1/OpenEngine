@@ -20,9 +20,9 @@ namespace OpenEngine
 
         const std::string index = incrementIndex(mainIndex);
 
-        std::weak_ptr<Object> parent;
+        Object * parent =nullptr;
 
-        std::map<std::string, std::shared_ptr<Object>> children;
+        std::map<std::string, Object *> children;
 
         glm::dquat globalRotation;
         glm::dquat globalScale;
@@ -35,7 +35,7 @@ namespace OpenEngine
         glm::dquat localScale;
         glm::dquat localPosition;
 
-        Object(std::shared_ptr<Object> _parent);
+        Object(Object * _parent);
         std::string getId() const;
 
         std::shared_ptr<Object> find(const std::string &_id);

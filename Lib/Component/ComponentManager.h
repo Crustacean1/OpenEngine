@@ -12,10 +12,9 @@ namespace OpenEngine
     class ComponentManager
     {
         protected:
-        std::set<T*> getComponents(){return factory.components;}
+        std::set<T*> & getComponents(){return factory.components;}
         public:
         ComponentFactory<T> factory;
-        virtual void update(double delta) = 0;
     };
 };
 

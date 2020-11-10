@@ -178,7 +178,7 @@ namespace OpenEngine
             for (unsigned int j = 0; j < resolution; j++)
             {
                 _vert[k].col = glm::vec3(1 * ((float)i / (resolution - 1)), 0.25, 1 * ((float)j / (resolution - 1)));
-                _vert[k++].pos = (float)(size1 + size2 * cos(glm::radians(xangle))) * glm::vec3(cos(glm::radians(yangle)), 0, sin(glm::radians(yangle))) + (float)(size2 * sin(glm::radians(xangle))) * glm::vec3(0, 1, 0);
+                _vert[k++].pos = (float)(size1 + (0.75+0.25*sin(glm::radians(yangle * 5))) * size2 * cos(glm::radians(xangle))) * glm::vec3(cos(glm::radians(yangle)), 0, sin(glm::radians(yangle))) + (float)((0.75+0.25*sin(glm::radians(yangle * 5))) * size2 * sin(glm::radians(xangle))) * glm::vec3(0, 1, 0);
                 xangle += (360.f) / (resolution - 1);
             }
             yangle += (360.f) / (resolution - 1);
