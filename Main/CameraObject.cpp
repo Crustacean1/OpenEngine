@@ -1,6 +1,7 @@
 #include "CameraObject.h"
 #include <GLFW/glfw3.h>
 
+
 void CameraObject::init()
 {
     camera = std::shared_ptr<OpenEngine::Camera>(new OpenEngine::Camera(this));
@@ -9,7 +10,8 @@ void CameraObject::init()
 }
 void CameraControler::mouseMovementCallback(GLFWwindow *window, double xpos, double ypos)
 {
-    owner.setLocalRotation(glm::angleAxis((float)(xpos * xfactor), glm::vec3(0, 1, 0)) * glm::angleAxis((float)(ypos * yfactor), glm::vec3(1, 0, 0)));
+    glm::dquat ax = owner.localRotation * glm::dquat(0,0,1,0) * glm::conjugate(owner.localRotation);
+    owner.setLocalRotation(glm::angleAxis((float)(xpos * xfactor), glm::vec3(0,1,0)) * glm::angleAxis((float)(ypos * yfactor), glm::vec3(1, 0, 0)));
 }
 void CameraControler::keyCallback(GLFWwindow *window, double delta)
 {

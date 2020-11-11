@@ -32,7 +32,7 @@ OpenEngine::Object::Object()
     }
     flushTransform();
 }
-void OpenEngine::Object::addChild(OpenEngine::Object * _obj)
+void OpenEngine::Object::addChild(OpenEngine::Object *_obj)
 {
     children[_obj->getId()] = _obj;
     _obj->parent = this;
@@ -126,10 +126,10 @@ void OpenEngine::Object::flushTransform()
     if (parent != nullptr)
     {
         glm::dquat _pos, _scale, _rot;
-        _scale = glm::dquat(parent->globalScale.x * parent->localScale.x,
+        _scale = glm::dquat(parent->globalScale.w * parent->localScale.w,
+                            parent->globalScale.x * parent->localScale.x,
                             parent->globalScale.y * parent->localScale.y,
-                            parent->globalScale.z * parent->localScale.z,
-                            parent->globalScale.w * parent->localScale.w);
+                            parent->globalScale.z * parent->localScale.z);
         _rot = parent->globalRotation * parent->localRotation;
         _pos = glm::dquat(parent->globalScale.w * parent->localPosition.w,
                           parent->globalScale.x * parent->localPosition.x,
