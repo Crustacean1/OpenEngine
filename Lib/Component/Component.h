@@ -6,23 +6,21 @@
 namespace OpenEngine
 {
     class Object;
-    template <typename T>
-    class ComponentFactory;
+    class BaseComponentFactory;
 
-    template <typename T>
-    class Component
+    class BaseComponent
     {
         //friend ComponentFactory<T>;
-        ComponentFactory<T> &factory;
+        BaseComponentFactory &factory;
 
     protected:
         Object &object;
-        Component(Object &_obj, ComponentFactory<T> &_fact) : object(_obj), factory(_fact) {}
+        BaseComponent(Object &_obj, BaseComponentFactory &_fact) : object(_obj), factory(_fact) {}
 
     public:
-        ~Component()
+        ~BaseComponent()
         {
-            factory.drop((T*)this);
+            factory.drop(this);
         }
     };
 }; // namespace OpenEngine

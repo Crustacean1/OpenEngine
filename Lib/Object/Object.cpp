@@ -1,4 +1,5 @@
 #include "Object.h"
+#include "../Component/Component.h"
 
 std::string OpenEngine::Object::mainIndex = "\0";
 
@@ -23,18 +24,20 @@ OpenEngine::Object::Object()
     localRotation = globalRotation = glm::dquat(1, 0, 0, 0);
     localScale = globalScale = glm::dquat(0, 1, 1, 1);
     localPosition = globalPosition = glm::dquat(0, 0, 0, 0);
-    if (parent != nullptr)
-    {
-        globalPosition = glm::dquat(0, parent->getGlobalPosition());
-        globalRotation = parent->getGlobalRotation();
-        globalScale = glm::dquat(0, parent->getGlobalScale());
-        parent->children[getId()] = this;
-    }
+    
     flushTransform();
+}
+OpenEngine::Object::Object(std::set<BaseComponent *> &_newComp) : Object()
+{
+    components = _newComp;
+}
+OpenEngine::Object::Object(Object *_par) : Object()
+{
+    _par->addChild(this);
 }
 void OpenEngine::Object::addChild(OpenEngine::Object *_obj)
 {
-    children[_obj->getId()] = _obj;
+    children.insert(_obj);
     _obj->parent = this;
     flushTransform();
 }
@@ -143,6 +146,17 @@ void OpenEngine::Object::flushTransform()
     }
     for (const auto &child : children)
     {
-        child.second->flushTransform();
+        child->flushTransform();
+    }
+}
+OpenEngine::Object::~Object()
+{
+    for (const auto &child : children)
+    {
+        delete child;
+    }
+    for (const auto &component : components)
+    {
+        delete component;
     }
 }

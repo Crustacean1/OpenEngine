@@ -61,29 +61,27 @@ void OpenEngine::Game::loadGame()
     std::shared_ptr<Shader> shader2(new Shader("Shaders/Shader2/shader2.vert", "Shaders/Shader2/shader2.frag"));
     std::shared_ptr<Shader> shader3(new Shader("Shaders/Shader3/shader3.vert", "Shaders/Shader3/shader3.frag"));
 
-    auto obj = new MeshTestObject(*dummyManager);
+    auto obj = new Object();
     obj->init(sRender, SimpleMesh<Vertex3p, V3Index>::generatePlane(), shader2);
 
     auto obj2 = new MeshTestObject(*dummyManager);
     obj2->init(sRender, SimpleMesh<Vertex3p, V2Index>::generateGrid(5, 15), shader2);
 
     auto obj3 = new MeshTestObject(*bManager, glm::vec3(1, 0, 0));
-    obj3->init(sRender, SimpleMesh<Vertex3pc, V3Index>::generateSphere(25, 1), shader3);
+    obj3->init(sRender, SimpleMesh<Vertex3pc, V3Index>::generateSphere(35, 1), shader3);
     obj3->localPosition = glm::dquat(0, 0, 0, 6);
 
     auto obj4 = new MeshTestObject(*bManager);
-    obj4->init(sRender, SimpleMesh<Vertex3pcn, V3Index>::generateTorus(35, 2, 0.3), shader3);
+    obj4->init(sRender, SimpleMesh<Vertex3pcn, V3Index>::generateTorus(55, 2, 0.3), shader3);
     obj4->localPosition = glm::dquat(0, 0, 0, 0);
 
-    auto obj5 = new MeshTestObject(*bManager, glm::vec3(0, 0, 1));
-    obj5->init(sRender, SimpleMesh<Vertex3pc, V3Index>::generateSphere(10, 0.33), shader3);
+    auto obj5 = new MeshTestObject(*bManager, glm::vec3(0, 1, 0));
+    obj5->init(sRender, SimpleMesh<Vertex3pc, V3Index>::generateSphere(30, 0.33), shader3);
     obj5->localPosition = glm::dquat(0, 1, 1, 1);
-    obj5->localScale = glm::dquat(0,2,0.5,0.5);
+    obj5->localScale = glm::dquat(0,2,2,0.5);
 
     obj4->addChild(obj5);
     obj3->addChild(obj4);
-
-    //obj4->addChild(camObj);
 
     currentScene->add(obj);
     currentScene->add(obj2);

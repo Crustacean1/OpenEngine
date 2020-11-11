@@ -4,6 +4,7 @@
 #include "../Lib/Object/Object.h"
 #include "../Lib/Camera/Camera.h"
 #include "../Lib/Input/Input.h"
+#include "../Lib/Component/Behaviour.h"
 #include <iostream>
 
 class CameraControler : public OpenEngine::MouseMovementInput, public OpenEngine::KeyInput
@@ -21,6 +22,7 @@ public:
     void keyCallback(GLFWwindow * window,double delta);
 };
 
+/*
 class CameraObject : public OpenEngine::Object
 {
     std::shared_ptr<OpenEngine::Camera> camera;
@@ -31,7 +33,7 @@ public:
     void init();
     std::shared_ptr<OpenEngine::Camera> getCamera() { return camera; }
     std::shared_ptr<CameraControler> getControler(){return controler;}
-    ~CameraObject() { std::cout << "I'm suffering"; }
-};
+    ~CameraObject() {}
+};*/
 
 #endif /*CAMERAOBJECT*/
