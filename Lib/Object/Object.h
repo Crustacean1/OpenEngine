@@ -7,14 +7,15 @@
 #include <memory>
 #include <string>
 #include <map>
+#include <set>
 
 namespace OpenEngine
 {
     class Scene;
+    class BaseComponent;
 
-    class Object
+    class Object final
     {
-        //Position, parent , children
         static std::string incrementIndex(std::string &_index);
         static std::string mainIndex;
 
@@ -22,13 +23,14 @@ namespace OpenEngine
 
         Object *parent = nullptr;
 
-        std::map<std::string, Object *> children;
+        std::set<Object *> children;
+        std::set<BaseComponent *> components;
 
         glm::dquat globalRotation;
         glm::dquat globalScale;
         glm::dquat globalPosition;
 
-        // Scale->rotation->translation
+        // Scale->rotation->translation <- transform order
 
     public:
         glm::dquat localRotation;
@@ -36,14 +38,16 @@ namespace OpenEngine
         glm::dquat localPosition;
 
         Object();
+        Object(Object * parent);
+        Object(std::set<BaseComponent*> & _compMap);
+
+        ~Object();
         std::string getId() const;
 
         std::shared_ptr<Object> find(const std::string &_id);
         std::shared_ptr<Object> drop(const std::string &_id);
 
-        void add(const std::shared_ptr<Object> &_object);
-
-        //Global state
+        //Global transform
 
         glm::vec3 getGlobalPosition();
         glm::vec3 getGlobalScale();
@@ -57,7 +61,7 @@ namespace OpenEngine
         void setGlobalPosition(glm::vec3 disp);
         void setGlobalScale(glm::vec3 scale);
 
-        //Local state
+        //Local transform
 
         glm::vec3 getLocalPosition();
         glm::vec3 getLocalScale();
@@ -69,19 +73,21 @@ namespace OpenEngine
 
         void flushTransform();
 
+        //Access regulating functions
+
         void addChild(Object * _child);
+        Object * dropChild(Object * _child);
 
-        //global position
-        //local position
+        void addComponent(BaseComponent * _comp);
+        BaseComponent * dropComponent(BaseComponent * _comp);
 
-        //global transform
-        //local transform
+        //Copy (in future also move) operators <- TODO
 
-        //getID
-        //Copy/Move constructor
+        Object & operator()(const Object & _obj);
+        Object & operator=(const Object & _obj);
+
         //Tags (rather not)
-        //Add serializable class
-        //Will contain Component©
+        //Add serializable class <- Would require unique indexing???(Or global map from prev memory address to current) Saving pointer links
     };
 }; // namespace OpenEngine
 

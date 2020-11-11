@@ -24,7 +24,7 @@ class RotationController : public OpenEngine::Behaviour
     double rotationSpeed = 1.5;
     void update(double delta);
 };
-
+/*
 class MeshTestObject : public OpenEngine::Object
 {
     std::shared_ptr<OpenEngine::MeshRenderer> renderer;
@@ -36,5 +36,5 @@ public:
      controller(manager.factory.create<RotationController>(*this,manager.factory,_ax)){}
     void init(const std::shared_ptr<OpenEngine::Render> &_render, std::shared_ptr<OpenEngine::Mesh> _mesh, const std::shared_ptr<OpenEngine::Shader> &shader);
 };
-
+*/
 #endif /*MESHTESTOBJECT*/
