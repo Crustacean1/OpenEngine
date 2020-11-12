@@ -6,6 +6,7 @@
 
 namespace OpenEngine
 {
+    Window *Window::mainWindow = nullptr;
     Window::Window(int width, int height, const char *name, GLFWmonitor *monitor, GLFWwindow *share)
     {
         init(width, height, name, monitor, share);
@@ -29,7 +30,8 @@ namespace OpenEngine
             throw DevException("Failed to initialize GLAD");
         }
         glViewport(0, 0, width, height);
-        glfwSetFramebufferSizeCallback(window,[](GLFWwindow * win,int width,int height){glViewport(0,0,width,height);});
+        glfwSetFramebufferSizeCallback(window, [](GLFWwindow *win, int width, int height) { glViewport(0, 0, width, height); });
+        mainWindow = this;
     }
     Window::~Window()
     {

@@ -14,8 +14,8 @@ namespace OpenEngine
     class Mouse
     {
         static Mouse *ptr;
-        std::list<std::pair<std::weak_ptr<MouseMovementInput>, std::function<void(GLFWwindow*,double,double)>>> movementCallbacks;
-        std::list<std::pair<std::weak_ptr<MouseButtonInput>, std::function<void(GLFWwindow*,int,int,int)>>> buttonCallbacks;
+        std::list<MouseMovementInput*> movementCallbacks;
+        std::list<MouseButtonInput*> buttonCallbacks;
         Mouse();
 
         static void movementCallbackInvoker(GLFWwindow * window,double x,double y);
@@ -25,10 +25,10 @@ namespace OpenEngine
         static Mouse *getMouse();
         static void createMouse(GLFWwindow *_window);
 
-        void addMovementCallback(std::shared_ptr<MouseMovementInput> _minput);
+        void addMovementCallback(MouseMovementInput * _minput);
         void dropMovementCallback(MouseMovementInput * _minput);
 
-        void addButtonCallback(std::shared_ptr<MouseButtonInput> _minput);
+        void addButtonCallback(MouseButtonInput * _minput);
         void dropButtonCallback(MouseButtonInput * _minput);
     };
 }; // namespace OpenEngine

@@ -2,8 +2,10 @@
 #include "../Component/BehaviourManager.h"
 #include "../../Main/MeshTestObject.h"
 #include "../../Main/CameraObject.h"
+#include "../Render/MeshRenderer.h"
 #include "../Render/SimpleRender.h"
 #include "../Shader/Shader.h"
+#include "../Object/Object.h"
 #include "../Camera/Camera.h"
 #include "../Input/Mouse.h"
 #include "../Mesh/Mesh.h"
@@ -40,52 +42,65 @@ void OpenEngine::Game::loadGame()
     scenes[1] = std::shared_ptr<Scene>(new Scene);
     currentScene = scenes[1];
 
-    CameraObject *camObj = (new CameraObject());
-    camObj->init();
-    camObj->setLocalPosition(glm::vec3(0, 0, -5));
-
-    mouse->addMovementCallback(camObj->getControler());
-    keyboard->addKeyCallback(camObj->getControler());
-
     std::shared_ptr<BehaviourManager> bManager(new BehaviourManager);
     std::shared_ptr<BehaviourManager> dummyManager(new BehaviourManager);
+
+
+    Object *camObj = (new Object());
+    CameraControler* camControl = new CameraControler(*camObj,bManager.get());
+    BasicCamera * mainCamera = new BasicCamera(*camObj);
+
+    camObj->setLocalPosition(glm::vec3(0,0,0));
+
+    mouse->addMovementCallback(camControl);
 
     currentScene->set(bManager);
 
     //Object Setup
 
-    std::shared_ptr<Render> sRender((Render *)new SimpleRender(camObj->getCamera()));
+    std::shared_ptr<Render> sRender((Render *)new SimpleRender(mainCamera));
     currentScene->add(sRender);
 
-    std::shared_ptr<Shader> shader1(new Shader("Shaders/Shader1/shader1.vert", "Shaders/Shader1/shader1.frag"));
-    std::shared_ptr<Shader> shader2(new Shader("Shaders/Shader2/shader2.vert", "Shaders/Shader2/shader2.frag"));
-    std::shared_ptr<Shader> shader3(new Shader("Shaders/Shader3/shader3.vert", "Shaders/Shader3/shader3.frag"));
+    Shader * shader1 = (new Shader("Shaders/Shader1/shader1.vert", "Shaders/Shader1/shader1.frag"));
+    Shader * shader2 = (new Shader("Shaders/Shader2/shader2.vert", "Shaders/Shader2/shader2.frag"));
+    Shader * shader3 = (new Shader("Shaders/Shader3/shader3.vert", "Shaders/Shader3/shader3.frag"));
 
-    auto obj = new Object();
-    obj->init(sRender, SimpleMesh<Vertex3p, V3Index>::generatePlane(), shader2);
+    auto obj2 = new Object();
+    auto mRender1 = new MeshRenderer(*obj2,SimpleMesh<Vertex3p,V2Index>::generateGrid(5,15),nullptr,shader2);
+    mRender1->setManager(sRender.get());
+    auto gTemp = new GridController(*obj2,bManager.get(),camObj);
+    gTemp->gap = 30.f/4.f;
+    //obj2->init(sRender, SimpleMesh<Vertex3p, V2Index>::generateGrid(5, 15), shader2);
 
-    auto obj2 = new MeshTestObject(*dummyManager);
-    obj2->init(sRender, SimpleMesh<Vertex3p, V2Index>::generateGrid(5, 15), shader2);
+    auto obj3 = new Object();
+    auto mRender2 = new MeshRenderer(*obj3,SimpleMesh<Vertex3pc,V3Index>::generateSphere(35,1),nullptr,shader3);
+    //obj3->init(sRender, SimpleMesh<Vertex3pc, V3Index>::generateSphere(35, 1), shader3);
+    mRender2->setManager(sRender.get());
+    new RotationController(*obj3,bManager.get(),glm::vec3(1,0,0));
+    obj3->localPosition = glm::dquat(0, 0, 0, 30.f/4.f);
 
-    auto obj3 = new MeshTestObject(*bManager, glm::vec3(1, 0, 0));
-    obj3->init(sRender, SimpleMesh<Vertex3pc, V3Index>::generateSphere(35, 1), shader3);
-    obj3->localPosition = glm::dquat(0, 0, 0, 6);
-
-    auto obj4 = new MeshTestObject(*bManager);
-    obj4->init(sRender, SimpleMesh<Vertex3pcn, V3Index>::generateTorus(55, 2, 0.3), shader3);
+    auto obj4 = new Object();
+    auto mRender3 = new MeshRenderer(*obj4,SimpleMesh<Vertex3pcn,V3Index>::generateTorus(55,2,0.3),nullptr,shader3);
+    mRender3->setManager(sRender.get());
+    new RotationController(*obj4,bManager.get(),glm::vec3(0,1,0));
+    //obj4->init(sRender, SimpleMesh<Vertex3pcn, V3Index>::generateTorus(55, 2, 0.3), shader3);
     obj4->localPosition = glm::dquat(0, 0, 0, 0);
 
-    auto obj5 = new MeshTestObject(*bManager, glm::vec3(0, 1, 0));
-    obj5->init(sRender, SimpleMesh<Vertex3pc, V3Index>::generateSphere(30, 0.33), shader3);
+    auto obj5 = new Object();
+    auto mRender4 = new MeshRenderer(*obj5,SimpleMesh<Vertex3pc,V3Index>::generateSphere(30,0.33),nullptr,shader3);
+    mRender4->setManager(sRender.get());
+    new RotationController(*obj5,bManager.get(),glm::vec3(0,1,0));
+    //obj5->init(sRender, SimpleMesh<Vertex3pc, V3Index>::generateSphere(30, 0.33), shader3);
     obj5->localPosition = glm::dquat(0, 1, 1, 1);
     obj5->localScale = glm::dquat(0,2,2,0.5);
 
     obj4->addChild(obj5);
     obj3->addChild(obj4);
 
-    currentScene->add(obj);
+    //obj4->addChild(camObj);
+
     currentScene->add(obj2);
-    currentScene->add(obj3);
+    //currentScene->add(obj3);
     //currentScene->add(obj4);
     currentScene->add(camObj);
     std::cout << "Game loaded\n";
@@ -101,6 +116,5 @@ void OpenEngine::Game::gameLoop()
         currentScene->update();
         currentScene->render();
         glfwSwapBuffers(window);
-        Keyboard::keyCallbackInvoker(0.02);
     }
 }

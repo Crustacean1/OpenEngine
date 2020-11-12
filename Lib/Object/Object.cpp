@@ -24,10 +24,10 @@ OpenEngine::Object::Object()
     localRotation = globalRotation = glm::dquat(1, 0, 0, 0);
     localScale = globalScale = glm::dquat(0, 1, 1, 1);
     localPosition = globalPosition = glm::dquat(0, 0, 0, 0);
-    
+
     flushTransform();
 }
-OpenEngine::Object::Object(std::set<BaseComponent *> &_newComp) : Object()
+OpenEngine::Object::Object(const std::set<BaseComponent *> &_newComp) : Object()
 {
     components = _newComp;
 }

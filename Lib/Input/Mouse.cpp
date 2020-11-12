@@ -20,28 +20,26 @@ void OpenEngine::Mouse::movementCallbackInvoker(GLFWwindow *_window, double x, d
 {
     for (const auto &func : ptr->movementCallbacks)
     {
-        func.second(_window, x, y);
+        func->mouseMovementCallback(_window, x, y);
     }
 }
 void OpenEngine::Mouse::buttonCallbackInvoker(GLFWwindow *_window, int button, int action, int mode)
 {
     for (const auto &func : ptr->buttonCallbacks)
     {
-        func.second(_window, button, action, mode);
+        func->mouseButtonCallback(_window, button, action, mode);
     }
 }
 
-void OpenEngine::Mouse::addMovementCallback(std::shared_ptr<MouseMovementInput> _minput)
+void OpenEngine::Mouse::addMovementCallback(MouseMovementInput * _minput)
 {
-    movementCallbacks.push_front(
-        std::pair<std::shared_ptr<MouseMovementInput>, std::function<void(GLFWwindow *, double, double)>>
-        (_minput, std::bind(&MouseMovementInput::mouseMovementCallback, _minput, _1, _2, _3)));
+    movementCallbacks.push_front(_minput);
 }
 void OpenEngine::Mouse::dropMovementCallback(MouseMovementInput *_minput)
 {
     for (auto it = movementCallbacks.begin(); it != movementCallbacks.end(); it++)
     {
-        if ((*it).first.lock().get() == _minput)
+        if ((*it) == _minput)
         {
             movementCallbacks.erase(it);
             return;
@@ -49,17 +47,15 @@ void OpenEngine::Mouse::dropMovementCallback(MouseMovementInput *_minput)
     }
 }
 
-void OpenEngine::Mouse::addButtonCallback(std::shared_ptr<MouseButtonInput> _minput)
+void OpenEngine::Mouse::addButtonCallback(MouseButtonInput * _minput)
 {
-    buttonCallbacks.push_front(
-        std::pair<std::shared_ptr<MouseButtonInput>, std::function<void(GLFWwindow *, int, int, int)>>
-        (_minput, std::bind(&MouseButtonInput::mouseButtonCallback, _minput, _1, _2, _3, _4)));
+    buttonCallbacks.push_front(_minput);
 }
 void OpenEngine::Mouse::dropButtonCallback(MouseButtonInput *_minput)
 {
     for (auto it = buttonCallbacks.begin(); it != buttonCallbacks.end(); it++)
     {
-        if ((*it).first.lock().get() == _minput)
+        if ((*it) == _minput)
         {
             buttonCallbacks.erase(it);
             return;

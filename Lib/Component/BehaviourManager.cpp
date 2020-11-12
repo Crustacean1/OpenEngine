@@ -1,11 +1,16 @@
 #include "BehaviourManager.h"
-#include "Behaviour.h"
 
 void OpenEngine::BehaviourManager::update(double delta)
 {
-    auto components = getComponents();
-    for (const auto &component : components)
+    for (auto &component : components)
     {
         component->update(delta);
+    }
+}
+void OpenEngine::BehaviourManager::init()
+{
+    for (auto &component : components)
+    {
+        component->init();
     }
 }

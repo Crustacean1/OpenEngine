@@ -2,20 +2,13 @@
 #include "Renderer.h"
 #include "../Shader/Shader.h"
 
-void OpenEngine::Render::addRenderer(Renderer *_renderer)
+void OpenEngine::Render::add(Renderer *_renderer)
 {
-    if(_renderer->getShader().get()==nullptr){return;}
-    renderers[_renderer->getShader().get()].insert(_renderer);
+    if(_renderer->getShader()==nullptr){return;}
+    renderers[_renderer->getShader()].insert(_renderer);
 }
-void OpenEngine::Render::dropRenderer(Renderer *_renderer)
+void OpenEngine::Render::drop(Renderer *_renderer)
 {
-    auto shID = _renderer->getShader().get();
+    auto shID = _renderer->getShader();
     renderers[shID].erase(renderers[shID].find(_renderer));
-}
-OpenEngine::Renderer::~Renderer()
-{
-    if (myRender != nullptr)
-    {
-        myRender->dropRenderer(this);
-    }
 }

@@ -3,30 +3,29 @@
 
 #include "Mouse.h"
 #include "Keyboard.h"
-#include "../Component/Component.h"
 
 class GLFWwindow;
 
 namespace OpenEngine
 {
-    class MouseMovementInput :public BaseComponent
+    class MouseMovementInput
     {
     public:
         virtual void mouseMovementCallback(GLFWwindow *window, double xpos, double ypos) = 0;
         ~MouseMovementInput(){Mouse::getMouse()->dropMovementCallback(this);}
     };
-    class MouseButtonInput : public BaseComponent
+    class MouseButtonInput
     {
     public:
         virtual void mouseButtonCallback(GLFWwindow *window, int button, int action, int mode) = 0;
         ~MouseButtonInput(){Mouse::getMouse()->dropButtonCallback(this);}
     };
-    class KeyInput : public BaseComponent
+    class KeyInput
     {
     public:
-        virtual void keyCallback(GLFWwindow * window,double delta) = 0;
+        virtual void keyCallback(GLFWwindow * window,unsigned int key,unsigned int scancode,unsigned int action,unsigned int mode) = 0;
     };
-    class CharInput : public BaseComponent
+    class CharInput
     {
     public:
         virtual void charCallback(GLFWwindow *window, unsigned int codepoint) = 0;
