@@ -12,9 +12,9 @@ void OpenEngine::SimpleRender::render()
 
         for(const auto & renderer: pairs.second)
         {
-            pairs.first->set("mvp",mainCamera->getMatrix(renderer->getOwner()->getGlobalPosition(),
-                                                        renderer->getOwner()->getGlobalRotation(),
-                                                        renderer->getOwner()->getGlobalScale()));
+            pairs.first->set("mvp",mainCamera->getMatrix(renderer->object.getGlobalPosition(),
+                                                        renderer->object.getGlobalRotation(),
+                                                        renderer->object.getGlobalScale()));
             renderer->render();
         }
     }

@@ -5,21 +5,22 @@
 #include "../Lib/Camera/Camera.h"
 #include "../Lib/Input/Input.h"
 #include "../Lib/Component/Behaviour.h"
+#include "../Lib/Component/BehaviourManager.h"
 #include <iostream>
 
-class CameraControler : public OpenEngine::MouseMovementInput, public OpenEngine::KeyInput
+class CameraControler : public OpenEngine::Behaviour, public OpenEngine::MouseMovementInput
 {
-    OpenEngine::Object & owner;
-public:
+    OpenEngine::Object &owner;
 
+public:
     double xfactor = 0.002;
     double yfactor = -0.002;
 
     double camSpeed = 2;
 
-    CameraControler(OpenEngine::Object & obj): owner(obj){}
+    CameraControler(OpenEngine::Object &obj,OpenEngine::BehaviourManager * manager = nullptr) : owner(obj), Behaviour(obj,manager) {}
     void mouseMovementCallback(GLFWwindow *window, double xpos, double ypos);
-    void keyCallback(GLFWwindow * window,double delta);
+    void update(double delta);
 };
 
 /*

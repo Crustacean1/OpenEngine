@@ -12,10 +12,9 @@ namespace OpenEngine
     {
     protected:
         std::shared_ptr<Mesh> myMesh;
-        unsigned int mode;
 
     public:
-        MeshRenderer(Object * object, std::shared_ptr<Mesh> _mesh = nullptr, std::shared_ptr<Render> _render = nullptr, std::shared_ptr<Shader> _shader = nullptr);
+        MeshRenderer(Object & object, std::shared_ptr<Mesh> _mesh = nullptr, ComponentManager<Renderer> * _render = nullptr, Shader * _shader = nullptr);
 
         void render() override;
         void prepare() override;

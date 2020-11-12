@@ -12,6 +12,7 @@
 namespace OpenEngine
 {
     class Scene;
+
     class BaseComponent;
 
     class Object final
@@ -39,7 +40,7 @@ namespace OpenEngine
 
         Object();
         Object(Object * parent);
-        Object(std::set<BaseComponent*> & _compMap);
+        Object(const std::set<BaseComponent*> & _compMap);
 
         ~Object();
         std::string getId() const;
@@ -76,10 +77,10 @@ namespace OpenEngine
         //Access regulating functions
 
         void addChild(Object * _child);
-        Object * dropChild(Object * _child);
+        void dropChild(Object * _child);
 
         void addComponent(BaseComponent * _comp);
-        BaseComponent * dropComponent(BaseComponent * _comp);
+        void dropComponent(BaseComponent * _comp);
 
         //Copy (in future also move) operators <- TODO
 

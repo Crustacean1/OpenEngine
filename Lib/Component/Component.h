@@ -1,26 +1,51 @@
 #ifndef COMPONENT
 #define COMPONENT
 
-#include "ComponentFactory.h"
+#include "ComponentManager.h"
+#include "BaseComponent.h"
 
 namespace OpenEngine
 {
     class Object;
-    class BaseComponentFactory;
 
-    class BaseComponent
+    template <typename T>
+    class ComponentManager;
+
+    template <typename T>
+    class Component : public BaseComponent
     {
-        //friend ComponentFactory<T>;
-        BaseComponentFactory &factory;
+        friend ComponentManager<T>;
+
+        ComponentManager<T> *manager = nullptr;
 
     protected:
-        Object &object;
-        BaseComponent(Object &_obj, BaseComponentFactory &_fact) : object(_obj), factory(_fact) {}
+        Component(Object &_obj, ComponentManager<T> *_fact = nullptr) : BaseComponent(_obj), manager(_fact)
+        {
+            if (manager != nullptr)
+            {
+                manager->add((T *)this);
+            }
+        }
 
     public:
-        ~BaseComponent()
+        void setManager(ComponentManager<T> *_fact)
         {
-            factory.drop(this);
+            dropManager();
+            manager = _fact;
+            manager->add((T*)this);
+        }
+        void dropManager()
+        {
+            if (manager == nullptr)
+            {
+                return;
+            }
+            manager = nullptr;
+            manager->drop((T*)this);
+        }
+        ~Component()
+        {
+            manager->drop((T *)this);
         }
     };
 }; // namespace OpenEngine

@@ -5,11 +5,12 @@
 
 namespace OpenEngine
 {
-    class Behaviour : public BaseComponent//Useless as of now, left for sake of clarity
+    class Behaviour : public Component<Behaviour>//Useless as of now, left for sake of clarity
     {
         public:
-        Behaviour(Object & _obj, ComponentFactory<Behaviour> & _fact) : BaseComponent(_obj,_fact){}
-        virtual void update(double delta) = 0;
+        Behaviour(Object & _obj, ComponentManager<Behaviour> * _fact = nullptr) : Component(_obj,_fact){}
+        virtual void update(double delta){};
+        virtual void init(){}
     };
 };
 

@@ -2,13 +2,14 @@
 #define BEHAVIOURMANAGER
 
 #include "ComponentManager.h"
+#include "Behaviour.h"
 
 namespace OpenEngine
 {
-    class Behaviour;
     class BehaviourManager : public ComponentManager<Behaviour>
     {
         public:
+        void init();
         void update(double delta);
     };
 };
