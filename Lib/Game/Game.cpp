@@ -37,6 +37,10 @@ void OpenEngine::Game::loadGame()
     Keyboard::createKeyboard(window);
     Keyboard *keyboard = Keyboard::getKeyboard();
 
+    MeshRenderer *jp2gmd;
+
+    std::cout<<typeid(jp2gmd).name()<<std::endl;
+
     //Scene Setup
 
     scenes[1] = std::shared_ptr<Scene>(new Scene);
@@ -49,6 +53,7 @@ void OpenEngine::Game::loadGame()
     Object *camObj = (new Object());
     CameraControler* camControl = new CameraControler(*camObj,bManager.get());
     BasicCamera * mainCamera = new BasicCamera(*camObj);
+    camObj->localPosition = glm::dquat(0,0,1,0);
 
     camObj->setLocalPosition(glm::vec3(0,0,0));
 
