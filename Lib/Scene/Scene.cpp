@@ -20,6 +20,7 @@ void OpenEngine::Scene::update()
 
 void OpenEngine::Scene::init()
 {
+    bManager->init();
 }
 void OpenEngine::Scene::add(Object* _object)
 {

@@ -11,6 +11,8 @@
 class CameraControler : public OpenEngine::Behaviour, public OpenEngine::MouseMovementInput
 {
     OpenEngine::Object &owner;
+    double prevX;
+    double prevY;
 
 public:
     double xfactor = 0.002;
@@ -20,7 +22,8 @@ public:
 
     CameraControler(OpenEngine::Object &obj,OpenEngine::BehaviourManager * manager = nullptr) : owner(obj), Behaviour(obj,manager) {}
     void mouseMovementCallback(GLFWwindow *window, double xpos, double ypos);
-    void update(double delta);
+    void update(double delta) override;
+    void init() override;
 };
 
 /*
