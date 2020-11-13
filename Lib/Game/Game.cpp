@@ -66,10 +66,10 @@ void OpenEngine::Game::loadGame()
     Shader * shader3 = (new Shader("Shaders/Shader3/shader3.vert", "Shaders/Shader3/shader3.frag"));
 
     auto obj2 = new Object();
-    auto mRender1 = new MeshRenderer(*obj2,SimpleMesh<Vertex3p,V2Index>::generateGrid(5,15),nullptr,shader2);
+    auto mRender1 = new MeshRenderer(*obj2,SimpleMesh<Vertex3p,V2Index>::generateGrid(7,15),nullptr,shader2);
     mRender1->setManager(sRender.get());
     auto gTemp = new GridController(*obj2,bManager.get(),camObj);
-    gTemp->gap = 30.f/4.f;
+    gTemp->gap = 30.f/6.f;
     //obj2->init(sRender, SimpleMesh<Vertex3p, V2Index>::generateGrid(5, 15), shader2);
 
     auto obj3 = new Object();
@@ -77,7 +77,7 @@ void OpenEngine::Game::loadGame()
     //obj3->init(sRender, SimpleMesh<Vertex3pc, V3Index>::generateSphere(35, 1), shader3);
     mRender2->setManager(sRender.get());
     new RotationController(*obj3,bManager.get(),glm::vec3(1,0,0));
-    obj3->localPosition = glm::dquat(0, 0, 0, 30.f/4.f);
+    obj3->localPosition = glm::dquat(0, 0, 0, 30.f/6.f);
 
     auto obj4 = new Object();
     auto mRender3 = new MeshRenderer(*obj4,SimpleMesh<Vertex3pcn,V3Index>::generateTorus(55,2,0.3),nullptr,shader3);
