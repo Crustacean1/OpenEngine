@@ -2,7 +2,7 @@
 #include "../Mesh/Mesh.h"
 #include "../Object/Object.h"
 
-OpenEngine::MeshRenderer::MeshRenderer(Object & object, std::shared_ptr<Mesh> _mesh, ComponentManager<Renderer> * _render, Shader * _shader) : myMesh(_mesh), Renderer::Renderer(object,_render, _shader){}
+OpenEngine::MeshRenderer::MeshRenderer(Object & object, std::shared_ptr<Mesh> _mesh, Shader * _shader) : myMesh(_mesh), Renderer::Renderer(object, _shader){}
 
 
 void OpenEngine::MeshRenderer::render()

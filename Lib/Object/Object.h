@@ -4,10 +4,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
-#include <memory>
 #include <string>
 #include <map>
 #include <set>
+#include <list>
 
 namespace OpenEngine
 {
@@ -25,7 +25,7 @@ namespace OpenEngine
         Object *parent = nullptr;
 
         std::set<Object *> children;
-        std::set<BaseComponent *> components;
+        std::map<std::string, std::list<BaseComponent *>> components;
 
         glm::dquat globalRotation;
         glm::dquat globalScale;
@@ -39,14 +39,13 @@ namespace OpenEngine
         glm::dquat localPosition;
 
         Object();
-        Object(Object * parent);
-        Object(const std::set<BaseComponent*> & _compMap);
+        Object(Object *parent);
 
         ~Object();
         std::string getId() const;
 
-        std::shared_ptr<Object> find(const std::string &_id);
-        std::shared_ptr<Object> drop(const std::string &_id);
+        Object * find(const std::string &_id);
+        Object * drop(const std::string &_id);
 
         //Global transform
 
@@ -76,20 +75,67 @@ namespace OpenEngine
 
         //Access regulating functions
 
-        void addChild(Object * _child);
-        void dropChild(Object * _child);
+        void addChild(Object *_child);
+        void dropChild(Object *_child);
 
-        void addComponent(BaseComponent * _comp);
-        void dropComponent(BaseComponent * _comp);
+        template <typename K>
+        void addComponent(K *_comp);
+        template <typename K>
+        void dropComponent(K *_comp);
+
+        template<typename K>
+        K * getComponent(unsigned int i);
+
+        template<typename K>
+        unsigned int getComponentCount();
 
         //Copy (in future also move) operators <- TODO
 
-        Object & operator()(const Object & _obj);
-        Object & operator=(const Object & _obj);
+        Object &operator()(const Object &_obj);
+        Object &operator=(const Object &_obj);
 
         //Tags (rather not)
         //Add serializable class <- Would require unique indexing???(Or global map from prev memory address to current) Saving pointer links
     };
+    template <typename K>
+    void Object::addComponent(K *_comp)
+    {
+        if (components.find(typeid(K).name()) != components.end())
+        {
+            components[typeid(K).name()].push_front(_comp);
+        }
+    }
+    template <typename K>
+    void Object::dropComponent(K *_comp)
+    {
+        if (components.find(typeid(K).name()) != components.end())
+        {
+            components[typeid(K).name()].erase(std::find(components[typeid(K).name()],_comp));
+        }
+    }
+    template<typename K>
+    K * Object::getComponent(unsigned int i)
+    {
+        if(components.find(typeid(K).name())!=components.end())
+        {
+            if(i<components[typeid(K).name()].size())
+            {
+                auto beg = components[typeid(K).name()].begin();
+                std::advance(beg,i);
+                return (K*)*beg;
+            }
+        } 
+        return nullptr;
+    }
+    template<typename K>
+    unsigned int Object::getComponentCount()
+    {
+        if(components.find(typeid(K).name())==components.end())
+        {
+            return 0;
+        }
+        return components[typeid(K).name()].size();
+    }
 }; // namespace OpenEngine
 
 #endif /*OBJECT*/

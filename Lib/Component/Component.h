@@ -3,6 +3,7 @@
 
 #include "ComponentManager.h"
 #include "BaseComponent.h"
+#include <string>
 
 namespace OpenEngine
 {
@@ -19,20 +20,18 @@ namespace OpenEngine
         ComponentManager<T> *manager = nullptr;
 
     protected:
-        Component(Object &_obj, ComponentManager<T> *_fact = nullptr) : BaseComponent(_obj), manager(_fact)
+        Component(Object &_obj) : BaseComponent(_obj), manager(nullptr)
         {
-            if (manager != nullptr)
-            {
-                manager->add((T *)this);
-            }
+            object.addComponent((T *)this);
         }
 
     public:
+        std::string getTypeName() { return typeid(T).name(); }
         void setManager(ComponentManager<T> *_fact)
         {
             dropManager();
             manager = _fact;
-            manager->add((T*)this);
+            manager->add((T *)this);
         }
         void dropManager()
         {
@@ -41,11 +40,11 @@ namespace OpenEngine
                 return;
             }
             manager = nullptr;
-            manager->drop((T*)this);
+            manager->drop((T *)this);
         }
         ~Component()
         {
-            manager->drop((T *)this);
+            dropManager();
         }
     };
 }; // namespace OpenEngine

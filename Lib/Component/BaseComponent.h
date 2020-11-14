@@ -1,6 +1,8 @@
 #ifndef BASECOMPONENT
 #define BASECOMPONENT
 
+#include "../Object/Object.h"
+
 namespace OpenEngine
 {
     class Object;
@@ -8,6 +10,7 @@ namespace OpenEngine
     class BaseComponent
     {
         protected:
+
         BaseComponent(Object & _parent) : object(_parent){}
     public:
         Object &object;

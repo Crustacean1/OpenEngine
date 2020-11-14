@@ -21,7 +21,7 @@ class RotationController : public OpenEngine::Behaviour
 {
     glm::vec3 axis;
     public:
-    RotationController(OpenEngine::Object & _obj,OpenEngine::BehaviourManager * bManager,glm::vec3 _ax = glm::vec3(0,1,0)) : OpenEngine::Behaviour(_obj,bManager), axis(_ax){}
+    RotationController(OpenEngine::Object & _obj,glm::vec3 _ax = glm::vec3(0,1,0)) : OpenEngine::Behaviour(_obj), axis(_ax){}
     double rotationSpeed = 1.5;
     void update(double delta);
 };
@@ -30,7 +30,7 @@ class GridController : public OpenEngine::Behaviour
     OpenEngine::Object * target;
     public:
     double gap = 1;
-    GridController(OpenEngine::Object & _obj,OpenEngine::BehaviourManager * bManager, OpenEngine::Object * _targ) : OpenEngine::Behaviour(_obj,bManager), target(_targ){} 
+    GridController(OpenEngine::Object & _obj,OpenEngine::Object * _targ) : OpenEngine::Behaviour(_obj), target(_targ){} 
     void setTarget(OpenEngine::Object * _targ){target = _targ;}
     void update(double delta);
 };

@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "../../Main/Fractal/FractalComponent.h"
 #include "../Component/BehaviourManager.h"
 #include "../../Main/MeshTestObject.h"
 #include "../../Main/CameraObject.h"
@@ -37,10 +38,6 @@ void OpenEngine::Game::loadGame()
     Keyboard::createKeyboard(window);
     Keyboard *keyboard = Keyboard::getKeyboard();
 
-    MeshRenderer *jp2gmd;
-
-    std::cout<<typeid(jp2gmd).name()<<std::endl;
-
     //Scene Setup
 
     scenes[1] = std::shared_ptr<Scene>(new Scene);
@@ -51,7 +48,8 @@ void OpenEngine::Game::loadGame()
 
 
     Object *camObj = (new Object());
-    CameraControler* camControl = new CameraControler(*camObj,bManager.get());
+    CameraControler* camControl = new CameraControler(*camObj);
+    camControl->setManager(bManager.get());
     BasicCamera * mainCamera = new BasicCamera(*camObj);
     camObj->localPosition = glm::dquat(0,0,1,0);
 
@@ -71,43 +69,23 @@ void OpenEngine::Game::loadGame()
     Shader * shader3 = (new Shader("Shaders/Shader3/shader3.vert", "Shaders/Shader3/shader3.frag"));
 
     auto obj2 = new Object();
-    auto mRender1 = new MeshRenderer(*obj2,SimpleMesh<Vertex3p,V2Index>::generateGrid(7,15),nullptr,shader2);
+    auto mRender1 = new MeshRenderer(*obj2,SimpleMesh<Vertex3p,V2Index>::generateGrid(7,15),shader2);
     mRender1->setManager(sRender.get());
-    auto gTemp = new GridController(*obj2,bManager.get(),camObj);
+    auto gTemp = new GridController(*obj2,camObj);
+    gTemp->setManager(bManager.get());
     gTemp->gap = 30.f/6.f;
-    //obj2->init(sRender, SimpleMesh<Vertex3p, V2Index>::generateGrid(5, 15), shader2);
 
-    auto obj3 = new Object();
-    auto mRender2 = new MeshRenderer(*obj3,SimpleMesh<Vertex3pc,V3Index>::generateSphere(35,1),nullptr,shader3);
-    //obj3->init(sRender, SimpleMesh<Vertex3pc, V3Index>::generateSphere(35, 1), shader3);
-    mRender2->setManager(sRender.get());
-    new RotationController(*obj3,bManager.get(),glm::vec3(1,0,0));
-    obj3->localPosition = glm::dquat(0, 0, 0, 30.f/6.f);
+    //Fractal
 
-    auto obj4 = new Object();
-    auto mRender3 = new MeshRenderer(*obj4,SimpleMesh<Vertex3pcn,V3Index>::generateTorus(55,2,0.3),nullptr,shader3);
-    mRender3->setManager(sRender.get());
-    new RotationController(*obj4,bManager.get(),glm::vec3(0,1,0));
-    //obj4->init(sRender, SimpleMesh<Vertex3pcn, V3Index>::generateTorus(55, 2, 0.3), shader3);
-    obj4->localPosition = glm::dquat(0, 0, 0, 0);
+    auto fractal = new Object();
+    (new MeshRenderer(*fractal,SimpleMesh<Vertex3pc,V3Index>::generateSphere(6,1),shader3))->setManager(sRender.get());
+    (new FractalComponent(*fractal,bManager.get(),sRender.get(),shader3,3))->setManager(bManager.get());
 
-    auto obj5 = new Object();
-    auto mRender4 = new MeshRenderer(*obj5,SimpleMesh<Vertex3pc,V3Index>::generateSphere(30,0.33),nullptr,shader3);
-    mRender4->setManager(sRender.get());
-    new RotationController(*obj5,bManager.get(),glm::vec3(0,1,0));
-    //obj5->init(sRender, SimpleMesh<Vertex3pc, V3Index>::generateSphere(30, 0.33), shader3);
-    obj5->localPosition = glm::dquat(0, 1, 1, 1);
-    obj5->localScale = glm::dquat(0,2,2,0.5);
-
-    obj4->addChild(obj5);
-    obj3->addChild(obj4);
-
-    //obj4->addChild(camObj);
+    std::cout<<fractal->getComponent<Behaviour>(0)->getTypeName()<<std::endl;
 
     currentScene->add(obj2);
-    //currentScene->add(obj3);
-    //currentScene->add(obj4);
     currentScene->add(camObj);
+
     std::cout << "Game loaded\n";
 }
 void OpenEngine::Game::gameLoop()
