@@ -9,7 +9,7 @@ namespace OpenEngine
     class BehaviourManager : public ComponentManager<Behaviour>
     {
         public:
-        void init();
+        void add(Behaviour * _comp) override;
         void update(double delta);
     };
 };

@@ -27,10 +27,6 @@ OpenEngine::Object::Object()
 
     flushTransform();
 }
-OpenEngine::Object::Object(const std::set<BaseComponent *> &_newComp) : Object()
-{
-    components = _newComp;
-}
 OpenEngine::Object::Object(Object *_par) : Object()
 {
     _par->addChild(this);
@@ -40,6 +36,10 @@ void OpenEngine::Object::addChild(OpenEngine::Object *_obj)
     children.insert(_obj);
     _obj->parent = this;
     flushTransform();
+}
+void OpenEngine::Object::dropChild(OpenEngine::Object * _obj)
+{
+    children.erase(_obj);
 }
 std::string OpenEngine::Object::getId() const
 {
@@ -155,8 +155,11 @@ OpenEngine::Object::~Object()
     {
         delete child;
     }
-    for (const auto &component : components)
+    for (auto &componentCat : components)
     {
-        delete component;
+        for (auto &component : componentCat.second)
+        {
+            delete component;
+        }
     }
 }

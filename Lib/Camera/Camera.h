@@ -16,7 +16,7 @@ namespace OpenEngine
     class Camera : public Component<Camera>
     {
     public:
-        Camera(Object &_obj) : Component(_obj,nullptr) {}
+        Camera(Object &_obj) : Component(_obj) {}
         virtual glm::mat4 getMatrix(glm::vec3 _position, glm::dquat rotation, glm::vec3 scale) = 0;
         ~Camera(){}
     };
@@ -39,7 +39,7 @@ namespace OpenEngine
         } projectionType;
 
     public:
-        BasicCamera(Object &_obj, double _fov = 45, double _aspect = 8.f / 6.f, double _n = 0.1, double _f = 100);
+        BasicCamera(Object &_obj, double _fov = 45, double _aspect = 8.f/6.f, double _n = 0.1, double _f = 100);
 
         virtual glm::mat4 getMatrix(glm::vec3 _position, glm::dquat rotation, glm::vec3 scale);
 

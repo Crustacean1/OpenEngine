@@ -7,10 +7,8 @@ void OpenEngine::BehaviourManager::update(double delta)
         component->update(delta);
     }
 }
-void OpenEngine::BehaviourManager::init()
+void OpenEngine::BehaviourManager::add(Behaviour * _comp)
 {
-    for (auto &component : components)
-    {
-        component->init();
-    }
+    _comp->init();
+    components.push_back(_comp);
 }

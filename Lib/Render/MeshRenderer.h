@@ -14,7 +14,7 @@ namespace OpenEngine
         std::shared_ptr<Mesh> myMesh;
 
     public:
-        MeshRenderer(Object & object, std::shared_ptr<Mesh> _mesh = nullptr, ComponentManager<Renderer> * _render = nullptr, Shader * _shader = nullptr);
+        MeshRenderer(Object & object, std::shared_ptr<Mesh> _mesh = nullptr, Shader * _shader = nullptr);
 
         void render() override;
         void prepare() override;

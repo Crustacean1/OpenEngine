@@ -18,7 +18,7 @@ namespace OpenEngine
 
     public:
         Shader * myShader = nullptr;
-        Renderer(Object & _obj, ComponentManager<Renderer> * renMan = nullptr,Shader * _shader =nullptr) : myShader(_shader),Component(_obj,renMan){}
+        Renderer(Object & _obj,Shader * _shader =nullptr) : myShader(_shader),Component(_obj){}
         virtual void render() = 0;
         virtual void prepare() = 0;
         

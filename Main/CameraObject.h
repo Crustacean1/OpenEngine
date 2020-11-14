@@ -20,7 +20,7 @@ public:
 
     double camSpeed = 2;
 
-    CameraControler(OpenEngine::Object &obj,OpenEngine::BehaviourManager * manager = nullptr) : owner(obj), Behaviour(obj,manager) {}
+    CameraControler(OpenEngine::Object &obj) : owner(obj), Behaviour(obj) {}
     void mouseMovementCallback(GLFWwindow *window, double xpos, double ypos);
     void update(double delta) override;
     void init() override;
