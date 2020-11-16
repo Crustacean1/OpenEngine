@@ -48,9 +48,9 @@ void OpenEngine::Game::loadGame()
 
 
     Object *camObj = (new Object());
-    CameraControler* camControl = new CameraControler(*camObj);
+    auto camControl = camObj->addComponent<CameraControler>();
     camControl->setManager(bManager.get());
-    BasicCamera * mainCamera = new BasicCamera(*camObj);
+    BasicCamera * mainCamera = camObj->addComponent<BasicCamera>();
     camObj->localPosition = glm::dquat(0,0,1,0);
 
     camObj->setLocalPosition(glm::vec3(0,0,0));
@@ -69,19 +69,20 @@ void OpenEngine::Game::loadGame()
     Shader * shader3 = (new Shader("Shaders/Shader3/shader3.vert", "Shaders/Shader3/shader3.frag"));
 
     auto obj2 = new Object();
-    auto mRender1 = new MeshRenderer(*obj2,SimpleMesh<Vertex3p,V2Index>::generateGrid(7,15),shader2);
+    auto mRender1 = obj2->addComponent<MeshRenderer>(SimpleMesh<Vertex3p,V2Index>::generateGrid(7,15),shader2);
     mRender1->setManager(sRender.get());
-    auto gTemp = new GridController(*obj2,camObj);
+    auto gTemp = obj2->addComponent<GridController>(camObj);
     gTemp->setManager(bManager.get());
     gTemp->gap = 30.f/6.f;
 
     //Fractal
 
     auto fractal = new Object();
-    (new MeshRenderer(*fractal,SimpleMesh<Vertex3pc,V3Index>::generateSphere(6,1),shader3))->setManager(sRender.get());
-    (new FractalComponent(*fractal,bManager.get(),sRender.get(),shader3,3))->setManager(bManager.get());
+    fractal->addComponent<MeshRenderer>(SimpleMesh<Vertex3pc,V3Index>::generateSphere(25,2),shader3)->setManager(sRender.get());
+    //fractal->addComponent<RotationController>()->setManager(bManager.get());
+    //fractal->addComponent<FractalComponent>(bManager.get(),sRender.get(),shader3,3)->setManager(bManager.get());
 
-    std::cout<<fractal->getComponent<Behaviour>(0)->getTypeName()<<std::endl;
+    //std::cout<<fractal->getComponent<FractalComponent>(0)->counter<<std::endl;
 
     currentScene->add(obj2);
     currentScene->add(camObj);

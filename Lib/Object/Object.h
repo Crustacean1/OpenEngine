@@ -25,7 +25,7 @@ namespace OpenEngine
         Object *parent = nullptr;
 
         std::set<Object *> children;
-        std::map<std::string, std::list<BaseComponent *>> components;
+        std::map<std::string, std::list<BaseComponent*>> components;
 
         glm::dquat globalRotation;
         glm::dquat globalScale;
@@ -78,8 +78,9 @@ namespace OpenEngine
         void addChild(Object *_child);
         void dropChild(Object *_child);
 
-        template <typename K>
-        void addComponent(K *_comp);
+        template <typename K, typename... Args>
+        K* addComponent(Args... args);
+
         template <typename K>
         void dropComponent(K *_comp);
 
@@ -97,13 +98,16 @@ namespace OpenEngine
         //Tags (rather not)
         //Add serializable class <- Would require unique indexing???(Or global map from prev memory address to current) Saving pointer links
     };
-    template <typename K>
-    void Object::addComponent(K *_comp)
+    template <typename K, typename... Args>
+    K * Object::addComponent(Args... args)
     {
         if (components.find(typeid(K).name()) != components.end())
         {
-            components[typeid(K).name()].push_front(_comp);
+            components[typeid(K).name()].push_back((BaseComponent*)new K(*this,args...));
+            return (K*)components[typeid(K).name()].back();
         }
+        components[typeid(K).name()] = std::list<BaseComponent*>{(BaseComponent*)new K(*this,args...)};
+            return (K*)components[typeid(K).name()].back();
     }
     template <typename K>
     void Object::dropComponent(K *_comp)

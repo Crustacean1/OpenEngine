@@ -21,9 +21,7 @@ namespace OpenEngine
 
     protected:
         Component(Object &_obj) : BaseComponent(_obj), manager(nullptr)
-        {
-            object.addComponent((T *)this);
-        }
+        {}
 
     public:
         std::string getTypeName() { return typeid(T).name(); }

@@ -26,6 +26,8 @@ namespace OpenEngine
         Buffer<I, GL_ELEMENT_ARRAY_BUFFER> indices;
         VAO vao;
 
+        static void iterateSierpinski(SimpleMesh<Vertex3pc, V3Index> *mesh, unsigned int depth, float size, glm::vec3 pos, unsigned int &k = 0, unsigned int &l = 0);
+
     public:
         SimpleMesh();
         static std::shared_ptr<SimpleMesh<Vertex3pcn, V3Index>> generateCube(unsigned int resolution = 10, float size = 1);
@@ -33,6 +35,7 @@ namespace OpenEngine
         static std::shared_ptr<SimpleMesh<Vertex3pc, V3Index>> generateSphere(unsigned int resolution = 10, float size = 1);
         static std::shared_ptr<SimpleMesh<Vertex3p, V3Index>> generatePlane(unsigned int resolution = 10, float size = 1);
         static std::shared_ptr<SimpleMesh<Vertex3p, V2Index>> generateGrid(unsigned int resolution = 10, float size = 10);
+        static std::shared_ptr<SimpleMesh<Vertex3pc, V3Index>> generateSierpinski(unsigned int depth = 5, float size = 5);
 
         unsigned int getMeshSize() override { return indices.getSize() * I::size; }
         void bind() override { vao.bind(); }
@@ -178,7 +181,7 @@ namespace OpenEngine
             for (unsigned int j = 0; j < resolution; j++)
             {
                 _vert[k].col = glm::vec3(1 * ((float)i / (resolution - 1)), 0.25, 1 * ((float)j / (resolution - 1)));
-                _vert[k++].pos = (float)(size1 + (0.75+0.25*sin(glm::radians(yangle * 5))) * size2 * cos(glm::radians(xangle))) * glm::vec3(cos(glm::radians(yangle)), 0, sin(glm::radians(yangle))) + (float)((0.75+0.25*sin(glm::radians(yangle * 5))) * size2 * sin(glm::radians(xangle))) * glm::vec3(0, 1, 0);
+                _vert[k++].pos = (float)(size1 + (0.75 + 0.25 * sin(glm::radians(yangle * 5))) * size2 * cos(glm::radians(xangle))) * glm::vec3(cos(glm::radians(yangle)), 0, sin(glm::radians(yangle))) + (float)((0.75 + 0.25 * sin(glm::radians(yangle * 5))) * size2 * sin(glm::radians(xangle))) * glm::vec3(0, 1, 0);
                 xangle += (360.f) / (resolution - 1);
             }
             yangle += (360.f) / (resolution - 1);
@@ -199,6 +202,53 @@ namespace OpenEngine
         mesh->vao.swapBuffer(mesh->indices);
         mesh->vao.swapBuffer(mesh->vertices);
         return mesh;
+    }
+    template <typename V, typename I>
+    std::shared_ptr<SimpleMesh<Vertex3pc, V3Index>> SimpleMesh<V, I>::generateSierpinski(unsigned int depth, float size)
+    {
+        std::shared_ptr<SimpleMesh<Vertex3pc, V3Index>> mesh(new SimpleMesh <Vertex3pc, V3Index>());
+
+        mesh->vertices.setBuffer(pow(4, depth+1));
+        mesh->indices.setBuffer(pow(4, depth+1));
+
+        auto vert = mesh->vertices.getData().get();
+        auto ind = mesh->indices.getData().get();
+
+        unsigned int k,l;
+        k = l = 0;
+
+        iterateSierpinski(mesh.get(),depth,size,glm::vec3(0,0,0),k,l);
+        mesh->shape = GL_TRIANGLES;
+        mesh->indices.flush();
+        mesh->vertices.flush();
+        mesh->vao.swapBuffer(mesh->indices);
+        mesh->vao.swapBuffer(mesh->vertices);
+        return mesh;
+    }
+    template <typename V, typename I>
+    void SimpleMesh<V, I>::iterateSierpinski(SimpleMesh<Vertex3pc, V3Index> *mesh, unsigned int depth, float size, glm::vec3 pos, unsigned int &k, unsigned int &l)
+    {
+        if (depth < 1)
+        {
+            auto vert = mesh->vertices.getData().get();
+            auto ind = mesh->indices.getData().get();
+
+            vert[k++] = {glm::vec3(pos), glm::vec3(0.5, 0.6, 0.7)};
+            vert[k++] = {glm::vec3(pos) + 2*size * glm::vec3(0.5, 0, sqrt(3) / 2.0), glm::vec3(0.6, 0.5, 0.7)};
+            vert[k++] = {glm::vec3(pos) + 2*size * glm::vec3(1, 0, 0), glm::vec3(0.5, 0.6, 0.7)};
+            vert[k++] = {glm::vec3(pos) + 2*size * glm::vec3(0.5, sqrt(2.0 / 3.0),  0.5 / sqrt(3)), glm::vec3(0.7, 0.6, 0.5)};
+
+            ind[l++] = {k - 4, k - 3, k - 2};
+            ind[l++] = {k - 4, k - 3, k - 1};
+            ind[l++] = {k - 1, k - 3, k - 2};
+            ind[l++] = {k - 4, k - 1, k - 2};
+
+            return;
+        }
+        iterateSierpinski(mesh, depth - 1, size / 2, pos, k, l);
+        iterateSierpinski(mesh, depth - 1, size / 2, pos + size * glm::vec3(1, 0, 0), k, l);
+        iterateSierpinski(mesh, depth - 1, size / 2, pos + size * glm::vec3(0.5, 0, sqrt(3) / 2), k, l);
+        iterateSierpinski(mesh, depth - 1, size / 2, pos + size * glm::vec3(0.5, sqrt(2.0 / 3.0), 0.5 / sqrt(3)), k, l);
     }
 };     // namespace OpenEngine
 #endif /*MESH*/
