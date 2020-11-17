@@ -87,7 +87,7 @@ void OpenEngine::Shader::loadUniforms()
     GLchar name[bufSize];
     GLsizei length;
 
-    glGetProgramiv(ID,GL_ACTIVE_ATTRIBUTES,&count);
+    glGetProgramiv(ID,GL_ACTIVE_UNIFORMS,&count);
     for(GLint i = 0;i<count;i++)
     {
         glGetActiveUniform(ID,(GLuint)i,bufSize,&length,&size,&type,name);
@@ -104,23 +104,28 @@ void OpenEngine::Shader::use()
     glUseProgram(ID);
 }
 
-void OpenEngine::Shader::set(const char * name, int var)
+void OpenEngine::Shader::set(std::string name, int var)
 {
+    if(uniforms.find(name)==uniforms.end()){return;}
     glUniform1i(uniforms[name],var);
 }
-void OpenEngine::Shader::set(const char * name, float var)
+void OpenEngine::Shader::set(std::string name, float var)
 {   
+    if(uniforms.find(name)==uniforms.end()){return;}
     glUniform1f(uniforms[name],var);
 }
-void OpenEngine::Shader::set(const char * name, glm::vec3 var)
+void OpenEngine::Shader::set(std::string name, glm::vec3 var)
 {
+    if(uniforms.find(name)==uniforms.end()){return;}
     glUniform3fv(uniforms[name],1,glm::value_ptr(var));
 }
-void OpenEngine::Shader::set(const char * name, glm::vec4 var)
+void OpenEngine::Shader::set(std::string name, glm::vec4 var)
 {
+    if(uniforms.find(name)==uniforms.end()){return;}
     glUniform4fv(uniforms[name],1,glm::value_ptr(var));
 }
-void OpenEngine::Shader::set(const char * name, glm::mat4 var)
+void OpenEngine::Shader::set(std::string  name, glm::mat4 var)
 {
+    if(uniforms.find(name)==uniforms.end()){return;}
     glUniformMatrix4fv(uniforms[name],1,GL_FALSE,glm::value_ptr(var));
 }

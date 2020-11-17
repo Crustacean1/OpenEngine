@@ -9,7 +9,6 @@ namespace OpenEngine
     class Shader;
     class Render;
     class Object;
-    class Material;
     
     class Renderer : public Component<Renderer>
     {

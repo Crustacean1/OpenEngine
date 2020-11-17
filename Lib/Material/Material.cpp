@@ -4,11 +4,14 @@
 std::string toStr(int a)
 {
     std::string res;
-    while(a>0)
+    do
     {
         res = (char)((a%10)+'0') + res;
         a/=10;
     }
+
+    while(a>0);
+    return res;
 }
 
 void OpenEngine::Material::setId(unsigned int _id)
@@ -23,8 +26,8 @@ void OpenEngine::Material::update()
     spec.bind();
     norm.bind();
     
-    shader->set((shaderId+".diff").c_str(),diff.getUnitID());
-    shader->set((shaderId+".spec").c_str(),spec.getUnitID());
-    shader->set((shaderId+".norm").c_str(),norm.getUnitID());
-    shader->set((shaderId+".shininess").c_str(),shininess);
+    shader->set((shaderId+".diff"),diff.getUnitID());
+    shader->set((shaderId+".spec"),spec.getUnitID());
+    shader->set((shaderId+".norm"),norm.getUnitID());
+    shader->set((shaderId+".shininess"),shininess);
 }

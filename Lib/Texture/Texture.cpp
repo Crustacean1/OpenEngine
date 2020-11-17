@@ -1,8 +1,9 @@
+#define STB_IMAGE_IMPLEMENTATION
+#include "../Ext/stb_image.h"
+
 #include "Texture.h"
 #include <glad/glad.h>
 
-#define STBI_IMAGE_IMPLEMENTATION
-#include "../Ext/stb_image.h"
 
 unsigned int OpenEngine::Texture2D::mainUnit = GL_TEXTURE0;
 
@@ -16,6 +17,7 @@ void OpenEngine::Texture2D::loadFromFile(const std::string & filename)
 void OpenEngine::Texture2D::generate()
 {
     glGenTextures(1,&textureID);
+    bind();
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
@@ -41,11 +43,16 @@ OpenEngine::Texture2D::Texture2D(const std::string & filename)
 OpenEngine::Texture2D::Texture2D(unsigned char r,unsigned char g,unsigned char b)
 {
     generate();
+    createFromColor(r,g,b);
+    flush();
+}
+void OpenEngine::Texture2D::createFromColor(unsigned char r,unsigned char g,unsigned char b)
+{
+    width = height = 1;
     data = new unsigned char[3];
     data[0] = r;
     data[1] = g;
     data[2] = b;
     innerFormat = GL_RGB;
-    flush();
 }
 

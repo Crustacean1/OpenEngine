@@ -9,7 +9,7 @@ OpenEngine::MeshRenderer::MeshRenderer(Object & object, std::shared_ptr<Mesh> _m
 void OpenEngine::MeshRenderer::render()
 {
     myMesh->bind();
-    material->update();
+    if(material!=nullptr){material->update();}
     glDrawElements(myMesh->getShape(), myMesh->getMeshSize() , GL_UNSIGNED_INT, 0);
 }
 void OpenEngine::MeshRenderer::prepare()

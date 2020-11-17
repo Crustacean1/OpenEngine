@@ -5,6 +5,7 @@
 #include "../../Main/CameraObject.h"
 #include "../Render/MeshRenderer.h"
 #include "../Render/SimpleRender.h"
+#include "../Material/Material.h"
 #include "../Shader/Shader.h"
 #include "../Object/Object.h"
 #include "../Camera/Camera.h"
@@ -27,6 +28,7 @@ void OpenEngine::Game::loadGame()
     //OpenGL Setup
 
     glEnable(GL_DEPTH_TEST);
+    //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 
     //Input Setup
 
@@ -45,7 +47,6 @@ void OpenEngine::Game::loadGame()
 
     std::shared_ptr<BehaviourManager> bManager(new BehaviourManager);
     std::shared_ptr<BehaviourManager> dummyManager(new BehaviourManager);
-
 
     Object *camObj = (new Object());
     auto camControl = camObj->addComponent<CameraControler>();
@@ -67,9 +68,20 @@ void OpenEngine::Game::loadGame()
     Shader * shader1 = (new Shader("Shaders/Shader1/shader1.vert", "Shaders/Shader1/shader1.frag"));
     Shader * shader2 = (new Shader("Shaders/Shader2/shader2.vert", "Shaders/Shader2/shader2.frag"));
     Shader * shader3 = (new Shader("Shaders/Shader3/shader3.vert", "Shaders/Shader3/shader3.frag"));
+    Shader * shader4 = (new Shader("Shaders/Shader4/shader4.vert", "Shaders/Shader4/shader4.frag"));
+    Shader * shader5 = (new Shader("Shaders/Shader5/shader5.vert", "Shaders/Shader5/shader5.frag","Shaders/Shader5/shader5.geom"));
+
+    Material * mat1 = new Material();
+    mat1->shader = shader4;
+    mat1->diff.loadFromFile("Resources/Images/wall.jpg");
+    mat1->diff.flush();
+    mat1->spec.loadFromFile("Resources/Images/wall.jpg");
+    mat1->spec.flush();
+    mat1->norm.createFromColor(0,0,255);
+    mat1->norm.flush();
 
     auto obj2 = new Object();
-    auto mRender1 = obj2->addComponent<MeshRenderer>(SimpleMesh<Vertex3p,V2Index>::generateGrid(7,15),shader2);
+    auto mRender1 = obj2->addComponent<MeshRenderer>(SimpleMesh<Vertex3p,V2Index>::generateGrid(7,15),nullptr,shader2);
     mRender1->setManager(sRender.get());
     auto gTemp = obj2->addComponent<GridController>(camObj);
     gTemp->setManager(bManager.get());
@@ -78,10 +90,12 @@ void OpenEngine::Game::loadGame()
     //Fractal
 
     auto fractal = new Object();
-    fractal->addComponent<MeshRenderer>(SimpleMesh<Vertex3pc,V3Index>::generateSphere(25,2),shader3)->setManager(sRender.get());
+    auto mesh1 = SimpleMesh<Vertex3pntxy,V3Index>::generateSphere(25,2);
+    fractal->addComponent<MeshRenderer>(mesh1,mat1,shader4)->setManager(sRender.get());
+    fractal->addComponent<MeshRenderer>(mesh1,mat1,shader5)->setManager(sRender.get());
     //fractal->addComponent<RotationController>()->setManager(bManager.get());
     //fractal->addComponent<FractalComponent>(bManager.get(),sRender.get(),shader3,3)->setManager(bManager.get());
-
+    //fractal->addComponent<MeshRenderer>(SimpleMesh<Vertex3pc,V3Index>::generateSierpinski(10),mat1,shader3)->setManager(sRender.get());
     //std::cout<<fractal->getComponent<FractalComponent>(0)->counter<<std::endl;
 
     currentScene->add(obj2);

@@ -16,7 +16,7 @@ namespace OpenEngine
         Texture2D spec;
         Texture2D norm;
 
-        Material() : diff(),spec(),norm(),ID(0),shininess(32){}
+        Material() : diff(),spec(),norm(),ID(0),shininess(32){setId(0);}
 
         void setId(unsigned int _id);
         unsigned int getId(){return ID;}
