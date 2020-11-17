@@ -24,11 +24,11 @@ namespace OpenEngine
         void load(const char *vs = "", const char *fs = "", const char *gs = "");
         void use();
 
-        void set(const char *name, int var);
-        void set(const char *name, float var);
-        void set(const char *name, glm::vec3 var);
-        void set(const char *name, glm::vec4 var);
-        void set(const char *name, glm::mat4 var);
+        void set(std::string name, int var);
+        void set(std::string name, float var);
+        void set(std::string name, glm::vec3 var);
+        void set(std::string name, glm::vec4 var);
+        void set(std::string name, glm::mat4 var);
     };
 
 };     // namespace OpenEngine

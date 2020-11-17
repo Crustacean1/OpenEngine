@@ -53,23 +53,32 @@ namespace OpenEngine //tuple or inheritance
             glEnableVertexAttribArray(2);
         }
     };
-    struct Vertex3pnt
+    struct Vertex3pntxy
     {
         glm::vec3 pos;
         glm::vec3 norm;
         glm::vec2 tpos;
+        glm::vec3 parx;
+        glm::vec3 pary;
         static void setAttribs()
         {
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void *)0);
             glEnableVertexAttribArray(0);
 
-            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(sizeof(float) * 3));
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void *)(sizeof(float) * 3));
             glEnableVertexAttribArray(1);
 
-            glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(sizeof(float) * 6));
+            glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void *)(sizeof(float) * 6));
             glEnableVertexAttribArray(2);
+
+            glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void *)(sizeof(float) * 8));
+            glEnableVertexAttribArray(3);
+
+            glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void *)(sizeof(float) * 11));
+            glEnableVertexAttribArray(4);
         }
     };
+
     struct V3Index
     {
         static const int size = 3;

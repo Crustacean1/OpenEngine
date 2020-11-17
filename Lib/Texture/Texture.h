@@ -24,6 +24,7 @@ namespace OpenEngine
         Texture2D(unsigned char r,unsigned char g,unsigned char b);//Single color one pixel texture
 
         void loadFromFile(const std::string & filename);
+        void createFromColor(unsigned char r,unsigned char g,unsigned char b);
         void generate();
 
         static unsigned int getMaxTextureCount();

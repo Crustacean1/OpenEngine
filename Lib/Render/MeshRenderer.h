@@ -8,6 +8,8 @@ namespace OpenEngine
     class Mesh;
     class Shader;
     class Object;
+    class Material;
+    
     class MeshRenderer : public Renderer
     {
     protected:
