@@ -7,7 +7,9 @@ layout(location = 3) in vec3 vParX;
 layout(location = 3) in vec3 vParY;
 
 uniform mat4 mvp;
+uniform mat4 mv;
 
+out vec3 fPos;
 out vec3 fNorm;
 out vec2 fTex;
 out vec3 fParX;
@@ -17,9 +19,10 @@ void main()
 {
     gl_Position = mvp*vec4(vPos,1);
 
-    fNorm = (vec4(vNorm,1)).xyz;
-    fParX = (vec4(vParX,1)).xyz;
-    fParY = (vec4(vParY,1)).xyz;
+    fPos = (mv*vec4(vPos,1)).xyz;
+    fNorm = (mvp*vec4(vNorm,0)).xyz;
+    fParX = (mvp*vec4(vParX,0)).xyz;
+    fParY = (mvp*vec4(vParY,0)).xyz;
 
     fTex = vTex;
 }

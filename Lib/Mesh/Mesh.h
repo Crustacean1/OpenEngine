@@ -31,12 +31,12 @@ namespace OpenEngine
     public:
         SimpleMesh();
         static std::shared_ptr<SimpleMesh<Vertex3pcn, V3Index>> generateCube(unsigned int resolution = 10, float size = 1);
-        static std::shared_ptr<SimpleMesh<Vertex3pcn, V3Index>> generateTorus(unsigned int resolution = 10, float size1 = 1, float size2 = 0.5);
+        static std::shared_ptr<SimpleMesh<Vertex3pntxy, V3Index>> generateTorus(unsigned int resolution = 10, float size1 = 1, float size2 = 0.5);
         static std::shared_ptr<SimpleMesh<Vertex3pntxy, V3Index>> generateSphere(unsigned int resolution = 10, float size = 1);
         static std::shared_ptr<SimpleMesh<Vertex3p, V3Index>> generatePlane(unsigned int resolution = 10, float size = 1);
         static std::shared_ptr<SimpleMesh<Vertex3p, V2Index>> generateGrid(unsigned int resolution = 10, float size = 10);
         static std::shared_ptr<SimpleMesh<Vertex3pc, V3Index>> generateSierpinski(unsigned int depth = 5, float size = 5);
-        
+
         void computeTangentSpace();
 
         unsigned int getMeshSize() override { return indices.getSize() * I::size; }
@@ -146,7 +146,7 @@ namespace OpenEngine
                 _vert[k - 1].tex = glm::vec2((float)i / (resolution - 1), (float)j / (resolution - 1));
                 _vert[k - 1].tan = glm::vec3(0, 0, 0);
                 _vert[k - 1].bitan = glm::vec3(0, 0, 0);
-                xangle -= (180.f) / (resolution - 1);
+                xangle -= (360.f) / (resolution - 1);
             }
             yangle += (180.f) / (resolution - 1);
         }
@@ -170,9 +170,9 @@ namespace OpenEngine
         return mesh;
     }
     template <typename V, typename I>
-    std::shared_ptr<SimpleMesh<Vertex3pcn, V3Index>> SimpleMesh<V, I>::generateTorus(unsigned int resolution, float size1, float size2)
+    std::shared_ptr<SimpleMesh<Vertex3pntxy, V3Index>> SimpleMesh<V, I>::generateTorus(unsigned int resolution, float size1, float size2)
     {
-        std::shared_ptr<SimpleMesh<Vertex3pcn, V3Index>> mesh(new SimpleMesh<Vertex3pcn, V3Index>());
+        std::shared_ptr<SimpleMesh<Vertex3pntxy, V3Index>> mesh(new SimpleMesh<Vertex3pntxy, V3Index>());
 
         mesh->vertices.setBuffer(resolution * resolution);
         mesh->indices.setBuffer((resolution - 1) * (resolution - 1) * 2);
@@ -188,8 +188,10 @@ namespace OpenEngine
             xangle = 0;
             for (unsigned int j = 0; j < resolution; j++)
             {
-                _vert[k].col = glm::vec3(1 * ((float)i / (resolution - 1)), 0.25, 1 * ((float)j / (resolution - 1)));
-                _vert[k++].pos = (float)(size1 + (0.75 + 0.25 * sin(glm::radians(yangle * 5))) * size2 * cos(glm::radians(xangle))) * glm::vec3(cos(glm::radians(yangle)), 0, sin(glm::radians(yangle))) + (float)((0.75 + 0.25 * sin(glm::radians(yangle * 5))) * size2 * sin(glm::radians(xangle))) * glm::vec3(0, 1, 0);
+                //_vert[k].col = glm::vec3(1 * ((float)i / (resolution - 1)), 0.25, 1 * ((float)j / (resolution - 1)));
+                _vert[k].tex = glm::vec2((float)i / (resolution - 1), (float)j / (resolution - 1));
+                _vert[k].norm = glm::vec3(cos(glm::radians(xangle)) * cos(glm::radians(yangle)), sin(glm::radians(xangle)), sin(glm::radians(yangle))* cos(glm::radians(xangle)));
+                _vert[k++].pos = (float)(size1 + (1) * size2 * cos(glm::radians(xangle))) * glm::vec3(cos(glm::radians(yangle)), 0, sin(glm::radians(yangle))) + (float)((1) * size2 * sin(glm::radians(xangle))) * glm::vec3(0, 1, 0);
                 xangle += (360.f) / (resolution - 1);
             }
             yangle += (360.f) / (resolution - 1);
@@ -258,26 +260,35 @@ namespace OpenEngine
         iterateSierpinski(mesh, depth - 1, size / 2, pos + size * glm::vec3(0.5, 0, sqrt(3) / 2), k, l);
         iterateSierpinski(mesh, depth - 1, size / 2, pos + size * glm::vec3(0.5, sqrt(2.0 / 3.0), 0.5 / sqrt(3)), k, l);
     }
-    template<typename V,typename I>
-    void SimpleMesh<V,I>::computeTangentSpace()
+    template <typename V, typename I>
+    void SimpleMesh<V, I>::computeTangentSpace()
     {
-        if constexpr (!std::is_base_of<VTan,V>()){return;}
+        if constexpr (!std::is_base_of<VTan, V>())
+        {
+            return;
+        }
 
         auto _vert = vertices.getData().get();
         auto _ind = indices.getData().get();
+
+        for (int i = 0; i < vertices.getSize(); i++)
+        {
+            _vert[i].bitan = _vert[i].tan = glm::vec3(0, 0, 0);
+        }
 
         for (unsigned int i = 0; i < indices.getSize(); i++) // Computing sum of bitangents for each vertex
         {
             for (int j = 0; j < 3; j++)
             {
+                //if((tab[_ind[i].indices[j]]++)!=YuIlhan){continue;}
                 glm::vec3 d1 = (_vert[_ind[i].indices[(j + 1) % 3]].pos - _vert[_ind[i].indices[j]].pos);
                 glm::vec3 d2 = (_vert[_ind[i].indices[(j + 2) % 3]].pos - _vert[_ind[i].indices[j]].pos);
 
                 glm::vec2 u1 = (_vert[_ind[i].indices[(j + 1) % 3]].tex - _vert[_ind[i].indices[j]].tex);
                 glm::vec2 u2 = (_vert[_ind[i].indices[(j + 2) % 3]].tex - _vert[_ind[i].indices[j]].tex);
 
-                _vert[_ind[i].indices[j]].tan = ((d1*u2.y - d2*u1.y));//(length(d1)*u2.x - length(d2)*u1.x));
-                _vert[_ind[i].indices[j]].bitan = ((d1*u2.x - d2*u1.x));//(length(d1)*u2.y - length(d2)*u1.y));
+                _vert[_ind[i].indices[j]].tan += ((d1 * u2.y - d2 * u1.y) / (u2.y * u1.x - u1.y * u2.x));
+                _vert[_ind[i].indices[j]].bitan += ((d1 * u2.x - d2 * u1.x) / (u2.x * u1.y - u1.x * u2.y));
             }
         }
         for (unsigned int i = 0; i < vertices.getSize(); i++) //Normalizing tangents and bitangents

@@ -92,7 +92,7 @@ void OpenEngine::Game::loadGame()
     auto fractal = new Object();
     auto mesh1 = SimpleMesh<Vertex3pntxy,V3Index>::generateSphere(25,2);
     mesh1->computeTangentSpace();
-    //fractal->addComponent<MeshRenderer>(mesh1,mat1,shader4)->setManager(sRender.get());
+    fractal->addComponent<MeshRenderer>(mesh1,mat1,shader4)->setManager(sRender.get());
     fractal->addComponent<MeshRenderer>(mesh1,mat1,shader5)->setManager(sRender.get());
     //fractal->addComponent<RotationController>()->setManager(bManager.get());
     //fractal->addComponent<FractalComponent>(bManager.get(),sRender.get(),shader3,3)->setManager(bManager.get());
