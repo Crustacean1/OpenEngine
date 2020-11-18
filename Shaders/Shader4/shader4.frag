@@ -34,7 +34,7 @@ void main()
 
     //res = res*0.5 + 0.5;
     //rColor = texture(materials[0].diff,fTex);
-    rColor = vec4(res,1);
-    //rColor = vec4(0.5,0.2,0.2,1);
+    //rColor = vec4(res,1);
+    rColor = vec4(0.5,0.2,0.2,1);
 
 }

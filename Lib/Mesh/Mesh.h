@@ -146,7 +146,7 @@ namespace OpenEngine
                 _vert[k - 1].tex = glm::vec2((float)i / (resolution - 1), (float)j / (resolution - 1));
                 _vert[k - 1].tan = glm::vec3(0, 0, 0);
                 _vert[k - 1].bitan = glm::vec3(0, 0, 0);
-                xangle -= (360.f) / (resolution - 1);
+                xangle -= (180.f) / (resolution - 1);
             }
             yangle += (180.f) / (resolution - 1);
         }
@@ -276,8 +276,8 @@ namespace OpenEngine
                 glm::vec2 u1 = (_vert[_ind[i].indices[(j + 1) % 3]].tex - _vert[_ind[i].indices[j]].tex);
                 glm::vec2 u2 = (_vert[_ind[i].indices[(j + 2) % 3]].tex - _vert[_ind[i].indices[j]].tex);
 
-                _vert[_ind[i].indices[j]].tan += ((d1*u2.y - d2*u1.y)/(length(d1)*u2.x - length(d2)*u1.x));
-                _vert[_ind[i].indices[j]].bitan += ((d1*u2.x - d2*u1.x)/(length(d1)*u2.y - length(d2)*u1.y));
+                _vert[_ind[i].indices[j]].tan = ((d1*u2.y - d2*u1.y));//(length(d1)*u2.x - length(d2)*u1.x));
+                _vert[_ind[i].indices[j]].bitan = ((d1*u2.x - d2*u1.x));//(length(d1)*u2.y - length(d2)*u1.y));
             }
         }
         for (unsigned int i = 0; i < vertices.getSize(); i++) //Normalizing tangents and bitangents
