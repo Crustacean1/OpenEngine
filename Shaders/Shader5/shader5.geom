@@ -17,7 +17,7 @@ void drawNormalSpace(int i)
     c1 = vec3(1,1,1);
     EmitVertex();
 
-    gl_Position = gl_in[i].gl_Position;
+    /*gl_Position = gl_in[i].gl_Position;
     c1 = vec3(0.7,0.1,0);
     EmitVertex();
     gl_Position = gParY[i];
@@ -31,7 +31,7 @@ void drawNormalSpace(int i)
     gl_Position = gNorm[i];
     c1 = vec3(1,1,1);
     EmitVertex();
-    EndPrimitive();
+    EndPrimitive();*/
 }
 
 void main()
