@@ -11,6 +11,32 @@
 
 namespace OpenEngine //tuple or inheritance
 {
+    struct VPos
+    {
+        glm::vec3 pos;
+        //VPos(glm::vec3 _p = glm::vec3(0, 0, 0)) : pos(_p) {}
+    };
+    struct VNorm
+    {
+        glm::vec3 norm;
+        //VNorm(glm::vec3 _n = glm::vec3(0, 0, 0)) : norm(_n) {}
+    };
+    struct VTex
+    {
+        glm::vec2 tex;
+        //VTex(glm::vec2 _t = glm::vec2(0, 0)) : tex(_t) {}
+    };
+    struct VCol
+    {
+        glm::vec3 col;
+        //VCol(glm::vec3 _c = glm::vec3(0,0,0)) : col(_c){}
+    };
+    struct VTan
+    {
+        glm::vec3 tan;
+        glm::vec3 bitan;
+        //VTan(glm::vec3 _t = glm::vec3(0, 0, 0), glm::vec3 _b = glm::vec3(0, 0, 0)) : tan(_t), bitan(_b) {}
+    };
     struct Vertex3p
     {
         glm::vec3 pos;
@@ -23,10 +49,8 @@ namespace OpenEngine //tuple or inheritance
         Vertex3p(glm::vec3 _pos) : pos(_pos) {}
     };
 
-    struct Vertex3pc
+    struct Vertex3pc : public VPos, public VCol
     {
-        glm::vec3 pos;
-        glm::vec3 col;
         static void setAttribs()
         {
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
@@ -36,11 +60,8 @@ namespace OpenEngine //tuple or inheritance
             glEnableVertexAttribArray(1);
         }
     };
-    struct Vertex3pcn
+    struct Vertex3pcn : public VPos, public VCol, public VNorm
     {
-        glm::vec3 pos;
-        glm::vec3 col;
-        glm::vec3 norm;
         static void setAttribs()
         {
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void *)0);
@@ -53,13 +74,8 @@ namespace OpenEngine //tuple or inheritance
             glEnableVertexAttribArray(2);
         }
     };
-    struct Vertex3pntxy
+    struct Vertex3pntxy : public VPos, public VNorm, public VTex, public VTan
     {
-        glm::vec3 pos;
-        glm::vec3 norm;
-        glm::vec2 tpos;
-        glm::vec3 parx;
-        glm::vec3 pary;
         static void setAttribs()
         {
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void *)0);
@@ -113,7 +129,6 @@ namespace OpenEngine //tuple or inheritance
             indices[1] = b;
         }
     };
-
 
     template <typename T, int target>
     class Buffer
