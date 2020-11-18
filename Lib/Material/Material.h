@@ -6,20 +6,18 @@
 
 namespace OpenEngine
 {
-    class Material : public Uniform
+    class Material : public Uniform<Material>
     {
-        std::string shaderId;
-        unsigned int ID;
+        friend Uniform<Material>;
+        constexpr static char* baseline = "materials";
+        constexpr static unsigned int maxUniformsCount = 5;
     public:
         float shininess;
         Texture2D diff;
         Texture2D spec;
         Texture2D norm;
 
-        Material() : diff(),spec(),norm(),ID(0),shininess(32){setId(0);}
-
-        void setId(unsigned int _id);
-        unsigned int getId(){return ID;}
+        Material() : Uniform(),diff(),spec(),norm(),shininess(32){}
 
         void update();
     };

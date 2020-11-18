@@ -2,6 +2,7 @@
 
 out vec4 rColor;
 
+in vec3 fPos;
 in vec3 fNorm;
 in vec2 fTex;
 in vec3 fParX;
@@ -17,24 +18,50 @@ struct Material
 
 struct DirectionalLight
 {
+    bool active;
     vec3 dir;
     vec3 color;
 
+    float ambient;
+    float diffuse;
+    float specular;
+};
+struct PointLight
+{
+    bool active;
+    vec3 pos;
+    vec3 color;
+
+    float ambient;
+    float diffuse;
+    float specular;
 };
 
-float computeDirLight();
+vec3 computeLight(PointLight light,vec3 pos,vec3 norm, Material mat)
+{
+    float intensity = 0;
+    intensity += light.ambient;
+    intensity += dot(normalize(light.pos-pos),norm);
+    intensity += pow(max(dot(normalize(light.pos-pos),normalize(-pos)),0),mat.shininess);
+    return min(max(intensity,0),1)*light.color;
+}
 
-uniform Material materials[5];
+uniform Material materials[16];
+uniform PointLight pLights[16];
+uniform DirectionalLight dLights[16];
+
+uniform int activeMaterialID = 0;
 
 
 void main()
 {
     vec4 normal = texture(materials[0].norm,fTex) * 2 - vec4(1,1,1,1);
-    vec3 res = fParX;
+    vec3 normal = normal.x*fParX + normal.y*fParY + normal.z*fNorm;
 
-    //res = res*0.5 + 0.5;
-    //rColor = texture(materials[0].diff,fTex);
-    //rColor = vec4(res,1);
-    rColor = vec4(0.5,0.2,0.2,1);
-
+    rColor = vec3(0,0,0);
+    for(int i = 0;i<16;i++)
+    {
+        if(pLights.active ==false){continue;}
+        rColor += computeLight(pLights[i],fPos,normal,materials[activeMaterialID]);
+    }
 }

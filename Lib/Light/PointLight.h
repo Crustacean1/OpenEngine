@@ -1,21 +1,26 @@
-#ifndef LIGHT
-#define LIGHT
+#ifndef POINTLIGHT
+#define POINTLIGHT
 
-#include "../Uniform/Uniform.h"
+#define MAX_LIGHT_COUNT 5
+
+#include "Light.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 namespace OpenEngine
 {
-    class PointLight : public Uniform
+    class PointLight : public Light, public Uniform<PointLight>
     {
+        constexpr static char * basename = "pLights";
+        constexpr static unsigned int maxLightsCount = 5;
+    public:
         glm::vec3 position;
         glm::vec3 color;
 
-        public:
         void update();
-    };
-};
 
-#endif /*LIGHT*/
+    };
+}; // namespace OpenEngine
+
+#endif /*POINTLIGHT*/

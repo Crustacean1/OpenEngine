@@ -6,7 +6,7 @@ OpenEngine::BasicCamera::BasicCamera(Object &_obj, double _fov, double _aspect, 
     computeProjectionMatrix();
 }
 
-glm::mat4 OpenEngine::BasicCamera::getMatrix(glm::vec3 _position, glm::dquat _rotation, glm::vec3 _scale) // invalid parameters TODO
+glm::mat4 OpenEngine::BasicCamera::getViewMatrix(glm::vec3 _position, glm::dquat _rotation, glm::vec3 _scale) // invalid parameters TODO
 {
     //glm::dquat view = glm::inverse(owner->getGlobalRotation());
     glm::mat4 a = glm::mat4(1.f);
@@ -21,7 +21,7 @@ glm::mat4 OpenEngine::BasicCamera::getMatrix(glm::vec3 _position, glm::dquat _ro
     a = (glm::mat4)glm::mat4_cast(glm::inverse(object.getGlobalRotation())) * a;
 
     //a= glm::mat4(1.f);
-    return projMat * a;
+    return a;
 }
 
 void OpenEngine::BasicCamera::computeProjectionMatrix()
