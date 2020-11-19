@@ -1,5 +1,6 @@
 #include "Object.h"
 #include "../Component/Component.h"
+#include "../Scene/Scene.h"
 
 std::string OpenEngine::Object::mainIndex = "\0";
 
@@ -34,11 +35,16 @@ OpenEngine::Object::Object(Object *_par) : Object()
 void OpenEngine::Object::addChild(OpenEngine::Object *_obj)
 {
     children.insert(_obj);
+    _obj->dropScene();
     _obj->parent = this;
+    _obj->updateComponentManagers(getScene());
     flushTransform();
 }
 void OpenEngine::Object::dropChild(OpenEngine::Object * _obj)
 {
+    _obj->parent = nullptr;
+    _obj->scene = getScene();
+    _obj->updateComponentManagers(_obj->scene);
     children.erase(_obj);
 }
 std::string OpenEngine::Object::getId() const
@@ -194,4 +200,9 @@ void OpenEngine::Object::updateComponentManagers(OpenEngine::Scene * _s)
     {
         child->updateComponentManagers(_s);
     }
+}
+void OpenEngine::Object::dropScene()
+{
+    scene->drop(this);
+    scene = nullptr;
 }

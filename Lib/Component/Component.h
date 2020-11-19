@@ -3,6 +3,7 @@
 
 #include "ComponentManager.h"
 #include "BaseComponent.h"
+#include "../Scene/Scene.h"
 #include <string>
 
 namespace OpenEngine
@@ -23,7 +24,8 @@ namespace OpenEngine
         void setManager(Scene *_s)
         {
             dropManager();
-            manager = ;
+            manager = _s->getComponentManager<T>(0);
+            if(manager==nullptr){return;}
             manager->add((T *)this);
         }
         void dropManager()

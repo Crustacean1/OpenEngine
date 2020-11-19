@@ -15,7 +15,7 @@ namespace OpenEngine
         BaseComponent(Object & _parent) : object(_parent){}
     public:
         Object &object;
-        virtual void setManager(Scene * _s);
+        virtual void setManager(Scene * _s) = 0;
         virtual ~BaseComponent() {}
     };
 
