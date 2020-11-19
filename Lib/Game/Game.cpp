@@ -82,7 +82,7 @@ void OpenEngine::Game::loadGame()
     mat1->norm.createFromColor(128,128,255);
     mat1->norm.flush();
 
-    mat1->shininess = 64.f;
+    mat1->shininess = 32.f;
 
     auto obj2 = new Object();
     auto mRender1 = obj2->addComponent<MeshRenderer>(SimpleMesh<Vertex3p,V2Index>::generateGrid(7,15),nullptr,shader2);
@@ -96,21 +96,24 @@ void OpenEngine::Game::loadGame()
     auto light1 = new Object();
     auto pLight = light1->addComponent<PointLight>();
     pLight->setManager(((SimpleRender*)sRender.get())->lightManager);
+
     pLight->shader = shader4;
     light1->localPosition = glm::dquat(0,0,0,-5);
     pLight->ambient = 0.1;
-    pLight->diffuse = 0.75;
-    pLight->specular = 0.75;
+    pLight->diffuse = 0.5;
+    pLight->specular = 0.25;
+
     light1->addComponent<MeshRenderer>(SimpleMesh<Vertex3pntxy,V3Index>::generateSphere(15,0.5),nullptr,shader3)->setManager(sRender.get());
 
-    auto lamp = new Object();
-    lamp->addChild(light1);
-    lamp->addComponent<RotationController>()->setManager(bManager.get());
+    //auto lamp = new Object();
+    //lamp->addChild(light1);
+    //lamp->addComponent<RotationController>()->setManager(bManager.get());
 
     auto fractal = new Object();
-    auto mesh1 = SimpleMesh<Vertex3pntxy,V3Index>::generateSphere(25,2);
+    auto mesh1 = SimpleMesh<Vertex3pntxy,V3Index>::generateSphere(45,2);
     mesh1->computeTangentSpace();
     fractal->addComponent<MeshRenderer>(mesh1,mat1,shader4)->setManager(sRender.get());
+    fractal->addComponent<Roughener>()->setManager(bManager.get());
     //fractal->addComponent<MeshRenderer>(mesh1,nullptr,shader5)->setManager(sRender.get());
     //fractal->addComponent<RotationController>()->setManager(bManager.get());
     //fractal->addComponent<RotationController>()->setManager(bManager.get());
@@ -121,7 +124,7 @@ void OpenEngine::Game::loadGame()
 
     currentScene->add(obj2);
     currentScene->add(camObj);
-    currentScene->add(lamp);
+    currentScene->add(light1);
 
     std::cout << "Game loaded\n";
 }

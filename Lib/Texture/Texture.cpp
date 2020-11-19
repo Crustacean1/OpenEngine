@@ -55,4 +55,16 @@ void OpenEngine::Texture2D::createFromColor(unsigned char r,unsigned char g,unsi
     data[2] = b;
     innerFormat = GL_RGB;
 }
+void OpenEngine::Texture2D::create(int x,int y, char channels)
+{
+    if(data!=nullptr)
+    {
+        delete[] data;
+    }
+    data = new unsigned char[x*y*channels];
+    width = x;
+    height = y;
+    stride = channels;
+    innerFormat =  (stride==3) ? GL_RGB : GL_RGBA;
+}
 

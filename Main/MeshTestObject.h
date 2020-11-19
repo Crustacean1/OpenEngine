@@ -22,7 +22,7 @@ class RotationController : public OpenEngine::Behaviour
     glm::vec3 axis;
     public:
     RotationController(OpenEngine::Object & _obj,glm::vec3 _ax = glm::vec3(0,1,0)) : OpenEngine::Behaviour(_obj), axis(_ax){}
-    double rotationSpeed = 1.5;
+    double rotationSpeed = 0.5;
     void update(double delta);
 };
 class GridController : public OpenEngine::Behaviour
@@ -33,6 +33,13 @@ class GridController : public OpenEngine::Behaviour
     GridController(OpenEngine::Object & _obj,OpenEngine::Object * _targ) : OpenEngine::Behaviour(_obj), target(_targ){} 
     void setTarget(OpenEngine::Object * _targ){target = _targ;}
     void update(double delta);
+};
+class Roughener : public OpenEngine::Behaviour
+{
+    public:
+    Roughener(OpenEngine::Object & _obj):Behaviour(_obj){}
+    void update(double delta){}
+    void init();
 };
 /*
 class MeshTestObject : public OpenEngine::Object
