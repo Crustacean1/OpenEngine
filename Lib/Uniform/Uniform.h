@@ -25,7 +25,7 @@ namespace OpenEngine
         Shader *shader;
 
         //Uniform() : uniformId((__uniformsCount < __maxUniformsCount) * (__uniformsCount++) - (__uniformsCount > __maxUniformsCount)) { uniformName = createBasename(__uniformsCount); }
-        Uniform(Shader *_sh = nullptr) : shader(_sh), uniformId((__uniformsCount < __maxUniformsCount) * (__uniformsCount++) - (__uniformsCount > __maxUniformsCount)) { uniformName = createBasename(__uniformsCount); }
+        Uniform(Shader *_sh = nullptr) : shader(_sh), uniformId((__uniformsCount < __maxUniformsCount) * (__uniformsCount++) - (__uniformsCount > __maxUniformsCount)) { uniformName = createBasename(uniformId); }
 
         virtual void update() = 0;
 

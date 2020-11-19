@@ -20,9 +20,9 @@ void main()
     gl_Position = mvp*vec4(vPos,1);
 
     fPos = (mv*vec4(vPos,1)).xyz;
-    fNorm = (mvp*vec4(vNorm,0)).xyz;
-    fParX = (mvp*vec4(vParX,0)).xyz;
-    fParY = (mvp*vec4(vParY,0)).xyz;
+    fNorm = (mv*vec4(vNorm,0)).xyz;
+    fParX = (mv*vec4(vParX,0)).xyz;
+    fParY = (mv*vec4(vParY,0)).xyz;
 
     fTex = vTex;
 }
