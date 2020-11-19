@@ -59,11 +59,12 @@ uniform int activeMaterialID = 0;
 
 void main()
 {
-    vec4 tmp1 = texture(materials[0].norm,fTex) * 2 - vec4(1,1,1,1);
+    vec4 tmp1 = texture(materials[activeMaterialID].norm,fTex) * 2 - vec4(1,1,1,1);
     tmp1 = vec4((tmp1.x*fParX + tmp1.y*fParY + tmp1.z*fNorm),0);
     vec3 normal = normalize(tmp1.xyz);
 
     rColor = vec4(0,0,0,0);
+    //rColor = texture(materials[activeMaterialID].norm,fTex);
     for(int i = 0;i<16;i++)
     {
         if(pLights[i].active ==false){continue;}

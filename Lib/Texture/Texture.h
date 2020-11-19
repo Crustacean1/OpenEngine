@@ -9,7 +9,7 @@ namespace OpenEngine
     {
         static unsigned int mainUnit;
         int texUnit;
-        unsigned char * data;
+        unsigned char * data = nullptr;
 
         unsigned int textureID;
 
@@ -25,6 +25,7 @@ namespace OpenEngine
 
         void loadFromFile(const std::string & filename);
         void createFromColor(unsigned char r,unsigned char g,unsigned char b);
+        void create(int x,int y,char channels = 3);
         void generate();
 
         static unsigned int getMaxTextureCount();
@@ -36,6 +37,8 @@ namespace OpenEngine
 
         void flush();
         void bind();
+
+        unsigned char * getData(){return data;}
     };
 };
 
