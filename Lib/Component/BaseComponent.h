@@ -6,6 +6,7 @@
 namespace OpenEngine
 {
     class Object;
+    class Scene;
 
     class BaseComponent
     {
@@ -14,6 +15,7 @@ namespace OpenEngine
         BaseComponent(Object & _parent) : object(_parent){}
     public:
         Object &object;
+        virtual void setManager(Scene * _s);
         virtual ~BaseComponent() {}
     };
 

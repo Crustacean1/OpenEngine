@@ -33,7 +33,7 @@ namespace OpenEngine
         static std::shared_ptr<SimpleMesh<Vertex3pcn, V3Index>> generateCube(unsigned int resolution = 10, float size = 1);
         static std::shared_ptr<SimpleMesh<Vertex3pntxy, V3Index>> generateTorus(unsigned int resolution = 10, float size1 = 1, float size2 = 0.5);
         static std::shared_ptr<SimpleMesh<Vertex3pntxy, V3Index>> generateSphere(unsigned int resolution = 10, float size = 1);
-        static std::shared_ptr<SimpleMesh<Vertex3p, V3Index>> generatePlane(unsigned int resolution = 10, float size = 1);
+        static std::shared_ptr<SimpleMesh<Vertex3pntxy, V3Index>> generatePlane(unsigned int resolution = 10, float size = 1);
         static std::shared_ptr<SimpleMesh<Vertex3p, V2Index>> generateGrid(unsigned int resolution = 10, float size = 10);
         static std::shared_ptr<SimpleMesh<Vertex3pc, V3Index>> generateSierpinski(unsigned int depth = 5, float size = 5);
 
@@ -47,9 +47,9 @@ namespace OpenEngine
     //Implementation
 
     template <typename V, typename I>
-    std::shared_ptr<SimpleMesh<Vertex3p, V3Index>> SimpleMesh<V, I>::generatePlane(unsigned int resolution, float size)
+    std::shared_ptr<SimpleMesh<Vertex3pntxy, V3Index>> SimpleMesh<V, I>::generatePlane(unsigned int resolution, float size)
     {
-        std::shared_ptr<SimpleMesh<Vertex3p, V3Index>> mesh(new SimpleMesh<Vertex3p, V3Index>());
+        std::shared_ptr<SimpleMesh<Vertex3pntxy, V3Index>> mesh(new SimpleMesh<Vertex3pntxy, V3Index>());
         mesh->vertices.setBuffer(resolution * resolution);
         mesh->indices.setBuffer((resolution - 1) * (resolution - 1) * 2);
         auto _ind = mesh->indices.getData().get();
@@ -68,6 +68,8 @@ namespace OpenEngine
         {
             for (int j = 0; j < resolution; j++)
             {
+                _vert[k].tex = glm::vec2((float)i/(resolution-1),(float)j/(resolution-1));
+                _vert[k].norm = glm::vec3(0,0,1);
                 _vert[k++].pos = glm::vec3(-size + (float)2 * size * i / (resolution - 1), -size + (float)2 * size * j / (resolution - 1), 0);
             }
         }
@@ -143,7 +145,7 @@ namespace OpenEngine
                 //_vert[k++].pos = glm::vec3((float)size*i/resolution,0,(float)size*j/resolution);
                 _vert[k++].pos = size * glm::vec3(cos(glm::radians(yangle)) * cos(glm::radians(xangle)), sin(glm::radians(yangle)), cos(glm::radians(yangle)) * sin(glm ::radians(xangle)));
                 _vert[k - 1].norm = _vert[k - 1].pos / size;
-                _vert[k - 1].tex = glm::vec2((float)i / (resolution - 1), (float)j / (resolution - 1));
+                _vert[k - 1].tex = glm::vec2((float)j / (resolution - 1), (float)i / (resolution - 1));
                 _vert[k - 1].tan = glm::vec3(0, 0, 0);
                 _vert[k - 1].bitan = glm::vec3(0, 0, 0);
                 xangle -= (360.f) / (resolution - 1);

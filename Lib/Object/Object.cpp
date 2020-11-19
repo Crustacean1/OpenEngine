@@ -163,3 +163,35 @@ OpenEngine::Object::~Object()
         }
     }
 }
+OpenEngine::Scene* OpenEngine::Object::getScene()
+{
+    if(parent==nullptr)
+    {
+        return scene;
+    }
+    return parent->getScene();
+}
+void OpenEngine::Object::setScene(OpenEngine::Scene * _s)
+{
+    if(parent!=nullptr)
+    {
+        parent->dropChild(this);
+        parent = nullptr;
+    }
+    updateComponentManagers(_s);
+    scene = _s;
+}
+void OpenEngine::Object::updateComponentManagers(OpenEngine::Scene * _s)
+{
+    for(const auto & tuple : components)
+    {
+        for(auto & component : tuple.second)
+        {
+            component->setManager(_s);
+        }
+    }
+    for(auto & child : children)
+    {
+        child->updateComponentManagers(_s);
+    }
+}

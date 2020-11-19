@@ -23,6 +23,7 @@ namespace OpenEngine
         const std::string index = incrementIndex(mainIndex);
 
         Object *parent = nullptr;
+        Scene * scene = nullptr;
 
         std::set<Object *> children;
         std::map<std::string, std::list<BaseComponent*>> components;
@@ -30,6 +31,8 @@ namespace OpenEngine
         glm::dquat globalRotation;
         glm::dquat globalScale;
         glm::dquat globalPosition;
+
+        void updateComponentManagers(Scene * _s);
 
         // Scale->rotation->translation <- transform order
 
@@ -89,6 +92,9 @@ namespace OpenEngine
 
         template<typename K>
         unsigned int getComponentCount();
+
+        Scene * getScene();
+        void setScene(Scene * _s);
 
         //Copy (in future also move) operators <- TODO
 

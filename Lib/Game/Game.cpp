@@ -79,7 +79,8 @@ void OpenEngine::Game::loadGame()
     mat1->diff.flush();
     mat1->spec.loadFromFile("Resources/Images/wall.jpg");
     mat1->spec.flush();
-    mat1->norm.createFromColor(128,128,255);
+    //mat1->norm.loadFromFile("Resources/Images/awesomeface.png");
+    //mat1->norm.createFromColor(128,128,255);
     mat1->norm.flush();
 
     mat1->shininess = 32.f;
@@ -99,7 +100,7 @@ void OpenEngine::Game::loadGame()
 
     pLight->shader = shader4;
     light1->localPosition = glm::dquat(0,0,0,-5);
-    pLight->ambient = 0.1;
+    pLight->ambient = 0.02;
     pLight->diffuse = 0.5;
     pLight->specular = 0.25;
 

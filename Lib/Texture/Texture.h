@@ -15,7 +15,7 @@ namespace OpenEngine
 
         int width,height;
         int stride;
-        unsigned int innerFormat;
+        int innerFormat;
 
         public:
 
