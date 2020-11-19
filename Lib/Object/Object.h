@@ -95,6 +95,7 @@ namespace OpenEngine
 
         Scene * getScene();
         void setScene(Scene * _s);
+        void dropScene();
 
         //Copy (in future also move) operators <- TODO
 

@@ -47,25 +47,22 @@ void OpenEngine::Game::loadGame()
     scenes[1] = std::shared_ptr<Scene>(new Scene);
     currentScene = scenes[1];
 
-    std::shared_ptr<BehaviourManager> bManager(new BehaviourManager);
-    std::shared_ptr<BehaviourManager> dummyManager(new BehaviourManager);
+    BehaviourManager * bManager = (new BehaviourManager);
 
     Object *camObj = (new Object());
     auto camControl = camObj->addComponent<CameraControler>();
-    camControl->setManager(bManager.get());
+    //camControl->setManager(bManager.get());
     BasicCamera * mainCamera = camObj->addComponent<BasicCamera>();
     camObj->localPosition = glm::dquat(0,0,1,0);
 
     camObj->setLocalPosition(glm::vec3(0,0,0));
 
     mouse->addMovementCallback(camControl);
+    SimpleRender * sRender = new SimpleRender(mainCamera);
 
-    currentScene->set(bManager);
-
-    //Object Setup
-
-    std::shared_ptr<Render> sRender((Render *)new SimpleRender(mainCamera));
-    currentScene->add(sRender);
+    currentScene->addComponentManager(bManager);
+    currentScene->addComponentManager(sRender);
+    currentScene->addComponentManager(sRender->lightManager);
 
     Shader * shader1 = (new Shader("Shaders/Shader1/shader1.vert", "Shaders/Shader1/shader1.frag"));
     Shader * shader2 = (new Shader("Shaders/Shader2/shader2.vert", "Shaders/Shader2/shader2.frag"));
@@ -87,16 +84,16 @@ void OpenEngine::Game::loadGame()
 
     auto obj2 = new Object();
     auto mRender1 = obj2->addComponent<MeshRenderer>(SimpleMesh<Vertex3p,V2Index>::generateGrid(7,15),nullptr,shader2);
-    mRender1->setManager(sRender.get());
+    //mRender1->setManager(sRender.get());
     auto gTemp = obj2->addComponent<GridController>(camObj);
-    gTemp->setManager(bManager.get());
+    //gTemp->setManager(bManager.get());
     gTemp->gap = 30.f/6.f;
 
     //Fractal
 
     auto light1 = new Object();
     auto pLight = light1->addComponent<PointLight>();
-    pLight->setManager(((SimpleRender*)sRender.get())->lightManager);
+    //pLight->setManager(((SimpleRender*)sRender.get())->lightManager);
 
     pLight->shader = shader4;
     light1->localPosition = glm::dquat(0,0,0,-5);
@@ -104,7 +101,7 @@ void OpenEngine::Game::loadGame()
     pLight->diffuse = 0.5;
     pLight->specular = 0.25;
 
-    light1->addComponent<MeshRenderer>(SimpleMesh<Vertex3pntxy,V3Index>::generateSphere(15,0.5),nullptr,shader3)->setManager(sRender.get());
+    light1->addComponent<MeshRenderer>(SimpleMesh<Vertex3pntxy,V3Index>::generateSphere(15,0.5),nullptr,shader3);
 
     //auto lamp = new Object();
     //lamp->addChild(light1);
@@ -113,8 +110,8 @@ void OpenEngine::Game::loadGame()
     auto fractal = new Object();
     auto mesh1 = SimpleMesh<Vertex3pntxy,V3Index>::generateSphere(45,2);
     mesh1->computeTangentSpace();
-    fractal->addComponent<MeshRenderer>(mesh1,mat1,shader4)->setManager(sRender.get());
-    fractal->addComponent<Roughener>()->setManager(bManager.get());
+    fractal->addComponent<MeshRenderer>(mesh1,mat1,shader4);
+    fractal->addComponent<Roughener>();
     //fractal->addComponent<MeshRenderer>(mesh1,nullptr,shader5)->setManager(sRender.get());
     //fractal->addComponent<RotationController>()->setManager(bManager.get());
     //fractal->addComponent<RotationController>()->setManager(bManager.get());
@@ -124,6 +121,7 @@ void OpenEngine::Game::loadGame()
     //fractal->addChild(camObj);
 
     currentScene->add(obj2);
+    currentScene->add(fractal);
     currentScene->add(camObj);
     currentScene->add(light1);
 
@@ -132,13 +130,5 @@ void OpenEngine::Game::loadGame()
 void OpenEngine::Game::gameLoop()
 {
     glClearColor(0.f, 0.f, 0.f, 1.f);
-    while (!glfwWindowShouldClose(window))
-    {
-        glfwPollEvents();
-        glClear(GL_COLOR_BUFFER_BIT);
-        glClear(GL_DEPTH_BUFFER_BIT);
-        currentScene->update();
-        currentScene->render();
-        glfwSwapBuffers(window);
-    }
+    currentScene->loop();
 }

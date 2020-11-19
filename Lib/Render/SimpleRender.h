@@ -7,7 +7,7 @@ namespace OpenEngine
 {
     class BasicCamera;
     class Helios;
-    class SimpleRender : Render
+    class SimpleRender : public Render
     {
     public:
         Helios * lightManager;

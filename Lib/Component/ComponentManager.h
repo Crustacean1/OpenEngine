@@ -19,7 +19,7 @@ namespace OpenEngine
     protected:
         std::list<T *> components;
     public:
-        std::string getTypename(){return typeid(T).name();}
+        static std::string getTypename(){return typeid(T).name();}
     };
     template <typename T>
     void ComponentManager<T>::add(T *_ptr)
