@@ -57,7 +57,7 @@ void OpenEngine::Shader::load(const char *vs, const char *fs, const char *gs)
         }
         catch (std::string msg)
         {
-            std::cout <<"throwin: "<< msg << std::endl;
+            std::cout <<"compilation error in "<<filenames[i]<<": \n"<< msg << std::endl;
         }
     }
     glLinkProgram(ID);

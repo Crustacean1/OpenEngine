@@ -43,7 +43,7 @@ vec3 computeLight(PointLight light,vec3 pos,vec3 norm, Material mat)
     intensity += light.ambient;
 
     vec3 lVec = normalize(light.pos-pos);
-    intensity += light.diffuse * dot(lVec,norm);
+    intensity += max(light.diffuse * dot(lVec,norm),0);
     lVec = -lVec + 2*dot(lVec,norm)*norm;
 
     intensity += light.specular * pow(max(dot(lVec,normalize(-pos)),0),mat.shininess);

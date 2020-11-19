@@ -16,19 +16,14 @@ namespace OpenEngine
     class Component : public BaseComponent
     {
         friend ComponentManager<T>;
+        friend Object;
 
         ComponentManager<T> *manager = nullptr;
 
-    protected:
-        Component(Object &_obj) : BaseComponent(_obj), manager(nullptr)
-        {}
-
-    public:
-        std::string getTypeName() { return typeid(T).name(); }
-        void setManager(ComponentManager<T> *_fact)
+        void setManager(Scene *_s)
         {
             dropManager();
-            manager = _fact;
+            manager = ;
             manager->add((T *)this);
         }
         void dropManager()
@@ -40,6 +35,14 @@ namespace OpenEngine
             manager = nullptr;
             manager->drop((T *)this);
         }
+
+    protected:
+        Component(Object &_obj) : BaseComponent(_obj), manager(nullptr)
+        {}
+
+    public:
+        std::string getTypeName() { return typeid(T).name(); }
+
         ~Component()
         {
             dropManager();
