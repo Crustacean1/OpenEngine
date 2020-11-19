@@ -3,10 +3,16 @@
 #include "../Shader/Shader.h"
 #include "../Camera/Camera.h"
 #include "../Object/Object.h"
+#include "../Light/Helios.h"
+
+
+OpenEngine::SimpleRender::SimpleRender(Camera * _cam) : Render(_cam),lightManager(new Helios()){}
 
 void OpenEngine::SimpleRender::render()
 {
     glm::mat4 view;
+    lightManager->illuminate(mainCamera);
+
     for(const auto & pairs : renderers)
     {
         pairs.first->use();

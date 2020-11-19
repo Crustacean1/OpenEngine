@@ -1,6 +1,8 @@
 #include "Material.h"
 #include "../Shader/Shader.h"
 
+
+
 void OpenEngine::Material::update()
 {
     diff.bind();
@@ -11,4 +13,8 @@ void OpenEngine::Material::update()
     shader->set((getName()+".spec"),spec.getUnitID());
     shader->set((getName()+".norm"),norm.getUnitID());
     shader->set((getName()+".shininess"),shininess);
+}
+void OpenEngine::Material::activate()
+{
+    shader->set("activeMaterialID",(int)getBinding());
 }
