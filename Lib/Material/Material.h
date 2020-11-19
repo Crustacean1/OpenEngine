@@ -8,18 +8,20 @@ namespace OpenEngine
 {
     class Material : public Uniform<Material>
     {
-        friend Uniform<Material>;
-        constexpr static char* baseline = "materials";
-        constexpr static unsigned int maxUniformsCount = 5;
     public:
+
+        constexpr static char* basename = "materials";
+        constexpr static unsigned int maxUniformsCount = 16;
+
         float shininess;
         Texture2D diff;
         Texture2D spec;
         Texture2D norm;
 
-        Material() : Uniform(),diff(),spec(),norm(),shininess(32){}
+        Material() : diff(),spec(),norm(),shininess(32){}
 
         void update();
+        void activate();
     };
 }; // namespace OpenEngine
 

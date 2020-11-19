@@ -6,10 +6,12 @@
 namespace OpenEngine
 {
     class BasicCamera;
+    class Helios;
     class SimpleRender : Render
     {
     public:
-        SimpleRender(Camera * _cam) : Render(_cam){}
+        Helios * lightManager;
+        SimpleRender(Camera * _cam);
         void render() override;
     };
 }; // namespace OpenEngine

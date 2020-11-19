@@ -6,9 +6,11 @@
 #include "../Render/MeshRenderer.h"
 #include "../Render/SimpleRender.h"
 #include "../Material/Material.h"
+#include "../Light/PointLight.h"
 #include "../Shader/Shader.h"
 #include "../Object/Object.h"
 #include "../Camera/Camera.h"
+#include "../Light/Helios.h"
 #include "../Input/Mouse.h"
 #include "../Mesh/Mesh.h"
 #include <GLFW/glfw3.h>
@@ -89,18 +91,26 @@ void OpenEngine::Game::loadGame()
 
     //Fractal
 
+    auto light1 = new Object();
+    auto pLight = light1->addComponent<PointLight>();
+    pLight->setManager(((SimpleRender*)sRender.get())->lightManager);
+    pLight->shader = shader4;
+
     auto fractal = new Object();
     auto mesh1 = SimpleMesh<Vertex3pntxy,V3Index>::generateSphere(25,2);
     mesh1->computeTangentSpace();
     fractal->addComponent<MeshRenderer>(mesh1,mat1,shader4)->setManager(sRender.get());
     fractal->addComponent<MeshRenderer>(mesh1,mat1,shader5)->setManager(sRender.get());
     //fractal->addComponent<RotationController>()->setManager(bManager.get());
+    //fractal->addComponent<RotationController>()->setManager(bManager.get());
     //fractal->addComponent<FractalComponent>(bManager.get(),sRender.get(),shader3,3)->setManager(bManager.get());
     //fractal->addComponent<MeshRenderer>(SimpleMesh<Vertex3pc,V3Index>::generateSierpinski(10),mat1,shader3)->setManager(sRender.get());
     //std::cout<<fractal->getComponent<FractalComponent>(0)->counter<<std::endl;
+    //fractal->addChild(camObj);
 
     currentScene->add(obj2);
     currentScene->add(camObj);
+    currentScene->add(light1);
 
     std::cout << "Game loaded\n";
 }
