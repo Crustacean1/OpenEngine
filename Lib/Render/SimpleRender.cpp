@@ -23,7 +23,7 @@ void OpenEngine::SimpleRender::render()
                                                         renderer->object.getGlobalRotation(),
                                                         renderer->object.getGlobalScale());
             pairs.first->set("mvp",mainCamera->getProjectionMatrix() * view);
-            //pairs.first->set("mv",view);
+            pairs.first->set("mv",view);
             renderer->render();
         }
     }

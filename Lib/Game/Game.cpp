@@ -79,8 +79,10 @@ void OpenEngine::Game::loadGame()
     mat1->diff.flush();
     mat1->spec.loadFromFile("Resources/Images/wall.jpg");
     mat1->spec.flush();
-    mat1->norm.createFromColor(0,0,255);
+    mat1->norm.createFromColor(128,128,255);
     mat1->norm.flush();
+
+    mat1->shininess = 64.f;
 
     auto obj2 = new Object();
     auto mRender1 = obj2->addComponent<MeshRenderer>(SimpleMesh<Vertex3p,V2Index>::generateGrid(7,15),nullptr,shader2);
@@ -95,12 +97,21 @@ void OpenEngine::Game::loadGame()
     auto pLight = light1->addComponent<PointLight>();
     pLight->setManager(((SimpleRender*)sRender.get())->lightManager);
     pLight->shader = shader4;
+    light1->localPosition = glm::dquat(0,0,0,-5);
+    pLight->ambient = 0.1;
+    pLight->diffuse = 0.75;
+    pLight->specular = 0.75;
+    light1->addComponent<MeshRenderer>(SimpleMesh<Vertex3pntxy,V3Index>::generateSphere(15,0.5),nullptr,shader3)->setManager(sRender.get());
+
+    auto lamp = new Object();
+    lamp->addChild(light1);
+    lamp->addComponent<RotationController>()->setManager(bManager.get());
 
     auto fractal = new Object();
     auto mesh1 = SimpleMesh<Vertex3pntxy,V3Index>::generateSphere(25,2);
     mesh1->computeTangentSpace();
     fractal->addComponent<MeshRenderer>(mesh1,mat1,shader4)->setManager(sRender.get());
-    fractal->addComponent<MeshRenderer>(mesh1,mat1,shader5)->setManager(sRender.get());
+    //fractal->addComponent<MeshRenderer>(mesh1,nullptr,shader5)->setManager(sRender.get());
     //fractal->addComponent<RotationController>()->setManager(bManager.get());
     //fractal->addComponent<RotationController>()->setManager(bManager.get());
     //fractal->addComponent<FractalComponent>(bManager.get(),sRender.get(),shader3,3)->setManager(bManager.get());
@@ -110,7 +121,7 @@ void OpenEngine::Game::loadGame()
 
     currentScene->add(obj2);
     currentScene->add(camObj);
-    currentScene->add(light1);
+    currentScene->add(lamp);
 
     std::cout << "Game loaded\n";
 }
