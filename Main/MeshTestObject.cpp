@@ -7,13 +7,6 @@
 #include <ctime>
 #include <stdlib.h>
 
-/*void MeshTestObject::init(const std::shared_ptr<OpenEngine::Render> &_render, std::shared_ptr<OpenEngine::Mesh> _mesh, const std::shared_ptr<OpenEngine::Shader> &shader)
-{
-    renderer = std::shared_ptr<OpenEngine::MeshRenderer>(new OpenEngine::MeshRenderer(this));
-    renderer->setMesh(_mesh);
-    renderer->setShader(shader);
-    renderer->setRender(_render);
-}*/
 float mod(float a, float b)
 {
     return ((int)(a / b)) * b;
@@ -59,4 +52,5 @@ void Roughener::init()
         }
     }
     comp->getMaterial()->norm.flush();
+    comp->getMaterial()->activate();
 }

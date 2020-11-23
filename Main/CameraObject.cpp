@@ -2,13 +2,6 @@
 #include "../Lib/Window/Window.h"
 #include <GLFW/glfw3.h>
 
-/*
-void CameraObject::init()
-{
-    camera = std::shared_ptr<OpenEngine::Camera>(new OpenEngine::Camera(this));
-    controler = std::shared_ptr<CameraControler>(new CameraControler(*this));
-    setLocalPosition(glm::vec3(0, 0, -2));
-}*/
 void CameraControler::init()
 {
     glfwGetCursorPos(OpenEngine::Window::getMainWindow(),&prevX,&prevY);

@@ -133,7 +133,7 @@ namespace OpenEngine //tuple or inheritance
     template <typename T, int target>
     class Buffer
     {
-        std::shared_ptr<T> data;
+        T* data;
         unsigned int size;
         unsigned int ID;
         bool active = false;
@@ -166,7 +166,7 @@ namespace OpenEngine //tuple or inheritance
         template <typename... Types>
         Buffer(Types... types)
         {
-            data = std::shared_ptr<T>(new T[sizeof...(types)]{types...});
+            data = new T[sizeof...(types)]{types...};
             size = sizeof...(types);
             initBuffer();
             flush();
@@ -177,23 +177,23 @@ namespace OpenEngine //tuple or inheritance
             initBuffer();
             flush();
         }
-        void setBuffer(std::shared_ptr<T> _data, unsigned int _size)
+        void setBuffer(T* _data, unsigned int _size)
         {
             data = _data;
             size = _size;
         }
         void setBuffer(unsigned int _size)
         {
-            data = std::shared_ptr<T>(new T[_size]);
+            data = new T[_size];
             size = _size;
         }
         void flush()
         {
-            glBufferData(target, size * sizeof(T), data.get(), GL_STATIC_DRAW);
+            glBufferData(target, size * sizeof(T), data, GL_STATIC_DRAW);
         }
         T &operator[](unsigned int index) // No index checking, performance is crucial, ev. modulo?
         {
-            return data.get()[index];
+            return data[index];
         }
         void bind()
         {
@@ -217,7 +217,7 @@ namespace OpenEngine //tuple or inheritance
             deleteBuffer();
         }
         unsigned int getSize() { return size; }
-        std::shared_ptr<T> getData() { return data; }
+        T* getData() { return data; }
     };
 
 }; // namespace OpenEngine

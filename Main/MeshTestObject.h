@@ -41,17 +41,4 @@ class Roughener : public OpenEngine::Behaviour
     void update(double delta){}
     void init();
 };
-/*
-class MeshTestObject : public OpenEngine::Object
-{
-    std::shared_ptr<OpenEngine::MeshRenderer> renderer;
-    std::shared_ptr<RotationController> controller;
-
-public:
-    MeshTestObject(OpenEngine::BehaviourManager & manager,glm::vec3 _ax = glm::vec3(0,1,0)) :
-     Object::Object(),
-     controller(manager.factory.create<RotationController>(*this,manager.factory,_ax)){}
-    void init(const std::shared_ptr<OpenEngine::Render> &_render, std::shared_ptr<OpenEngine::Mesh> _mesh, const std::shared_ptr<OpenEngine::Shader> &shader);
-};
-*/
 #endif /*MESHTESTOBJECT*/
