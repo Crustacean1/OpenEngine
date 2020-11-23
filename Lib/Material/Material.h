@@ -14,6 +14,8 @@ namespace OpenEngine
         constexpr static unsigned int maxUniformsCount = 16;
 
         float shininess;
+
+        Texture2D amb;
         Texture2D diff;
         Texture2D spec;
         Texture2D norm;

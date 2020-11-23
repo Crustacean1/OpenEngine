@@ -29,10 +29,6 @@ namespace OpenEngine
     {
         std::map<std::string, Object *> objects;
         std::map<std::string, std::vector<void *>> managers;
-        //std::set<std::shared_ptr<Render>> renders;
-
-        //std::shared_ptr<BehaviourManager> bManager;
-
         double time1 = 0;
         double time2 = 0;
 

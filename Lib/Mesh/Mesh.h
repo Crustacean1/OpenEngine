@@ -8,6 +8,7 @@
 namespace OpenEngine
 {
     class MeshRenderer;
+    class MeshLoader;
 
     class Mesh
     {
@@ -30,30 +31,42 @@ namespace OpenEngine
 
     public:
         SimpleMesh();
-        static std::shared_ptr<SimpleMesh<Vertex3pcn, V3Index>> generateCube(unsigned int resolution = 10, float size = 1);
-        static std::shared_ptr<SimpleMesh<Vertex3pntxy, V3Index>> generateTorus(unsigned int resolution = 10, float size1 = 1, float size2 = 0.5);
-        static std::shared_ptr<SimpleMesh<Vertex3pntxy, V3Index>> generateSphere(unsigned int resolution = 10, float size = 1);
-        static std::shared_ptr<SimpleMesh<Vertex3pntxy, V3Index>> generatePlane(unsigned int resolution = 10, float size = 1);
-        static std::shared_ptr<SimpleMesh<Vertex3p, V2Index>> generateGrid(unsigned int resolution = 10, float size = 10);
-        static std::shared_ptr<SimpleMesh<Vertex3pc, V3Index>> generateSierpinski(unsigned int depth = 5, float size = 5);
+        static SimpleMesh<Vertex3pcn, V3Index>* generateCube(unsigned int resolution = 10, float size = 1);
+        static SimpleMesh<Vertex3pntxy, V3Index>* generateTorus(unsigned int resolution = 10, float size1 = 1, float size2 = 0.5);
+        static SimpleMesh<Vertex3pntxy, V3Index>* generateSphere(unsigned int resolution = 10, float size = 1);
+        static SimpleMesh<Vertex3pntxy, V3Index>* generatePlane(unsigned int resolution = 10, float size = 1);
+        static SimpleMesh<Vertex3p, V2Index>* generateGrid(unsigned int resolution = 10, float size = 10);
+        static SimpleMesh<Vertex3pc, V3Index>* generateSierpinski(unsigned int depth = 5, float size = 5);
 
         void computeTangentSpace();
 
         unsigned int getMeshSize() override { return indices.getSize() * I::size; }
         void bind() override { vao.bind(); }
+        Buffer<V,GL_ARRAY_BUFFER> & getVertexBuffer(){return vertices;}
+        Buffer<I,GL_ELEMENT_ARRAY_BUFFER> & getIndexBuffer(){return indices;}
+        void flush();
         friend MeshRenderer;
+        friend MeshLoader;
     };
 
     //Implementation
+    template<typename V,typename I>
+    void SimpleMesh<V,I>::flush()
+    {
+        vertices.flush();
+        indices.flush();
+        vao.swapBuffer(vertices);
+        vao.swapBuffer(indices);
+    }
 
     template <typename V, typename I>
-    std::shared_ptr<SimpleMesh<Vertex3pntxy, V3Index>> SimpleMesh<V, I>::generatePlane(unsigned int resolution, float size)
+    SimpleMesh<Vertex3pntxy, V3Index>* SimpleMesh<V, I>::generatePlane(unsigned int resolution, float size)
     {
-        std::shared_ptr<SimpleMesh<Vertex3pntxy, V3Index>> mesh(new SimpleMesh<Vertex3pntxy, V3Index>());
+        auto mesh(new SimpleMesh<Vertex3pntxy, V3Index>());
         mesh->vertices.setBuffer(resolution * resolution);
         mesh->indices.setBuffer((resolution - 1) * (resolution - 1) * 2);
-        auto _ind = mesh->indices.getData().get();
-        auto _vert = mesh->vertices.getData().get();
+        auto _ind = mesh->indices.getData();
+        auto _vert = mesh->vertices.getData();
 
         for (unsigned int i = 0, k = 0; i + 1 < resolution; i++)
         {
@@ -74,10 +87,7 @@ namespace OpenEngine
             }
         }
         mesh->shape = GL_TRIANGLES;
-        mesh->vertices.flush();
-        mesh->indices.flush();
-        mesh->vao.swapBuffer(mesh->vertices);
-        mesh->vao.swapBuffer(mesh->indices);
+        mesh->flush();
         return mesh;
     }
 
@@ -85,15 +95,15 @@ namespace OpenEngine
     SimpleMesh<V, I>::SimpleMesh() { shape = GL_TRIANGLES; }
 
     template <typename V, typename I>
-    std::shared_ptr<SimpleMesh<Vertex3p, V2Index>> SimpleMesh<V, I>::generateGrid(unsigned int resolution, float size)
+    SimpleMesh<Vertex3p, V2Index>* SimpleMesh<V, I>::generateGrid(unsigned int resolution, float size)
     {
-        std::shared_ptr<SimpleMesh<Vertex3p, V2Index>> mesh(new SimpleMesh<Vertex3p, V2Index>());
+        auto mesh(new SimpleMesh<Vertex3p, V2Index>());
 
         mesh->vertices.setBuffer(6 * resolution * resolution);
         mesh->indices.setBuffer(3 * resolution * resolution);
 
-        auto _ind = mesh->indices.getData().get();
-        auto _vert = mesh->vertices.getData().get();
+        auto _ind = mesh->indices.getData();
+        auto _vert = mesh->vertices.getData();
 
         for (int i = 0, k = 0; i < resolution; i++)
         {
@@ -116,23 +126,20 @@ namespace OpenEngine
 
         mesh->shape = GL_LINES;
 
-        mesh->vertices.flush();
-        mesh->indices.flush();
-        mesh->vao.swapBuffer(mesh->vertices);
-        mesh->vao.swapBuffer(mesh->indices);
+        mesh->flush();
         return mesh;
     }
 
     template <typename V, typename I>
-    std::shared_ptr<SimpleMesh<Vertex3pntxy, V3Index>> SimpleMesh<V, I>::generateSphere(unsigned int resolution, float size)
+    SimpleMesh<Vertex3pntxy, V3Index>* SimpleMesh<V, I>::generateSphere(unsigned int resolution, float size)
     {
-        std::shared_ptr<SimpleMesh<Vertex3pntxy, V3Index>> mesh(new SimpleMesh<Vertex3pntxy, V3Index>());
+        auto mesh(new SimpleMesh<Vertex3pntxy, V3Index>());
 
         mesh->vertices.setBuffer(resolution * resolution);
         mesh->indices.setBuffer((resolution - 1) * (resolution - 1) * 2);
 
-        auto _ind = mesh->indices.getData().get();
-        auto _vert = mesh->vertices.getData().get();
+        auto _ind = mesh->indices.getData();
+        auto _vert = mesh->vertices.getData();
 
         double xangle = 0;
         double yangle = -90;
@@ -165,22 +172,19 @@ namespace OpenEngine
         glm::vec3 buff;
 
         mesh->shape = GL_TRIANGLES;
-        mesh->indices.flush();
-        mesh->vertices.flush();
-        mesh->vao.swapBuffer(mesh->indices);
-        mesh->vao.swapBuffer(mesh->vertices);
+        mesh->flush();
         return mesh;
     }
     template <typename V, typename I>
-    std::shared_ptr<SimpleMesh<Vertex3pntxy, V3Index>> SimpleMesh<V, I>::generateTorus(unsigned int resolution, float size1, float size2)
+    SimpleMesh<Vertex3pntxy, V3Index>* SimpleMesh<V, I>::generateTorus(unsigned int resolution, float size1, float size2)
     {
-        std::shared_ptr<SimpleMesh<Vertex3pntxy, V3Index>> mesh(new SimpleMesh<Vertex3pntxy, V3Index>());
+        auto mesh(new SimpleMesh<Vertex3pntxy, V3Index>());
 
         mesh->vertices.setBuffer(resolution * resolution);
         mesh->indices.setBuffer((resolution - 1) * (resolution - 1) * 2);
 
-        auto _ind = mesh->indices.getData().get();
-        auto _vert = mesh->vertices.getData().get();
+        auto _ind = mesh->indices.getData();
+        auto _vert = mesh->vertices.getData();
 
         double xangle = 0;
         double yangle = 0;
@@ -209,32 +213,26 @@ namespace OpenEngine
         }
 
         mesh->shape = GL_TRIANGLES;
-        mesh->indices.flush();
-        mesh->vertices.flush();
-        mesh->vao.swapBuffer(mesh->indices);
-        mesh->vao.swapBuffer(mesh->vertices);
+        mesh->flush();
         return mesh;
     }
     template <typename V, typename I>
-    std::shared_ptr<SimpleMesh<Vertex3pc, V3Index>> SimpleMesh<V, I>::generateSierpinski(unsigned int depth, float size)
+    SimpleMesh<Vertex3pc, V3Index>* SimpleMesh<V, I>::generateSierpinski(unsigned int depth, float size)
     {
-        std::shared_ptr<SimpleMesh<Vertex3pc, V3Index>> mesh(new SimpleMesh<Vertex3pc, V3Index>());
+        auto mesh(new SimpleMesh<Vertex3pc, V3Index>());
 
         mesh->vertices.setBuffer(pow(4, depth + 1));
         mesh->indices.setBuffer(pow(4, depth + 1));
 
-        auto vert = mesh->vertices.getData().get();
-        auto ind = mesh->indices.getData().get();
+        auto vert = mesh->vertices.getData();
+        auto ind = mesh->indices.getData();
 
         unsigned int k, l;
         k = l = 0;
 
-        iterateSierpinski(mesh.get(), depth, size, glm::vec3(0, 0, 0), k, l);
+        iterateSierpinski(mesh, depth, size, glm::vec3(0, 0, 0), k, l);
         mesh->shape = GL_TRIANGLES;
-        mesh->indices.flush();
-        mesh->vertices.flush();
-        mesh->vao.swapBuffer(mesh->indices);
-        mesh->vao.swapBuffer(mesh->vertices);
+        mesh->flush();
         return mesh;
     }
     template <typename V, typename I>
@@ -242,8 +240,8 @@ namespace OpenEngine
     {
         if (depth < 1)
         {
-            auto vert = mesh->vertices.getData().get();
-            auto ind = mesh->indices.getData().get();
+            auto vert = mesh->vertices.getData();
+            auto ind = mesh->indices.getData();
 
             vert[k++] = {glm::vec3(pos), glm::vec3(0.5, 0.6, 0.7)};
             vert[k++] = {glm::vec3(pos) + 2 * size * glm::vec3(0.5, 0, sqrt(3) / 2.0), glm::vec3(0.6, 0.5, 0.7)};
@@ -270,8 +268,8 @@ namespace OpenEngine
             return;
         }
 
-        auto _vert = vertices.getData().get();
-        auto _ind = indices.getData().get();
+        auto _vert = vertices.getData();
+        auto _ind = indices.getData();
 
         for (int i = 0; i < vertices.getSize(); i++)
         {
@@ -298,8 +296,7 @@ namespace OpenEngine
             _vert[i].tan = glm::normalize(_vert[i].tan);
             _vert[i].bitan = glm::normalize(_vert[i].bitan);
         }
-        vertices.flush();
-        indices.flush();
+        flush();
     }
 };     // namespace OpenEngine
 #endif /*MESH*/

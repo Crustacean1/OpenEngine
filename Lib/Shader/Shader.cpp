@@ -107,25 +107,30 @@ void OpenEngine::Shader::use()
 void OpenEngine::Shader::set(std::string name, int var)
 {
     if(uniforms.find(name)==uniforms.end()){return;}
+    use();
     glUniform1i(uniforms[name],var);
 }
 void OpenEngine::Shader::set(std::string name, float var)
 {   
     if(uniforms.find(name)==uniforms.end()){return;}
+    use();
     glUniform1f(uniforms[name],var);
 }
 void OpenEngine::Shader::set(std::string name, glm::vec3 var)
 {
     if(uniforms.find(name)==uniforms.end()){return;}
+    use();
     glUniform3fv(uniforms[name],1,glm::value_ptr(var));
 }
 void OpenEngine::Shader::set(std::string name, glm::vec4 var)
 {
     if(uniforms.find(name)==uniforms.end()){return;}
+    use();
     glUniform4fv(uniforms[name],1,glm::value_ptr(var));
 }
 void OpenEngine::Shader::set(std::string  name, glm::mat4 var)
 {
     if(uniforms.find(name)==uniforms.end()){return;}
+    use();
     glUniformMatrix4fv(uniforms[name],1,GL_FALSE,glm::value_ptr(var));
 }

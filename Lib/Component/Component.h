@@ -5,6 +5,7 @@
 #include "BaseComponent.h"
 #include "../Scene/Scene.h"
 #include <string>
+#include <iostream>
 
 namespace OpenEngine
 {
