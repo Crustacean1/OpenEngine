@@ -88,5 +88,5 @@ void main()
         rColor += vec4(computeLight(dLights[i],fPos,normal,materials[activeMaterialID]),0);
     }
     //rColor = texture(materials[activeMaterialID].norm,fTex);
-    rColor = vec4(0,1,0,1);
+    //rColor = vec4(0,1,0,1);
 }

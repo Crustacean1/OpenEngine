@@ -154,7 +154,7 @@ namespace OpenEngine //tuple or inheritance
     class Buffer
     {
         T *data = nullptr;
-        unsigned int size;
+        unsigned int size = 0;
         unsigned int ID;
         bool active = false;
 

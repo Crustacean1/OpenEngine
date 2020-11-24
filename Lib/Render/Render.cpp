@@ -7,6 +7,11 @@
 
 void OpenEngine::InstantiatingBuffer::reallocate()
 {
+    if(buff.getSize()==0)
+    {
+        buff.setBuffer(1);
+        return;
+    }
     buff.setBuffer(buff.getSize()*2);
 }
 

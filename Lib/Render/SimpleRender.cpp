@@ -17,6 +17,8 @@ void OpenEngine::SimpleRender::render()
 
     for(auto & material : renderees)
     {
+        material.first->update();
+        material.first->activate();
         material.first->shader->set("proj",mainCamera->getProjectionMatrix());
         for(auto & mesh : material.second)
         {
@@ -29,7 +31,8 @@ void OpenEngine::SimpleRender::render()
             }
             mesh.first->bind();
             iBuffer.buff.flush();
-            //iBuffer.buff.setAttribs();
+            iBuffer.buff.setAttribs();
+            material.first->shader->use();
             glDrawElementsInstanced(mesh.first->getShape(),mesh.first->getMeshSize(),GL_UNSIGNED_INT,0,mesh.second.size());
         }
     }

@@ -36,7 +36,7 @@ void OpenEngine::Game::loadGame()
 
     //Input Setup
 
-glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     Mouse::createMouse(window);
     Mouse *mouse = Mouse::getMouse();
@@ -89,7 +89,7 @@ glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     mat1->activate();
 
     Material * mat2 = new Material();
-    mat2->shader = shader4;
+    mat2->shader = shader2;
     mat2->amb.createFromColor(255,255,255);
     mat2->amb.flush();
     mat2->diff.createFromColor(255,255,255);
@@ -114,10 +114,14 @@ glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     auto obj2 = new Object();
     auto mesh2 = SimpleMesh<Vertex3p,V2Index>::generateGrid(10,50);
     obj2->addComponent<MeshRenderer>()->addMesh(mesh2,mat2);
+
+    auto lamp1 = new Object();
+    lamp1->addComponent<DirectionalLight>(glm::vec3(0.6,0.5,0.2),0.15f,0.5,0.3)->shader = shader4;
     
     currentScene->add(obj2);
     currentScene->add(fractal);
     currentScene->add(camObj);
+    currentScene->add(lamp1);
     //currentScene->add(model);
 
     std::cout << "Game loaded\n";
