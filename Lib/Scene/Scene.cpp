@@ -1,10 +1,12 @@
 #include "Scene.h"
+#include "../Render/SimpleRender.h"
 #include <GLFW/glfw3.h>
 #include "../Object/Object.h"
-#include "../Render/SimpleRender.h"
 #include "../Render/Renderer.h"
 #include "../Component/BehaviourManager.h"
 #include "../Window/Window.h"
+#include <iostream>
+#include <fstream>
 
 void OpenEngine::Scene::init()
 {
@@ -24,8 +26,10 @@ OpenEngine::Object * OpenEngine::Scene::drop(Object * _object)
 }
 void OpenEngine::Scene::loop()
 {
+    std::ofstream deltas("deltas.txt");
     time1 = time2 = glfwGetTime();
     auto window = Window::getMainWindow();
+    int n = 0;
     while(state!=SceneState::End&&!glfwWindowShouldClose(window))
     {
         time2 = glfwGetTime();
@@ -37,7 +41,10 @@ void OpenEngine::Scene::loop()
         ((Render*)managers[Render::getTypename()][0])->render();
 
         glfwSwapBuffers(window);
+        n++;
 
         time1 = time2;
     }
+    deltas<<((float)n)/time1;
+    deltas.close();
 }

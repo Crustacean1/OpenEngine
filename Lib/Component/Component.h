@@ -20,8 +20,6 @@ namespace OpenEngine
         friend ComponentManager<T>;
         friend Object;
 
-        ComponentManager<T> *manager = nullptr;
-
         void setManager(Scene *_s)
         {
             dropManager();
@@ -40,6 +38,8 @@ namespace OpenEngine
         }
 
     protected:
+
+        ComponentManager<T> *manager = nullptr;
         Component(Object &_obj) : BaseComponent(_obj), manager(nullptr)
         {}
 

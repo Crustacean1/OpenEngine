@@ -4,6 +4,7 @@
 #include "../Camera/Camera.h"
 #include "../Object/Object.h"
 #include "../Light/Helios.h"
+#include "../Material/Material.h"
 
 
 OpenEngine::SimpleRender::SimpleRender(Camera * _cam) : Render(_cam),lightManager(new Helios()){}
@@ -12,19 +13,24 @@ void OpenEngine::SimpleRender::render()
 {
     glm::mat4 view;
     lightManager->illuminate(mainCamera);
+    InstanceMatrix * mv;
 
-    for(const auto & pairs : renderers)
+    for(auto & material : renderees)
     {
-        pairs.first->use();
-
-        for(const auto & renderer: pairs.second)
+        material.first->shader->set("proj",mainCamera->getProjectionMatrix());
+        for(auto & mesh : material.second)
         {
-            view = mainCamera->getViewMatrix(renderer->object.getGlobalPosition(),
-                                                        renderer->object.getGlobalRotation(),
-                                                        renderer->object.getGlobalScale());
-            pairs.first->set("mvp",mainCamera->getProjectionMatrix() * view);
-            pairs.first->set("mv",view);
-            renderer->render();
+            mv = iBuffer.buff.getData();
+            for(auto & obj : mesh.second)
+            {
+                (mv++)->mat = mainCamera->getViewMatrix(obj->getGlobalPosition(),
+                                                        obj->getGlobalRotation(),
+                                                        obj->getGlobalScale());
+            }
+            mesh.first->bind();
+            iBuffer.buff.flush();
+            //iBuffer.buff.setAttribs();
+            glDrawElementsInstanced(mesh.first->getShape(),mesh.first->getMeshSize(),GL_UNSIGNED_INT,0,mesh.second.size());
         }
     }
 }

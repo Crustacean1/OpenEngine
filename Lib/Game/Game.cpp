@@ -36,7 +36,7 @@ void OpenEngine::Game::loadGame()
 
     //Input Setup
 
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     Mouse::createMouse(window);
     Mouse *mouse = Mouse::getMouse();
@@ -54,9 +54,9 @@ void OpenEngine::Game::loadGame()
     Object *camObj = (new Object());
     auto camControl = camObj->addComponent<CameraControler>();
     BasicCamera * mainCamera = camObj->addComponent<BasicCamera>();
-    camObj->localPosition = glm::dquat(0,0,1,0);
+    camObj->localPosition = glm::dquat(0,0,0,0);
 
-    camObj->setLocalPosition(glm::vec3(0,0,0));
+    //camObj->setLocalPosition(glm::vec3(0,0,0));
 
     mouse->addMovementCallback(camControl);
     SimpleRender * sRender = new SimpleRender(mainCamera);
@@ -73,6 +73,9 @@ void OpenEngine::Game::loadGame()
 
     Material * mat1 = new Material();
     mat1->shader = shader4;
+
+    mat1->amb.loadFromFile("Resources/Images/wall.jpg");
+    mat1->amb.flush();
     mat1->diff.loadFromFile("Resources/Images/wall.jpg");
     mat1->diff.flush();
     mat1->spec.loadFromFile("Resources/Images/wall.jpg");
@@ -85,49 +88,37 @@ void OpenEngine::Game::loadGame()
     mat1->update();
     mat1->activate();
 
-    auto obj2 = new Object();
-    auto mRender1 = obj2->addComponent<MeshRenderer>(SimpleMesh<Vertex3p,V2Index>::generateGrid(7,15),nullptr,shader2);
-    auto gTemp = obj2->addComponent<GridController>(camObj);
-    gTemp->gap = 30.f/6.f;
+    Material * mat2 = new Material();
+    mat2->shader = shader4;
+    mat2->amb.createFromColor(255,255,255);
+    mat2->amb.flush();
+    mat2->diff.createFromColor(255,255,255);
+    mat2->diff.flush();
+    mat2->spec.createFromColor(255,255,255);
+    mat2->spec.flush();
+    mat2->update();
+    mat2->activate();
 
     //Fractal
-
-    auto light1 = new Object();
-    light1->addComponent<MeshRenderer>(SimpleMesh<Vertex3pntxy,V3Index>::generateSphere(15,0.5),nullptr,shader3);
-    auto pLight = light1->addComponent<PointLight>();
-
-    pLight->shader = shader4;
-    light1->localPosition = glm::dquat(0,0,0,-5);
-
-    auto light2 = new Object();
-    light2->addComponent<DirectionalLight>(glm::vec3(1,0.8,0.5),0.3f,0.5f,0.75f)->shader = shader4;
-    //light2->addComponent<RotationController>();
 
     auto fractal = new Object();
     auto mesh1 = SimpleMesh<Vertex3pntxy,V3Index>::generateSphere(45,2);
     //mesh1->computeTangentSpace();
-    fractal->addComponent<MeshRenderer>(mesh1,mat1,shader4);
-    //fractal->addComponent<Roughener>();
+    fractal->addComponent<MeshRenderer>();
+    auto renderer1 = fractal->getComponent<MeshRenderer>(0);
+    if(renderer1!=nullptr)
+    {
+        renderer1->addMesh(mesh1,mat1);
+    }
 
-    MeshLoader mLoader;
-    auto * loadedMesh = mLoader.loadMesh("Resources/Models/2/fan.obj");
-    loadedMesh->computeTangentSpace();
-    std::cout<<"computed"<<std::endl;
-    Object * model = new Object();
-    model->addComponent<MeshRenderer>(loadedMesh,mat1,shader4);
-    model->addComponent<Roughener>();
-
-    //model->addComponent<MeshRenderer>(loadedMesh,nullptr,shader5);
-    model->localScale = glm::dquat(0,0.1,0.1,0.1);
-    //model->localRotation = glm::dquat(0,0,sqrt(2)/2,sqrt(2)/2);
-    model->localPosition = glm::dquat(0,5,0,0);
+    auto obj2 = new Object();
+    auto mesh2 = SimpleMesh<Vertex3p,V2Index>::generateGrid(10,50);
+    obj2->addComponent<MeshRenderer>()->addMesh(mesh2,mat2);
     
     currentScene->add(obj2);
-    //currentScene->add(fractal);
+    currentScene->add(fractal);
     currentScene->add(camObj);
-    currentScene->add(model);
-    currentScene->add(light1);
-    currentScene->add(light2);
+    //currentScene->add(model);
 
     std::cout << "Game loaded\n";
 }

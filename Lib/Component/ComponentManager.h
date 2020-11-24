@@ -12,14 +12,16 @@ namespace OpenEngine
     template <typename T>
     class ComponentManager
     {
+    protected:
         friend Component<T>;
         virtual void add(T *_ptr);
         virtual void drop(T *_ptr);
 
     protected:
         std::list<T *> components;
+
     public:
-        static std::string getTypename(){return typeid(T).name();}
+        static std::string getTypename() { return typeid(T).name(); }
     };
     template <typename T>
     void ComponentManager<T>::add(T *_ptr)

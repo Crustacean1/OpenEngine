@@ -17,8 +17,9 @@ namespace OpenEngine
 
     public:
         virtual void bind() = 0;
+        virtual void unbind() = 0;
         virtual unsigned int getMeshSize() = 0;
-        unsigned int getShape() { return shape; }
+        virtual unsigned int getShape() { return shape; }
     };
     template <typename V, typename I>
     class SimpleMesh : public Mesh //Resource
@@ -42,6 +43,7 @@ namespace OpenEngine
 
         unsigned int getMeshSize() override { return indices.getSize() * I::size; }
         void bind() override { vao.bind(); }
+        void unbind() override {vao.unbind();}
         Buffer<V,GL_ARRAY_BUFFER> & getVertexBuffer(){return vertices;}
         Buffer<I,GL_ELEMENT_ARRAY_BUFFER> & getIndexBuffer(){return indices;}
         void flush();

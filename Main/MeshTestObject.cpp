@@ -34,8 +34,8 @@ void Roughener::init()
     srand(time(0));
     auto * comp = object.getComponent<OpenEngine::MeshRenderer>(0);
     if(comp==nullptr){return;}
-    comp->getMaterial()->norm.create(128,128,3);
-    unsigned char * data = comp->getMaterial()->norm.getData();
+    comp->getMaterial(0)->norm.create(128,128,3);
+    unsigned char * data = comp->getMaterial(0)->norm.getData();
 
     float xangle,yangle;
 
@@ -51,6 +51,6 @@ void Roughener::init()
             
         }
     }
-    comp->getMaterial()->norm.flush();
-    comp->getMaterial()->activate();
+    comp->getMaterial(0)->norm.flush();
+    comp->getMaterial(0)->activate();
 }
