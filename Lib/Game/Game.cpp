@@ -37,7 +37,7 @@ void OpenEngine::Game::loadGame()
 
     //Input Setup
 
-    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     Mouse::createMouse(window);
     Mouse *mouse = Mouse::getMouse();
@@ -111,6 +111,8 @@ void OpenEngine::Game::loadGame()
     {
         renderer1->addMesh(mesh1,mat1);
     }
+    fractal->localScale = glm::dquat(0,10,10,10);
+    fractal->localPosition = glm::dquat(0,0,-20,0);
 
     auto obj2 = new Object();
     auto mesh2 = SimpleMesh<Vertex3p,V2Index>::generateGrid(10,50);
@@ -119,6 +121,13 @@ void OpenEngine::Game::loadGame()
     auto lamp1 = new Object();
     lamp1->addComponent<DirectionalLight>(glm::vec3(0.6,0.5,0.2),0.5f,3.5,1.3)->shader = shader4;
 
+    auto lamp3 = new Object();
+    auto lamp2 = new Object();
+    lamp2->localPosition = glm::dquat(0,-30,10,0);
+    lamp2->addComponent<PointLight>(glm::vec3(1,1,1),0,2,0.9)->shader = shader4;
+    lamp3->addComponent<RotationController>();
+    lamp3->addChild(lamp2);
+
     auto model = new Object();
     model->addComponent<Model>(shader4);
     
@@ -126,6 +135,7 @@ void OpenEngine::Game::loadGame()
     currentScene->add(fractal);
     currentScene->add(camObj);
     currentScene->add(lamp1);
+    currentScene->add(lamp3);
     currentScene->add(model);
 
     std::cout << "Game loaded\n";

@@ -9,9 +9,12 @@ void Model::init()
 {
     OpenEngine::MeshLoader meshLoader;
     OpenEngine::MaterialLoader materialLoader;
-    auto * mesh = meshLoader.loadMesh("Resources/Models/Model4/nanosuit.obj");
-    std::map<std::string,OpenEngine::Material3D*> materials = materialLoader.loadMaterial("Resources/Models/Model4/nanosuit.mtl");
-    materials["Body"]->shader = shader;
-    object.addComponent<OpenEngine::MeshRenderer>()->addMesh(mesh,materials["Body"]);
+    auto meshes = meshLoader.loadMesh("Resources/Models/Model4/nanosuit.obj");
+    auto renderer = object.addComponent<OpenEngine::MeshRenderer>();
+    for(int i =0;i<meshes.size();i++)
+    {
+        meshes[i].first->shader = shader;
+        renderer->addMesh(meshes[i].second,meshes[i].first);
+    }
 }
 void Model::update(double delta){}

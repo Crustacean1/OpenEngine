@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <string>
 #include <map>
+#include <vector>
 #include <list>
 
 namespace OpenEngine
@@ -14,7 +15,7 @@ namespace OpenEngine
     class Vertex3pntxy;
     class V3Index;
 
-    class Material;
+    class Material3D;
 
     class MeshLoader
     {
@@ -22,7 +23,7 @@ namespace OpenEngine
         char * end;
         unsigned int dataLength;
         std::string matfile;
-        std::map<std::string,std::pair<std::string,unsigned int>> groups;
+        std::vector<std::pair<std::string,unsigned int>> groups;
 
         bool toNextNum(char ** ptr);
 
@@ -35,15 +36,15 @@ namespace OpenEngine
         void loadIndicesData(char ** ptr,glm::uvec3 ** ind);
 
         unsigned int createMap(std::map<unsigned int,std::map<unsigned int,unsigned int>> * map,glm::uvec3 * indices,unsigned int size);
-        void createVertices(glm::vec3 *pos,glm::vec2 *tex,glm::vec3 *norm,std::map<unsigned int,std::map<unsigned int,unsigned int>> * map,unsigned int size);
+        void createVertices(glm::vec3 *pos,glm::vec2 *tex,glm::vec3 *norm,std::map<unsigned int,std::map<unsigned int,unsigned int>> * map,unsigned int size,unsigned int vCount);
         void createIndices(glm::uvec3 * indices,unsigned int indCount,std::map<unsigned int,std::map<unsigned int,unsigned int>> * map);
 
         void loadMeshData(float * pos,float * tex,float * norm,glm::uvec3 * ind);
 
-        std::list<std::pair<Material*,SimpleMesh<Vertex3pntxy,V3Index>*>> meshes;
+        std::vector<std::pair<Material3D*,SimpleMesh<Vertex3pntxy,V3Index>*>> meshes;
 
         public:
-        std::list<std::pair<Material*,SimpleMesh<Vertex3pntxy,V3Index> *>> loadMesh(const char * filename);
+        std::vector<std::pair<Material3D*,SimpleMesh<Vertex3pntxy,V3Index> *>> loadMesh(const char * filename);
     };
 };
 
