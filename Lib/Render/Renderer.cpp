@@ -17,7 +17,7 @@ int Renderer::getIndexOf(Mesh *_m)
     return -1;
 }
 
-void Renderer::setMaterial(Material *mat, unsigned int i)
+void Renderer::setMaterial(Material3D *mat, unsigned int i)
 {
     if (!(i < meshes.size()))
     {
@@ -29,7 +29,7 @@ void Renderer::setMaterial(Material *mat, unsigned int i)
     std::get<0>(*it) = mat;
     std::get<2>(*it) = ((Render *)manager)->add(std::get<0>(*it), std::get<1>(*it), &object);
 }
-Material *Renderer::getMaterial(unsigned int i)
+Material3D *Renderer::getMaterial(unsigned int i)
 {
     if (!(i < meshes.size()))
     {
@@ -39,9 +39,9 @@ Material *Renderer::getMaterial(unsigned int i)
     advance(it, i);
     return std::get<0>(*it);
 }
-void Renderer::addMesh(Mesh *_mesh, Material *_mat)
+void Renderer::addMesh(Mesh *_mesh, Material3D *_mat)
 {
-    meshes.push_back(std::tuple<Material *, Mesh *, std::list<Object *>::iterator>(_mat, _mesh, nullptr));
+    meshes.push_back(std::tuple<Material3D *, Mesh *, std::list<Object *>::iterator>(_mat, _mesh, nullptr));
     if (manager != nullptr)
     {
         std::get<2>(meshes.back()) = ((Render *)manager)->add(_mat, _mesh, &object);

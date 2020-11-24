@@ -3,7 +3,7 @@
 
 
 
-void OpenEngine::Material::update()
+void OpenEngine::Material3D::update()
 {
     amb.bind();
     diff.bind();
@@ -16,7 +16,7 @@ void OpenEngine::Material::update()
     shader->set((getName()+".norm"),norm.getUnitID());
     shader->set((getName()+".shininess"),shininess);
 }
-void OpenEngine::Material::activate()
+void OpenEngine::Material3D::activate()
 {
     shader->set("activeMaterialID",(int)getBinding());
 }

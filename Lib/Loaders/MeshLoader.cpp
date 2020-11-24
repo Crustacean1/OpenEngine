@@ -59,25 +59,41 @@ inline unsigned int toUnsigned(char **ptr)
 
 bool MeshLoader::toNextNum(char **ptr)
 {
-    while (**ptr < '-'&&(*ptr)<end&&**ptr!='\n')
+    while (**ptr < '-' && (*ptr) < end && **ptr != '\n')
     {
         (*ptr)++;
     }
     if (**ptr == '\\')
     {
         (*ptr)++;
-        while (**ptr < '-'&&(*ptr)<end)
+        while (**ptr < '-' && (*ptr) < end)
         {
             (*ptr)++;
         }
     }
-    return (!(**ptr > '9'))&((*ptr)<end)&(**ptr!='\n');
+    return (!(**ptr > '9')) & ((*ptr) < end) & (**ptr != '\n');
+}
+bool compare(char **ptr, const char *str)
+{
+    while (*str != 0)
+    {
+        if (*str != **ptr)
+        {
+            return false;
+        }
+        (*ptr)++;
+        str++;
+    }
+    return true;
 }
 void MeshLoader::countVertices(unsigned int &a, unsigned int &b, unsigned int &c, unsigned int &d, unsigned int &e)
 {
     a = b = c = d = e = 0;
     char *ptr = data;
     unsigned int primitiveCount;
+    std::string gName, mName;
+    gName = mName = "default";
+
     while (ptr < end)
     {
         switch (*ptr)
@@ -100,26 +116,70 @@ void MeshLoader::countVertices(unsigned int &a, unsigned int &b, unsigned int &c
             break;
         case 'f':
             primitiveCount = 0;
-            while (*ptr!='\n'&&ptr<end)
+            while (*ptr != '\n' && ptr < end)
             {
-                ptr += 2*(*ptr=='\\');
+                ptr += 2 * (*ptr == '\\');
                 primitiveCount += (*ptr == '/');
                 ptr++;
             }
             d += ((primitiveCount / 2) - 2) * 3;
             break;
-        case 'g':
+        case 'o':
             e++;
+            gName = "";
+            ptr += 2;
+            while (*ptr > ' ')
+            {
+                gName += *ptr;
+                ptr++;
+            }
+            groups[gName] = std::pair<std::string, unsigned int>("", d);
+            break;
+        case 'u':
+            if (!compare(&ptr, "usemtl"))
+            {
+                break;
+            }
+            while (*ptr > ' ')
+            {
+                ptr++;
+            }
+            mName = "";
+            ptr++;
+            while (*ptr > ' ')
+            {
+                mName += *ptr;
+                ptr++;
+            }
+            groups[gName].first = mName;
+        case 'm':
+            if (!compare(&ptr, "mtllib"))
+            {
+                break;
+            }
+            while (*ptr > ' ')
+            {
+                ptr++;
+            }
+            ptr++;
+            while (*ptr > ' ')
+            {
+                matfile += *ptr;
+                ptr++;
+            }
             break;
         default:
             break;
         }
-        while (*ptr!='\n'&&ptr<end){ptr++;}
+        while (*ptr != '\n' && ptr < end)
+        {
+            ptr++;
+        }
         ptr++;
     }
 }
 
-void MeshLoader::loadVerticesData(char **ptr, float **target,char size)
+void MeshLoader::loadVerticesData(char **ptr, float **target, char size)
 {
     if (!toNextNum(ptr))
     {
@@ -128,7 +188,7 @@ void MeshLoader::loadVerticesData(char **ptr, float **target,char size)
     while (toNextNum(ptr))
     {
         **target = toFloat(ptr);
-        (*target)+=(size-->0);
+        (*target) += (size-- > 0);
     }
 }
 glm::uvec3 MeshLoader::loadIndice(char **ptr)
@@ -139,7 +199,10 @@ glm::uvec3 MeshLoader::loadIndice(char **ptr)
     ind[1] = toUnsigned(ptr);
     (*ptr)++;
     ind[2] = toUnsigned(ptr);
-    while(*ptr<end&&**ptr>' '){(*ptr)++;}
+    while (*ptr<end &&* * ptr> ' ')
+    {
+        (*ptr)++;
+    }
     return ind;
 }
 int cnt = 0;
@@ -157,7 +220,7 @@ void MeshLoader::loadIndicesData(char **ptr, glm::uvec3 **ind)
     glm::uvec3 prev = loadIndice(ptr);
     while (toNextNum(ptr))
     {
-        cnt+=3;
+        cnt += 3;
         *((*ind)++) = base;
         *((*ind)++) = prev;
         prev = *((*ind)++) = loadIndice(ptr);
@@ -166,9 +229,9 @@ void MeshLoader::loadIndicesData(char **ptr, glm::uvec3 **ind)
 void MeshLoader::loadMeshData(float *pos, float *tex, float *norm, glm::uvec3 *ind)
 {
     char *ptr = data;
-    char * end = data+dataLength;
+    char *end = data + dataLength;
     int over = 0;
-    while (ptr <end)
+    while (ptr < end)
     {
         switch (*(ptr++))
         {
@@ -176,15 +239,15 @@ void MeshLoader::loadMeshData(float *pos, float *tex, float *norm, glm::uvec3 *i
             switch (*(ptr++))
             {
             case ' ':
-                loadVerticesData(&ptr, &pos,3);
+                loadVerticesData(&ptr, &pos, 3);
                 break;
             case 't':
                 ptr++;
-                loadVerticesData(&ptr, &tex,2);
+                loadVerticesData(&ptr, &tex, 2);
                 break;
             case 'n':
                 ptr++;
-                loadVerticesData(&ptr, &norm,3);
+                loadVerticesData(&ptr, &norm, 3);
                 break;
             }
             break;
@@ -192,14 +255,14 @@ void MeshLoader::loadMeshData(float *pos, float *tex, float *norm, glm::uvec3 *i
             loadIndicesData(&ptr, &ind);
             break;
         }
-        while (*ptr !='\n' && ptr<end)
+        while (*ptr != '\n' && ptr < end)
         {
             ++ptr;
         };
         ++ptr;
     }
-    std::cout<<over<<std::endl;
-    std::cout<<"ended on: "<<(int)(ptr-data)<<" "<<dataLength<<std::endl;
+    std::cout << over << std::endl;
+    std::cout << "ended on: " << (int)(ptr - data) << " " << dataLength << std::endl;
 }
 
 void MeshLoader::loadData(const char *filename)
@@ -215,13 +278,26 @@ void MeshLoader::loadData(const char *filename)
     data = new char[dataLength + 1];
     file.read(data, dataLength);
     data[dataLength] = 0;
-    end = data+dataLength+1;
+    end = data + dataLength + 1;
 }
 unsigned int MeshLoader::createMap(std::map<unsigned int, std::map<unsigned int, unsigned int>> *map, glm::uvec3 *ind, unsigned int size)
 {
     unsigned int count = 1;
+    unsigned int lastCount = 0;
+    unsigned int lastIndex = 0;
+    auto it = groups.begin();
+    auto mesh = meshes.begin();
     for (int i = 0; i < size; i++)
     {
+        if (i > (*it).second.second)
+        {
+            (*mesh).second->getIndexBuffer().setBuffer((i-lastIndex)/3);
+            (*mesh).second->getVertexBuffer().setBuffer(count-lastCount);
+            lastIndex = i;
+            lastCount = count;
+            mesh++;
+            it++;
+        }
         if (map[ind[i][0] - 1][ind[i][1] - 1][ind[i][2] - 1] == 0)
         {
             map[ind[i][0] - 1][ind[i][1] - 1][ind[i][2] - 1] = count++;
@@ -253,17 +329,16 @@ void MeshLoader::createIndices(glm::uvec3 *indices, unsigned int indCount, std::
     }
 }
 
-SimpleMesh<Vertex3pntxy, V3Index> *MeshLoader::loadMesh(const char *filename)
+std::list<std::pair<Material *, SimpleMesh<Vertex3pntxy, V3Index> *>> MeshLoader::loadMesh(const char *filename)
 {
     loadData(filename);
     if (data == nullptr)
     {
-        return nullptr;
+        return std::list<std::pair<Material *, SimpleMesh<Vertex3pntxy, V3Index> *>>();
     }
     unsigned int posCount, texCount, normCount, indCount, groupCount;
     countVertices(posCount, texCount, normCount, indCount, groupCount);
     std::cout << "mesh data: " << posCount << " " << texCount << " " << normCount << " " << indCount << " " << groupCount << std::endl;
-    SimpleMesh<Vertex3pntxy, V3Index> *mesh = new SimpleMesh<Vertex3pntxy, V3Index>();
 
     glm::vec3 *positions = new glm::vec3[posCount + 1];
     glm::vec2 *textures = new glm::vec2[texCount + 1];
@@ -279,21 +354,13 @@ SimpleMesh<Vertex3pntxy, V3Index> *MeshLoader::loadMesh(const char *filename)
     unsigned int verticesCount = createMap(indicesMap, indices, indCount);
     std::cout << "indices mapped" << std::endl;
 
-    auto &vbuff = mesh->getVertexBuffer();
-    auto &ibuff = mesh->getIndexBuffer();
-    vbuff.setBuffer(verticesCount);
-    ibuff.setBuffer(indCount / 3);
 
-    createVertices(vbuff.getData(), positions, textures, normals, indicesMap, posCount);
-    std::cout << "vertices created" << std::endl;
-    createIndices(indices, indCount, indicesMap, ibuff.getData());
-    std::cout << "indices remapped" << std::endl;
-    mesh->computeTangentSpace();
-    mesh->flush();
+    createVertices(positions, textures, normals, indicesMap, posCount);
+    createIndices(indices, indCount, indicesMap);
 
     delete[] positions;
     delete[] textures;
     delete[] normals;
     delete[] indicesMap;
-    return mesh;
+    return meshes;
 }

@@ -7,7 +7,7 @@
 namespace OpenEngine
 {
     class Shader;
-    class Material;
+    class Material3D;
     class Render;
     class Mesh;
     class Object;
@@ -17,7 +17,7 @@ namespace OpenEngine
         friend Render;
         protected:
         bool shouldRender = true;
-        std::list<std::tuple<Material*,Mesh*,std::list<Object*>::iterator>> meshes;
+        std::list<std::tuple<Material3D*,Mesh*,std::list<Object*>::iterator>> meshes;
         void assignMeshes();
         void dropMeshes();
 
@@ -28,10 +28,10 @@ namespace OpenEngine
 
         int getIndexOf(Mesh * _m);
 
-        void setMaterial(Material * mat,unsigned int i);
-        Material * getMaterial(unsigned int i);
+        void setMaterial(Material3D * mat,unsigned int i);
+        Material3D * getMaterial(unsigned int i);
 
-        void addMesh(Mesh * _m,Material * _mat = nullptr);
+        void addMesh(Mesh * _m,Material3D * _mat = nullptr);
         void dropMesh(unsigned int _id);
         void setMesh(Mesh * _m,unsigned int id);
         Mesh * getMesh(unsigned int _id);

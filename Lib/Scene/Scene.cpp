@@ -30,7 +30,7 @@ void OpenEngine::Scene::loop()
     time1 = time2 = glfwGetTime();
     auto window = Window::getMainWindow();
     int n = 0;
-    while(state!=SceneState::End&&!glfwWindowShouldClose(window)&&time1<10)
+    while(state!=SceneState::End&&!glfwWindowShouldClose(window))
     {
         time2 = glfwGetTime();
         glfwPollEvents();
