@@ -15,7 +15,7 @@ void OpenEngine::InstantiatingBuffer::reallocate()
     buff.setBuffer(buff.getSize()*2);
 }
 
-std::list<OpenEngine::Object *>::iterator OpenEngine::Render::add(Material *_mat, Mesh *_mesh, Object *_obj)
+std::list<OpenEngine::Object *>::iterator OpenEngine::Render::add(Material3D *_mat, Mesh *_mesh, Object *_obj)
 {
     renderees[_mat][_mesh].push_back(_obj);
     if(!(renderees[_mat][_mesh].size()<iBuffer.buff.getSize()))
@@ -28,7 +28,7 @@ std::list<OpenEngine::Object *>::iterator OpenEngine::Render::add(Material *_mat
     _mesh->unbind();
     return renderees[_mat][_mesh].end()--;
 }
-void OpenEngine::Render::drop(OpenEngine::Material *_mat, OpenEngine::Mesh *_mesh, std::list<Object *>::iterator it)
+void OpenEngine::Render::drop(OpenEngine::Material3D *_mat, OpenEngine::Mesh *_mesh, std::list<Object *>::iterator it)
 {
     if (renderees.find(_mat) != renderees.end())
     {

@@ -6,7 +6,16 @@
 
 namespace OpenEngine
 {
-    class Material : public Uniform<Material>
+    class Material
+    {
+        public:
+        virtual void activate();
+    };
+    class Material2D
+    {
+
+    };
+    class Material3D : public Uniform<Material3D>
     {
     public:
 
@@ -20,7 +29,7 @@ namespace OpenEngine
         Texture2D spec;
         Texture2D norm;
 
-        Material() : diff(),spec(),norm(),shininess(32){}
+        Material3D() : diff(),spec(),norm(),shininess(32){}
 
         void update();
         void activate();

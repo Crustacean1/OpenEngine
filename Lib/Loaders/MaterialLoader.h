@@ -6,11 +6,11 @@
 
 namespace OpenEngine
 {
-    class Material;
+    class Material3D;
     class MaterialLoader
     {
         public:
-        std::map<std::string,Material *> loadMaterial(const char * filename);
+        std::map<std::string,Material3D *> loadMaterial(const char * filename);
     };
 };
 

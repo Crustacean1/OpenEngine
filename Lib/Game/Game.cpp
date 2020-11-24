@@ -6,6 +6,7 @@
 #include "../../Main/CameraObject.h"
 #include "../Render/MeshRenderer.h"
 #include "../Render/SimpleRender.h"
+#include "../../Main/Model/Model.h"
 #include "../Loaders/MeshLoader.h"
 #include "../Material/Material.h"
 #include "../Light/PointLight.h"
@@ -36,7 +37,7 @@ void OpenEngine::Game::loadGame()
 
     //Input Setup
 
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     Mouse::createMouse(window);
     Mouse *mouse = Mouse::getMouse();
@@ -71,7 +72,7 @@ void OpenEngine::Game::loadGame()
     Shader * shader4 = (new Shader("Shaders/Shader4/shader4.vert", "Shaders/Shader4/shader4.frag"));
     Shader * shader5 = (new Shader("Shaders/Shader5/shader5.vert", "Shaders/Shader5/shader5.frag","Shaders/Shader5/shader5.geom"));
 
-    Material * mat1 = new Material();
+    Material3D * mat1 = new Material3D();
     mat1->shader = shader4;
 
     mat1->amb.loadFromFile("Resources/Images/wall.jpg");
@@ -88,7 +89,7 @@ void OpenEngine::Game::loadGame()
     mat1->update();
     mat1->activate();
 
-    Material * mat2 = new Material();
+    Material3D * mat2 = new Material3D();
     mat2->shader = shader2;
     mat2->amb.createFromColor(255,255,255);
     mat2->amb.flush();
@@ -116,13 +117,16 @@ void OpenEngine::Game::loadGame()
     obj2->addComponent<MeshRenderer>()->addMesh(mesh2,mat2);
 
     auto lamp1 = new Object();
-    lamp1->addComponent<DirectionalLight>(glm::vec3(0.6,0.5,0.2),0.15f,0.5,0.3)->shader = shader4;
+    lamp1->addComponent<DirectionalLight>(glm::vec3(0.6,0.5,0.2),0.5f,3.5,1.3)->shader = shader4;
+
+    auto model = new Object();
+    model->addComponent<Model>(shader4);
     
     currentScene->add(obj2);
     currentScene->add(fractal);
     currentScene->add(camObj);
     currentScene->add(lamp1);
-    //currentScene->add(model);
+    currentScene->add(model);
 
     std::cout << "Game loaded\n";
 }

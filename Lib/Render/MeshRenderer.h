@@ -8,7 +8,7 @@ namespace OpenEngine
     class Mesh;
     class Shader;
     class Object;
-    class Material;
+    class Material3D;
     
     class MeshRenderer : public Renderer
     {
