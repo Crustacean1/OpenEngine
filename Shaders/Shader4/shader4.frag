@@ -40,15 +40,15 @@ struct PointLight
 
 vec3 computeLight(PointLight light,vec3 pos,vec3 norm, Material mat)
 {
-    float intensity = 0;
-    intensity += light.ambient;
+    vec3 result = vec3(0,0,0);
+    result += light.ambient * texture(mat.amb,fTex).xyz;
 
     vec3 lVec = normalize(light.pos-pos);
-    intensity += light.diffuse * max(light.diffuse * dot(lVec,norm),0);
+    result += light.diffuse * texture(mat.diff,fTex).xyz * max(light.diffuse * dot(lVec,norm),0);
     lVec = -lVec + 2*dot(lVec,norm)*norm;
 
-    intensity += light.specular * pow(max(dot(lVec,normalize(-pos)),0),mat.shininess);
-    return intensity*light.color*texture(mat.diff,fTex).xyz;
+    result += light.specular * texture(mat.spec,fTex).xyz * pow(max(dot(lVec,normalize(-pos)),0),mat.shininess);
+    return result*texture(mat.diff,fTex).xyz;
 }
 // TODO add specular maps
 vec3 computeLight(DirectionalLight light,vec3 pos,vec3 norm,Material mat)

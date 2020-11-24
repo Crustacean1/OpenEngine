@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include "../Mesh/Mesh.h"
+#include "MaterialLoader.h"
 
 using namespace OpenEngine;
 
@@ -133,7 +134,7 @@ void MeshLoader::countVertices(unsigned int &a, unsigned int &b, unsigned int &c
                 gName += *ptr;
                 ptr++;
             }
-            groups[gName] = std::pair<std::string, unsigned int>("", d);
+            groups.push_back(std::pair<std::string, unsigned int>("", d));
             break;
         case 'u':
             if (!compare(&ptr, "usemtl"))
@@ -151,7 +152,7 @@ void MeshLoader::countVertices(unsigned int &a, unsigned int &b, unsigned int &c
                 mName += *ptr;
                 ptr++;
             }
-            groups[gName].first = mName;
+            groups.back().first = mName;
         case 'm':
             if (!compare(&ptr, "mtllib"))
             {
@@ -177,6 +178,7 @@ void MeshLoader::countVertices(unsigned int &a, unsigned int &b, unsigned int &c
         }
         ptr++;
     }
+    groups.push_back(std::pair<std::string, unsigned int>("", d));
 }
 
 void MeshLoader::loadVerticesData(char **ptr, float **target, char size)
@@ -282,22 +284,15 @@ void MeshLoader::loadData(const char *filename)
 }
 unsigned int MeshLoader::createMap(std::map<unsigned int, std::map<unsigned int, unsigned int>> *map, glm::uvec3 *ind, unsigned int size)
 {
+    for(int i = 1;i<groups.size();i++)
+    {
+        meshes.push_back(std::pair<Material3D*,SimpleMesh<Vertex3pntxy,V3Index>*>(nullptr,new SimpleMesh<Vertex3pntxy,V3Index>()));
+    }
     unsigned int count = 1;
-    unsigned int lastCount = 0;
-    unsigned int lastIndex = 0;
-    auto it = groups.begin();
-    auto mesh = meshes.begin();
+
+    unsigned int *ptr;
     for (int i = 0; i < size; i++)
     {
-        if (i > (*it).second.second)
-        {
-            (*mesh).second->getIndexBuffer().setBuffer((i-lastIndex)/3);
-            (*mesh).second->getVertexBuffer().setBuffer(count-lastCount);
-            lastIndex = i;
-            lastCount = count;
-            mesh++;
-            it++;
-        }
         if (map[ind[i][0] - 1][ind[i][1] - 1][ind[i][2] - 1] == 0)
         {
             map[ind[i][0] - 1][ind[i][1] - 1][ind[i][2] - 1] = count++;
@@ -305,36 +300,58 @@ unsigned int MeshLoader::createMap(std::map<unsigned int, std::map<unsigned int,
     }
     return count;
 }
-void MeshLoader::createVertices(Vertex3pntxy *vertices, glm::vec3 *pos, glm::vec2 *tex, glm::vec3 *norm, std::map<unsigned int, std::map<unsigned int, unsigned int>> *map, unsigned int size)
+void MeshLoader::createVertices(glm::vec3 *pos, glm::vec2 *tex, glm::vec3 *norm, std::map<unsigned int, std::map<unsigned int, unsigned int>> *map, unsigned int size, unsigned int vCount)
 {
+    for (auto &mesh : meshes)
+    {
+        mesh.second->getVertexBuffer().setBuffer(vCount);
+    }
+
+    unsigned int offset = 0;
     for (int i = 0; i < size; i++)
     {
         for (auto &j : map[i])
         {
             for (auto &k : j.second)
             {
-                vertices[k.second].pos = pos[i + 1];
-                vertices[k.second].tex = tex[j.first + 1];
-                vertices[k.second].norm = norm[k.first + 1];
+                for (auto &mesh : meshes)
+                {
+                    mesh.second->getVertexBuffer().getData()[k.second].pos = pos[i + 1];
+                    mesh.second->getVertexBuffer().getData()[k.second].tex = tex[j.first + 1];
+                    mesh.second->getVertexBuffer().getData()[k.second].norm = norm[k.first + 1];
+                }
             }
         }
     }
 }
-void MeshLoader::createIndices(glm::uvec3 *indices, unsigned int indCount, std::map<unsigned int, std::map<unsigned int, unsigned int>> *map, V3Index *v3ind)
+void MeshLoader::createIndices(glm::uvec3 *indices, unsigned int indCount, std::map<unsigned int, std::map<unsigned int, unsigned int>> *map)
 {
-    unsigned int *ptr = (unsigned int *)v3ind;
+    for (int i = 0; i < meshes.size(); i++)
+    {
+        meshes[i].second->getIndexBuffer().setBuffer((groups[i + 1].second - groups[i].second)/3);
+    }
+    auto it = ++groups.begin();
+    auto mesh = meshes.begin();
+    unsigned int * ptr = (unsigned int*)meshes[0].second->getIndexBuffer().getData();
     for (int i = 0; i < indCount; i++)
     {
+        if(i>=(*it).second)
+        {
+            (*mesh).second->flush();
+            ptr = (unsigned int*)(*(++mesh)).second->getIndexBuffer().getData();
+            it++;
+        }
         *(ptr++) = map[indices[i][0] - 1][indices[i][1] - 1][indices[i][2] - 1];
     }
+    (*mesh).second->flush();
 }
 
-std::list<std::pair<Material *, SimpleMesh<Vertex3pntxy, V3Index> *>> MeshLoader::loadMesh(const char *filename)
+std::vector<std::pair<Material3D *, SimpleMesh<Vertex3pntxy, V3Index> *>> MeshLoader::loadMesh(const char *filename)
 {
     loadData(filename);
     if (data == nullptr)
     {
-        return std::list<std::pair<Material *, SimpleMesh<Vertex3pntxy, V3Index> *>>();
+        return std::vector<std::pair<Material3D *, SimpleMesh<Vertex3pntxy, V3Index> *>>();
     }
     unsigned int posCount, texCount, normCount, indCount, groupCount;
     countVertices(posCount, texCount, normCount, indCount, groupCount);
@@ -354,9 +371,16 @@ std::list<std::pair<Material *, SimpleMesh<Vertex3pntxy, V3Index> *>> MeshLoader
     unsigned int verticesCount = createMap(indicesMap, indices, indCount);
     std::cout << "indices mapped" << std::endl;
 
-
-    createVertices(positions, textures, normals, indicesMap, posCount);
+    createVertices(positions, textures, normals, indicesMap, posCount, verticesCount);
+    std::cout << "between" << std::endl;
     createIndices(indices, indCount, indicesMap);
+
+    MaterialLoader materialLoader;
+    std::map<std::string,OpenEngine::Material3D*> materials = materialLoader.loadMaterial("Resources/Models/Model4/nanosuit.mtl");
+    for(int i = 0;i<meshes.size();i++)
+    {
+        meshes[i].first = materials[groups[i].first];
+    }
 
     delete[] positions;
     delete[] textures;

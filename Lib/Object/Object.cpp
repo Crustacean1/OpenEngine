@@ -184,11 +184,13 @@ void OpenEngine::Object::setScene(OpenEngine::Scene * _s)
         parent->dropChild(this);
         parent = nullptr;
     }
+    if(_s==nullptr){return;}
     updateComponentManagers(_s);
     scene = _s;
 }
 void OpenEngine::Object::updateComponentManagers(OpenEngine::Scene * _s)
 {
+    if(_s==nullptr){return;}
     for(const auto & tuple : components)
     {
         for(auto & component : tuple.second)
@@ -203,6 +205,7 @@ void OpenEngine::Object::updateComponentManagers(OpenEngine::Scene * _s)
 }
 void OpenEngine::Object::dropScene()
 {
+    if(scene==nullptr){return;}
     scene->drop(this);
     scene = nullptr;
 }
