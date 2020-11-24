@@ -20,6 +20,7 @@ namespace OpenEngine
         {
             createVAO();
             bind();
+            vert.setAttribs();
             vert.bind();
             ind.bind();
             unbind();
@@ -28,6 +29,7 @@ namespace OpenEngine
         void swapBuffer(Buffer <A,target> &buff)
         {
             bind();
+            buff.setAttribs();
             buff.bind();
             unbind();
         }

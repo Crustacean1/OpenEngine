@@ -1,8 +1,1 @@
-mesh data: 12902 7567 12766 57174 0
-0
-ended on: 1854853 1854853
-indices mapped
-vertices created
-indices remapped
-computed
 Game loaded

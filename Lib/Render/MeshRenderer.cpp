@@ -3,15 +3,9 @@
 #include "../Object/Object.h"
 #include "../Material/Material.h"
 
-OpenEngine::MeshRenderer::MeshRenderer(Object & object, Mesh* _mesh,Material * _mat, Shader * _shader) : material(_mat), myMesh(_mesh), Renderer::Renderer(object, _shader){}
+OpenEngine::MeshRenderer::MeshRenderer(Object & object) : Renderer::Renderer(object){}
 
 
-void OpenEngine::MeshRenderer::render()
-{
-    myMesh->bind();
-    if(material!=nullptr){material->update();}
-    glDrawElements(myMesh->getShape(), myMesh->getMeshSize() , GL_UNSIGNED_INT, 0);
-}
+void OpenEngine::MeshRenderer::render(){}
 void OpenEngine::MeshRenderer::prepare()
-{
-}
+{}

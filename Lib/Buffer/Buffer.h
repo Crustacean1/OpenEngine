@@ -3,7 +3,6 @@
 
 #include <iostream>
 
-#include <memory>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -129,11 +128,32 @@ namespace OpenEngine //tuple or inheritance
             indices[1] = b;
         }
     };
+    struct InstanceMatrix
+    {
+        glm::mat4 mat;
+        static void setAttribs()
+        {
+            glEnableVertexAttribArray(5);
+            glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void *)0);
+            glEnableVertexAttribArray(6);
+            glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void *)(sizeof(glm::vec4)));
+            glEnableVertexAttribArray(7);
+            glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void *)(2 * sizeof(glm::vec4)));
+            glEnableVertexAttribArray(8);
+            glVertexAttribPointer(8, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void *)(3 * sizeof(glm::vec4)));
+
+            glVertexAttribDivisor(5, 1);
+            glVertexAttribDivisor(6, 1);
+            glVertexAttribDivisor(7, 1);
+            glVertexAttribDivisor(8, 1);
+        }
+        //InstanceMatrix(const glm::mat4 &_m) : mat(_m) {}
+    };
 
     template <typename T, int target>
     class Buffer
     {
-        T* data;
+        T *data = nullptr;
         unsigned int size;
         unsigned int ID;
         bool active = false;
@@ -177,27 +197,39 @@ namespace OpenEngine //tuple or inheritance
             initBuffer();
             flush();
         }
-        void setBuffer(T* _data, unsigned int _size)
+        void setBuffer(T *_data, unsigned int _size)
         {
+            if (data != nullptr)
+            {
+                delete[] data;
+            }
             data = _data;
             size = _size;
         }
         void setBuffer(unsigned int _size)
         {
+            if (data != nullptr)
+            {
+                delete[] data;
+            }
             data = new T[_size];
             size = _size;
         }
         void flush()
         {
+            bind();
             glBufferData(target, size * sizeof(T), data, GL_STATIC_DRAW);
         }
-        T &operator[](unsigned int index) // No index checking, performance is crucial, ev. modulo?
+        T &operator[](unsigned int index) const // No index checking, performance is crucial, ev. modulo?
         {
             return data[index];
         }
         void bind()
         {
             glBindBuffer(target, ID);
+        }
+        void setAttribs()
+        {
             if constexpr (target == GL_ARRAY_BUFFER)
             {
                 T::setAttribs();
@@ -217,7 +249,7 @@ namespace OpenEngine //tuple or inheritance
             deleteBuffer();
         }
         unsigned int getSize() { return size; }
-        T* getData() { return data; }
+        T *getData() { return data; }
     };
 
 }; // namespace OpenEngine
