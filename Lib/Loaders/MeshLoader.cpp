@@ -6,8 +6,12 @@
 #include <iostream>
 #include "../Mesh/Mesh.h"
 #include "MaterialLoader.h"
+#include "../Material/Material.h"
 
 using namespace OpenEngine;
+
+
+std::string getBasename(std::string a);
 
 float tempfloat1, tempfloat2; //global veriable for performance, used as buffer
 bool tempsign1;
@@ -372,13 +376,18 @@ std::vector<std::pair<Material3D *, SimpleMesh<Vertex3pntxy, V3Index> *>> MeshLo
     std::cout << "indices mapped" << std::endl;
 
     createVertices(positions, textures, normals, indicesMap, posCount, verticesCount);
-    std::cout << "between" << std::endl;
     createIndices(indices, indCount, indicesMap);
 
     MaterialLoader materialLoader;
-    std::map<std::string,OpenEngine::Material3D*> materials = materialLoader.loadMaterial("Resources/Models/Model4/nanosuit.mtl");
+    std::map<std::string,Material3D*> materials = materialLoader.loadMaterial((getBasename(filename)+matfile).c_str());
+    materials["default"] = new Material3D();
     for(int i = 0;i<meshes.size();i++)
     {
+        if(materials.find(groups[i].first)==materials.end())
+        {
+            meshes[i].first = materials["default"];
+            continue;
+        }
         meshes[i].first = materials[groups[i].first];
     }
 

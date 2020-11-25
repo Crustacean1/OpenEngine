@@ -29,8 +29,7 @@ namespace OpenEngine
         Texture2D spec;
         Texture2D norm;
 
-        Material3D() : diff(),spec(),norm(),shininess(32){}
-
+        Material3D();
         void update();
         void activate();
     };

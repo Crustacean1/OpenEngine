@@ -113,6 +113,7 @@ void OpenEngine::Game::loadGame()
     }
     fractal->localScale = glm::dquat(0,10,10,10);
     fractal->localPosition = glm::dquat(0,0,-20,0);
+    fractal->addComponent<Roughener>();
 
     auto obj2 = new Object();
     auto mesh2 = SimpleMesh<Vertex3p,V2Index>::generateGrid(10,50);

@@ -30,10 +30,10 @@ void OpenEngine::Scene::loop()
     time1 = time2 = glfwGetTime();
     auto window = Window::getMainWindow();
     int n = 0;
-    while(state!=SceneState::End&&!glfwWindowShouldClose(window))
+    while(time1<20)
     {
         time2 = glfwGetTime();
-        glfwPollEvents();
+        //glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT);
         glClear(GL_DEPTH_BUFFER_BIT);
 
