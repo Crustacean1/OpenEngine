@@ -97,6 +97,8 @@ namespace OpenEngine
         void setScene(Scene * _s);
         void dropScene();
 
+        Object * getParent(){return parent;}
+
         //Copy (in future also move) operators <- TODO
 
         Object &operator()(const Object &_obj);

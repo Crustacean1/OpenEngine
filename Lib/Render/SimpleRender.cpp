@@ -20,6 +20,7 @@ void OpenEngine::SimpleRender::render()
         material.first->update();
         material.first->activate();
         material.first->shader->set("proj",mainCamera->getProjectionMatrix());
+        int i = 0;
         for(auto & mesh : material.second)
         {
             mv = iBuffer.buff.getData();

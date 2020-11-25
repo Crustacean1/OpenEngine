@@ -230,6 +230,7 @@ namespace OpenEngine //tuple or inheritance
         }
         void setAttribs()
         {
+            bind();
             if constexpr (target == GL_ARRAY_BUFFER)
             {
                 T::setAttribs();

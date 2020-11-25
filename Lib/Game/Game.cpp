@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "../../Main/Fractal/FractalComponent.h"
+#include "../../Main/Labirynth/Cellular.h"
 #include "../Component/BehaviourManager.h"
 #include "../Light/DirectionalLight.h"
 #include "../../Main/MeshTestObject.h"
@@ -53,13 +54,12 @@ void OpenEngine::Game::loadGame()
     BehaviourManager * bManager = (new BehaviourManager);
 
     Object *camObj = (new Object());
-    auto camControl = camObj->addComponent<CameraControler>();
+    //auto camControl = camObj->addComponent<CameraControler>();
     BasicCamera * mainCamera = camObj->addComponent<BasicCamera>();
     camObj->localPosition = glm::dquat(0,0,0,0);
 
     //camObj->setLocalPosition(glm::vec3(0,0,0));
 
-    mouse->addMovementCallback(camControl);
     SimpleRender * sRender = new SimpleRender(mainCamera);
 
     currentScene->addComponentManager(bManager);
@@ -120,24 +120,60 @@ void OpenEngine::Game::loadGame()
     obj2->addComponent<MeshRenderer>()->addMesh(mesh2,mat2);
 
     auto lamp1 = new Object();
-    lamp1->addComponent<DirectionalLight>(glm::vec3(0.6,0.5,0.2),0.5f,3.5,1.3)->shader = shader4;
+    lamp1->addComponent<DirectionalLight>(glm::vec3(0.6,0.6,0.6),0.5f,0.3,0.5)->shader = shader4;
 
     auto lamp3 = new Object();
     auto lamp2 = new Object();
     lamp2->localPosition = glm::dquat(0,-30,10,0);
-    lamp2->addComponent<PointLight>(glm::vec3(1,1,1),0,2,0.9)->shader = shader4;
+    lamp2->addComponent<DirectionalLight>(glm::vec3(1,1,1),0.2,0.3,0.1)->shader = shader4;
     lamp3->addComponent<RotationController>();
     lamp3->addChild(lamp2);
 
     auto model = new Object();
     model->addComponent<Model>(shader4);
-    
-    currentScene->add(obj2);
-    currentScene->add(fractal);
-    currentScene->add(camObj);
+
+    auto * cam3 = new Object();
+    cam3->localPosition = glm::dquat(0,0,13,0);
+    model->addChild(cam3);
+
+    model->localScale = glm::dquat(0,0.1,0.1,0.1);
+    //camObj->localScale = glm::dquat(0,10,10,10);
+    camObj->localPosition = glm::dquat(0,0,0,-10);
+    camObj->localRotation = glm::dquat(0,0,1,0);
+
+    mouse->addMovementCallback(cam3->addComponent<CameraControler>());
+    cam3->addChild(camObj);
+    //model->flushTransform();
+    //camObj->flushTransform();
+
+    Material3D * fMat = new Material3D();
+    fMat->diff.createFromColor(64,64,64);
+    fMat->diff.flush();
+    fMat->amb.createFromColor(64,64,64);
+    fMat->amb.flush();
+    fMat->spec.createFromColor(64,64,64);
+    fMat->spec.flush();
+    fMat->shader = shader4;
+    auto floor = new Object();
+    floor->addComponent<MeshRenderer>()->addMesh(SimpleMesh<Vertex3pntxy,V3Index>::generateCuboid(50,1,50),fMat);
+    floor->addComponent<Roughener>();
+    floor->localPosition = glm::dquat(0,0,-1,0);
+
+    auto block = new Object();
+    block->addComponent<MeshRenderer>()->addMesh(SimpleMesh<Vertex3pntxy,V3Index>::generateCuboid(0.5,1,0.5),fMat);
+    block->localPosition = glm::dquat(0,0,1,0);
+
+    auto lab = new Object();
+    lab->addComponent<Labirynth>(mat1,100,100,4,3,1,0.6f);
+    lab->addComponent<Roughener>();
+    lab->localPosition = glm::dquat(0,-50,0.01,-50);
+
+
     currentScene->add(lamp1);
     currentScene->add(lamp3);
     currentScene->add(model);
+    currentScene->add(floor);
+    currentScene->add(lab);
 
     std::cout << "Game loaded\n";
 }

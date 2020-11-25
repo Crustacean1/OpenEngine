@@ -9,12 +9,12 @@ void Model::init()
 {
     OpenEngine::MeshLoader meshLoader;
     OpenEngine::MaterialLoader materialLoader;
-    //auto meshes = meshLoader.loadMesh("Resources/Models/Model5/bugatti.obj");
-    //auto renderer = object.addComponent<OpenEngine::MeshRenderer>();
-    //for(int i =0;i<meshes.size();i++)
+    auto meshes = meshLoader.loadMesh("Resources/Models/Model4/nanosuit.obj");
+    auto renderer = object.addComponent<OpenEngine::MeshRenderer>();
+    for(int i =0;i<meshes.size();i++)
     {
-    //    meshes[i].first->shader = shader;
-    //    renderer->addMesh(meshes[i].second,meshes[i].first);
+        meshes[i].first->shader = shader;
+        renderer->addMesh(meshes[i].second,meshes[i].first);
     }
 }
 void Model::update(double delta){}
