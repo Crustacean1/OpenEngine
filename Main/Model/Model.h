@@ -3,6 +3,7 @@
 
 #include "../../Lib/Component/Behaviour.h"
 #include "../../Lib/Shader/Shader.h"
+#include "../../Lib/Component/BehaviourManager.h"
 
 
 class Model : public OpenEngine::Behaviour

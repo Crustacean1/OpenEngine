@@ -14,16 +14,16 @@ namespace OpenEngine
     template <typename T>
     class ComponentManager;
 
-    template <typename T>
+    template <typename T, typename M>
     class Component : public BaseComponent
     {
-        friend ComponentManager<T>;
+        friend M;
         friend Object;
 
         void setManager(Scene *_s)
         {
             dropManager();
-            manager = _s->getComponentManager<T>(0);
+            manager = _s->getComponentManager<M>();
             if(manager==nullptr){return;}
             manager->add((T *)this);
         }
@@ -33,13 +33,13 @@ namespace OpenEngine
             {
                 return;
             }
-            manager = nullptr;
+            manager = manager = nullptr;
             manager->drop((T *)this);
         }
 
     protected:
 
-        ComponentManager<T> *manager = nullptr;
+        M *manager = nullptr;
         Component(Object &_obj) : BaseComponent(_obj), manager(nullptr)
         {}
 

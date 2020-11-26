@@ -2,6 +2,7 @@
 #define DIRECTIONALLIGHT
 
 #include "Light.h"
+#include "Helios.h"
 #include <glm/glm.hpp>
 #include <string>
 

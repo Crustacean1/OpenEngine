@@ -10,8 +10,12 @@
 namespace OpenEngine
 {
     class Object;
-    class Render;
+    class Render3D;
     class BehaviourManager;
+
+    class Temporal;
+    class Invariant;
+    class Passive;
 
     template <typename K>
     class ComponentManager;
@@ -28,7 +32,9 @@ namespace OpenEngine
     class Scene
     {
         std::map<std::string, Object *> objects;
-        std::map<std::string, std::vector<void *>> managers;
+        std::map<std::string, Temporal *> tManagers;
+        std::map<std::string, Invariant *> iManagers;
+        std::map<std::string, Passive *> pManagers;
         double time1 = 0;
         double time2 = 0;
 
@@ -36,7 +42,7 @@ namespace OpenEngine
         //Render???
     public:
         template <typename T>
-        ComponentManager<T> *getComponentManager(unsigned int i);
+        T *getComponentManager();
 
         void init();
 
@@ -44,34 +50,56 @@ namespace OpenEngine
         Object *drop(Object *_object);
 
         template <typename T>
-        void addComponentManager(ComponentManager<T> *cManager);
+        void addComponentManager(T *cManager);
 
         void render();
         void update();
         void loop();
     };
     template <typename T>
-    ComponentManager<T> *Scene::getComponentManager(unsigned int i)
+    T *Scene::getComponentManager()
     {
-        if (managers.find(ComponentManager<T>::getTypename()) == managers.end())
+        if (pManagers.find(typeid(T).name()) == pManagers.end())
         {
-            return nullptr;
+            if (iManagers.find(typeid(T).name()) == iManagers.end())
+            {
+                if (tManagers.find(typeid(T).name()) == tManagers.end())
+                {
+                    return nullptr;
+                }
+                return (T *)tManagers[typeid(T).name()];
+            }
+            return (T *)iManagers[typeid(T).name()];
         }
-        if (!(i < managers[ComponentManager<T>::getTypename()].size()))
-        {
-            return nullptr;
-        }
-        return (ComponentManager<T> *)managers[ComponentManager<T>::getTypename()][i];
+        return (T *)pManagers[typeid(T).name()];
     }
     template <typename T>
-    void Scene::addComponentManager(ComponentManager<T> *cManager)
+    void Scene::addComponentManager(T *cManager)
     {
-        if (managers.find(ComponentManager<T>::getTypename()) == managers.end())
+        if constexpr (std::is_base_of<Temporal, T>::value)
         {
-            managers[ComponentManager<T>::getTypename()] = std::vector<void *>{(void *)cManager};
-            return;
+            if (tManagers.find(typeid(T).name()) == tManagers.end())
+            {
+                tManagers[typeid(T).name()] = cManager;
+                return;
+            }
         }
-        managers[ComponentManager<T>::getTypename()].push_back((void*)cManager);
+        if constexpr (std::is_base_of<Invariant, T>::value)
+        {
+            if (iManagers.find(typeid(T).name()) == iManagers.end())
+            {
+                iManagers[typeid(T).name()] = cManager;
+                return;
+            }
+        }
+        if constexpr (std::is_base_of<Passive, T>::value)
+        {
+            if (pManagers.find(typeid(T).name()) == pManagers.end())
+            {
+                pManagers[typeid(T).name()] = cManager;
+                return;
+            }
+        }
     }
 }; // namespace OpenEngine
 

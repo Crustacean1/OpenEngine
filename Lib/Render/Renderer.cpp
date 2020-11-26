@@ -4,6 +4,9 @@
 
 using namespace OpenEngine;
 
+Renderer::Renderer(Object & _obj) : Component(_obj){}
+Renderer::~Renderer(){dropMeshes();}
+
 int Renderer::getIndexOf(Mesh *_m)
 {
     auto it = meshes.begin();
@@ -27,7 +30,7 @@ void Renderer::setMaterial(Material3D *mat, unsigned int i)
     std::advance(it, 2);
     dropMesh(i);
     std::get<0>(*it) = mat;
-    std::get<2>(*it) = ((Render *)manager)->add(std::get<0>(*it), std::get<1>(*it), &object);
+    std::get<2>(*it) = ((Render3D *)manager)->add(std::get<0>(*it), std::get<1>(*it), &object);
 }
 Material3D *Renderer::getMaterial(unsigned int i)
 {
@@ -44,7 +47,7 @@ void Renderer::addMesh(Mesh *_mesh, Material3D *_mat)
     meshes.push_back(std::tuple<Material3D *, Mesh *, std::list<Object *>::iterator>(_mat, _mesh, nullptr));
     if (manager != nullptr)
     {
-        std::get<2>(meshes.back()) = ((Render *)manager)->add(_mat, _mesh, &object);
+        std::get<2>(meshes.back()) = ((Render3D *)manager)->add(_mat, _mesh, &object);
     }
 }
 void Renderer::dropMesh(unsigned int _id)
@@ -57,7 +60,7 @@ void Renderer::dropMesh(unsigned int _id)
     std::advance(it, _id);
     if (manager != nullptr)
     {
-        ((Render *)manager)->drop(std::get<0>(*it), std::get<1>(*it), std::get<2>(*it));
+        ((Render3D *)manager)->drop(std::get<0>(*it), std::get<1>(*it), std::get<2>(*it));
     }
     meshes.erase(it);
 }
@@ -73,7 +76,7 @@ void Renderer::setMesh(Mesh *_m, unsigned int _id)
     std::get<1>(*it) = _m;
     if (manager != nullptr)
     {
-        std::get<2>(*it) = ((Render *)manager)->add(std::get<0>(*it), std::get<1>(*it), &object);
+        std::get<2>(*it) = ((Render3D *)manager)->add(std::get<0>(*it), std::get<1>(*it), &object);
     }
 }
 Mesh *Renderer::getMesh(unsigned int _id)
@@ -94,7 +97,7 @@ void Renderer::assignMeshes()
 {
     for (auto &unit : meshes)
     {
-        std::get<2>(unit) = ((Render *)manager)->add(std::get<0>(unit), std::get<1>(unit), &object);
+        std::get<2>(unit) = ((Render3D *)manager)->add(std::get<0>(unit), std::get<1>(unit), &object);
     }
 }
 void Renderer::dropMeshes()

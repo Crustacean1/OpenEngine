@@ -2,6 +2,7 @@
 #define CELLULAR
 
 #include "../../Lib/Component/Behaviour.h"
+#include "../../Lib/Component/BehaviourManager.h"
 
 namespace OpenEngine{class Material3D;};
 

@@ -8,13 +8,13 @@ namespace OpenEngine
 {
     class Shader;
     class Material3D;
-    class Render;
+    class Render3D;
     class Mesh;
     class Object;
     
-    class Renderer : public Component<Renderer>
+    class Renderer : public Component<Renderer,Render3D>
     {
-        friend Render;
+        friend Render3D;
         protected:
         bool shouldRender = true;
         std::list<std::tuple<Material3D*,Mesh*,std::list<Object*>::iterator>> meshes;
@@ -22,7 +22,7 @@ namespace OpenEngine
         void dropMeshes();
 
     public:
-        Renderer(Object & _obj) : Component(_obj){}
+        Renderer(Object & _obj);
         virtual void render() = 0;
         virtual void prepare() = 0;
 
@@ -38,7 +38,7 @@ namespace OpenEngine
         unsigned int getMeshesCount();
         
 
-        ~Renderer(){dropMeshes();}
+        ~Renderer();
     };
 }; // namespace OpenEngine
 

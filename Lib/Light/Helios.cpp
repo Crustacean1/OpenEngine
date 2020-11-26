@@ -4,7 +4,6 @@
 //#include <iostream>
 void OpenEngine::Helios::illuminate(Camera * cam)
 {
-    //std::cout<<"illuminating"<<components[0]-><<"\n";
     glm::vec4 lPos;
     for(auto & component : components)
     {

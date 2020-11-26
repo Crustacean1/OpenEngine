@@ -3,10 +3,11 @@
 
 #include "ComponentManager.h"
 #include "Behaviour.h"
+#include "ManagerTypes.h"
 
 namespace OpenEngine
 {
-    class BehaviourManager : public ComponentManager<Behaviour>
+    class BehaviourManager : public ComponentManager<Behaviour>, public Temporal
     {
         public:
         void add(Behaviour * _comp) override;

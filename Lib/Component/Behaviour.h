@@ -5,10 +5,10 @@
 
 namespace OpenEngine
 {
-    class Behaviour : public Component<Behaviour>//Useless as of now, left for sake of clarity
+    class Behaviour : public Component<Behaviour,BehaviourManager>//Useless as of now, left for sake of clarity
     {
         public:
-        Behaviour(Object & _obj) : Component(_obj){}
+        Behaviour(Object & _obj);
         virtual void update(double delta){};
         virtual void init(){}
     };

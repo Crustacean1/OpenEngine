@@ -34,14 +34,14 @@ void Roughener::init()
     srand(time(0));
     auto * comp = object.getComponent<OpenEngine::MeshRenderer>(0);
     if(comp==nullptr){return;}
-    comp->getMaterial(0)->norm.create(32,32,3);
+    comp->getMaterial(0)->norm.create(64,64,3);
     unsigned char * data = comp->getMaterial(0)->norm.getData();
 
     float xangle,yangle;
 
-    for(unsigned int i = 0,k = 0;i<32;i++)
+    for(unsigned int i = 0,k = 0;i<64;i++)
     {
-        for(unsigned int j = 0;j<32;j++)
+        for(unsigned int j = 0;j<64;j++)
         {
             xangle = 80 + (float)(rand()%9999)/500.f;
             yangle = 80 + (float)(rand()%9999)/500.f;

@@ -9,7 +9,7 @@
 namespace OpenEngine
 {
     class MeshRenderer;
-    class Render;
+    class Render3D;
     class Shader;
     class Mesh;
     class Object;

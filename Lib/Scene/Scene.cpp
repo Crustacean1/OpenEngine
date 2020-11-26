@@ -5,6 +5,7 @@
 #include "../Render/Renderer.h"
 #include "../Component/BehaviourManager.h"
 #include "../Window/Window.h"
+#include "../Component/ManagerTypes.h"
 #include <iostream>
 #include <fstream>
 
@@ -37,8 +38,14 @@ void OpenEngine::Scene::loop()
         glClear(GL_COLOR_BUFFER_BIT);
         glClear(GL_DEPTH_BUFFER_BIT);
 
-        ((BehaviourManager*)managers[BehaviourManager::getTypename()][0])->update(time2-time1);
-        ((Render*)managers[Render::getTypename()][0])->render();
+        for(auto & tm : tManagers)
+        {
+            tm.second->update(time2-time1);
+        }
+        for(auto & im : iManagers)
+        {
+            im.second->execute();
+        }
 
         glfwSwapBuffers(window);
         n++;

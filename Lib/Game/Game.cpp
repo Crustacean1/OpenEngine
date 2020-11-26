@@ -6,7 +6,6 @@
 #include "../../Main/MeshTestObject.h"
 #include "../../Main/CameraObject.h"
 #include "../Render/MeshRenderer.h"
-#include "../Render/SimpleRender.h"
 #include "../../Main/Model/Model.h"
 #include "../Loaders/MeshLoader.h"
 #include "../Material/Material.h"
@@ -14,6 +13,7 @@
 #include "../Shader/Shader.h"
 #include "../Object/Object.h"
 #include "../Camera/Camera.h"
+#include "../Render/Render.h"
 #include "../Light/Helios.h"
 #include "../Input/Mouse.h"
 #include "../Mesh/Mesh.h"
@@ -60,7 +60,7 @@ void OpenEngine::Game::loadGame()
 
     //camObj->setLocalPosition(glm::vec3(0,0,0));
 
-    SimpleRender * sRender = new SimpleRender(mainCamera);
+    Render3D * sRender = new Render3D(mainCamera);
 
     currentScene->addComponentManager(bManager);
     currentScene->addComponentManager(sRender);
@@ -129,19 +129,20 @@ void OpenEngine::Game::loadGame()
     auto model = new Object();
     model->addComponent<Model>(shader4);
 
-    model->localScale = glm::dquat(0,0.1,0.1,0.1);
+    model->localScale = glm::dquat(0,0.15,0.15,0.15);
 
     mouse->addMovementCallback(camObj->addComponent<CameraControler>());
     //model->flushTransform();
     //camObj->flushTransform();
 
     Material3D * fMat = new Material3D();
-    fMat->diff.createFromColor(24,24,24);
+    fMat->diff.createFromColor(16,16,16);
     fMat->diff.flush();
-    fMat->amb.createFromColor(24,24,24);
+    fMat->amb.createFromColor(8,8,8);
     fMat->amb.flush();
-    fMat->spec.createFromColor(24,24,24);
+    fMat->spec.createFromColor(48,48,48);
     fMat->spec.flush();
+    fMat->shininess = 32;
     fMat->shader = shader4;
     auto floor = new Object();
     floor->addComponent<MeshRenderer>()->addMesh(SimpleMesh<Vertex3pntxy,V3Index>::generateCuboid(50,1,50),fMat);
@@ -153,9 +154,9 @@ void OpenEngine::Game::loadGame()
     block->localPosition = glm::dquat(0,0,1,0);
 
     auto lab = new Object();
-    lab->addComponent<Labirynth>(mat1,100,100,4,3,1,0.6f);
-    lab->addComponent<Roughener>();
-    lab->localPosition = glm::dquat(0,-50,0.01,-50);
+    //lab->addComponent<Labirynth>(mat1,100,100,4,25,1.001,0.6f);
+    //lab->addComponent<Roughener>();
+    //lab->localPosition = glm::dquat(0,-50,0.01,-50);
 
 
     //currentScene->add(lamp1);

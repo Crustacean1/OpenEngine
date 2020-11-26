@@ -6,21 +6,22 @@
 //Note: put BaseComponent in separate file top avoid circular dependencies
 namespace OpenEngine
 {
-    template <typename T>
+    template <typename T,typename M>
     class Component;
 
     template <typename T>
     class ComponentManager
     {
     protected:
-        friend Component<T>;
-        virtual void add(T *_ptr);
-        virtual void drop(T *_ptr);
+        //template<typename M>
+        //friend Component<T,M>;
 
     protected:
         std::list<T *> components;
 
     public:
+        virtual void add(T *_ptr);
+        virtual void drop(T *_ptr);
         static std::string getTypename() { return typeid(T).name(); }
     };
     template <typename T>

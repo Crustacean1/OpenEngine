@@ -8,12 +8,15 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include "../Component/Component.h"
+#include "../Component/ManagerTypes.h"
 
 namespace OpenEngine
 {
     class Object;
 
-    class Camera : public Component<Camera>
+    class CameraManager;
+
+    class Camera : public Component<Camera,CameraManager>
     {
     public:
         Camera(Object &_obj) : Component(_obj) {}
@@ -61,6 +64,8 @@ namespace OpenEngine
             far = _f;
         }
     };
+
+    class CameraManager : public ComponentManager<Camera>, public Passive{};
 }; // namespace OpenEngine
 
 #endif /*CAMERA*/

@@ -35,7 +35,7 @@ void Labirynth::iterate(int degree)
                     count += (g1[a*depth+b]==1);
                 }
             }
-            g2[i*depth+j] = g1[i*depth+j]&(count>=threshold);
+            g2[i*depth+j] = (count<5)&(count>=3);
         }
     }
 }
