@@ -11,8 +11,8 @@ void CameraControler::mouseMovementCallback(GLFWwindow *window, double xpos, dou
     //glm::dquat ax = owner.localRotation * glm::dquat(0, 0, 1, 0) * glm::conjugate(owner.localRotation);
     xpos = (xpos-prevX)+ (3*3.141592/4)/xfactor;
     ypos = (ypos-prevY) + (3.141592/4)/yfactor;
-    owner.getParent()->localRotation = glm::angleAxis((float)(xpos * xfactor), glm::vec3(0, -1, 0));
-    owner.localRotation = glm::angleAxis((float)(-ypos * yfactor), glm::vec3(1, 0, 0));
+    owner.localRotation = glm::angleAxis((float)(xpos * xfactor), glm::vec3(0, -1, 0))*
+                                        glm::angleAxis((float)(ypos * yfactor), glm::vec3(1, 0, 0));
     owner.flushTransform();
 
     /*auto yAxis = (owner.localRotation * glm::dquat(0,0,1,0) * glm::conjugate(owner.localRotation));
@@ -32,21 +32,20 @@ void CameraControler::update(double delta)
     
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
-        owner.getParent()->localPosition += (owner.getParent()->localRotation * glm::dquat(0, 0, 0, 1) * glm::conjugate(owner.getParent()->localRotation)) * camSpeed * delta;
+        owner.localPosition += (owner.localRotation * glm::dquat(0, 0, 0, -1) * glm::conjugate(owner.localRotation)) * camSpeed * delta;
     }
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
     {
-        owner.getParent()->localPosition += (owner.getParent()->localRotation * glm::dquat(0, 1, 0, 0) * glm::conjugate(owner.getParent()->localRotation)) * camSpeed * delta;
+        owner.localPosition += (owner.localRotation * glm::dquat(0, -1, 0, 0) * glm::conjugate(owner.localRotation)) * camSpeed * delta;
     }
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
     {
-        owner.getParent()->localPosition += (owner.getParent()->localRotation * glm::dquat(0, 0, 0, -1) * glm::conjugate(owner.getParent()->localRotation)) * camSpeed * delta;
+        owner.localPosition += (owner.localRotation * glm::dquat(0, 0, 0, 1) * glm::conjugate(owner.localRotation)) * camSpeed * delta;
     }
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     {
-        owner.getParent()->localPosition += (owner.getParent()->localRotation * glm::dquat(0, -1, 0, 0) * glm::conjugate(owner.getParent()->localRotation)) * camSpeed * delta;
+        owner.localPosition += (owner.localRotation * glm::dquat(0, 1, 0, 0) * glm::conjugate(owner.localRotation)) * camSpeed * delta;
     }
-    owner.getParent()->localPosition.y = 0;
     //std::cout<<owner.localPosition.x<<" "<<owner.localPosition.y<<" "<<owner.localPosition.z<<std::endl;
 
     owner.flushTransform();

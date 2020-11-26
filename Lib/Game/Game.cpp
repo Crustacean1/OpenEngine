@@ -120,38 +120,27 @@ void OpenEngine::Game::loadGame()
     obj2->addComponent<MeshRenderer>()->addMesh(mesh2,mat2);
 
     auto lamp1 = new Object();
-    lamp1->addComponent<DirectionalLight>(glm::vec3(0.6,0.6,0.6),0.5f,0.3,0.5)->shader = shader4;
+    lamp1->addComponent<DirectionalLight>(glm::vec3(0.6,0.6,0.6),0.5f,3.3,0.5)->shader = shader4;
 
-    auto lamp3 = new Object();
     auto lamp2 = new Object();
-    lamp2->localPosition = glm::dquat(0,-30,10,0);
-    lamp2->addComponent<DirectionalLight>(glm::vec3(1,1,1),0.2,0.3,0.1)->shader = shader4;
-    lamp3->addComponent<RotationController>();
-    lamp3->addChild(lamp2);
+    lamp2->localRotation = glm::dquat(-sqrt(3)/2,0.5,0,0);
+    lamp2->addComponent<DirectionalLight>(glm::vec3(1,1,1),0.2,1.7,0.3)->shader = shader4;
 
     auto model = new Object();
     model->addComponent<Model>(shader4);
 
-    auto * cam3 = new Object();
-    cam3->localPosition = glm::dquat(0,0,13,0);
-    model->addChild(cam3);
-
     model->localScale = glm::dquat(0,0.1,0.1,0.1);
-    //camObj->localScale = glm::dquat(0,10,10,10);
-    camObj->localPosition = glm::dquat(0,0,0,-10);
-    camObj->localRotation = glm::dquat(0,0,1,0);
 
-    mouse->addMovementCallback(cam3->addComponent<CameraControler>());
-    cam3->addChild(camObj);
+    mouse->addMovementCallback(camObj->addComponent<CameraControler>());
     //model->flushTransform();
     //camObj->flushTransform();
 
     Material3D * fMat = new Material3D();
-    fMat->diff.createFromColor(64,64,64);
+    fMat->diff.createFromColor(24,24,24);
     fMat->diff.flush();
-    fMat->amb.createFromColor(64,64,64);
+    fMat->amb.createFromColor(24,24,24);
     fMat->amb.flush();
-    fMat->spec.createFromColor(64,64,64);
+    fMat->spec.createFromColor(24,24,24);
     fMat->spec.flush();
     fMat->shader = shader4;
     auto floor = new Object();
@@ -169,11 +158,12 @@ void OpenEngine::Game::loadGame()
     lab->localPosition = glm::dquat(0,-50,0.01,-50);
 
 
-    currentScene->add(lamp1);
-    currentScene->add(lamp3);
+    //currentScene->add(lamp1);
+    currentScene->add(lamp2);
     currentScene->add(model);
     currentScene->add(floor);
     currentScene->add(lab);
+    currentScene->add(camObj);
 
     std::cout << "Game loaded\n";
 }
