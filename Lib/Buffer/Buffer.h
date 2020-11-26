@@ -71,6 +71,12 @@ namespace OpenEngine //tuple or inheritance
 
             glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void *)(sizeof(float) * 6));
             glEnableVertexAttribArray(2);
+
+            glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void *)(sizeof(float) * 8));
+            glEnableVertexAttribArray(3);
+
+            glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void *)(sizeof(float) * 11));
+            glEnableVertexAttribArray(4);
         }
     };
     struct Vertex3pntxy : public VPos, public VNorm, public VTex, public VTan

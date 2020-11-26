@@ -11,9 +11,7 @@ void CameraControler::mouseMovementCallback(GLFWwindow *window, double xpos, dou
     //glm::dquat ax = owner.localRotation * glm::dquat(0, 0, 1, 0) * glm::conjugate(owner.localRotation);
     xpos = (xpos-prevX)+ (3*3.141592/4)/xfactor;
     ypos = (ypos-prevY) + (3.141592/4)/yfactor;
-    owner.localRotation = glm::angleAxis((float)(xpos * xfactor), glm::vec3(0, -1, 0))*
-                                        glm::angleAxis((float)(ypos * yfactor), glm::vec3(1, 0, 0));
-    owner.flushTransform();
+    owner.setLocalRotation(glm::angleAxis((float)(xpos * xfactor), glm::vec3(0, -1, 0)) * glm::angleAxis((float)(ypos * yfactor), glm::vec3(1, 0, 0)));
 
     /*auto yAxis = (owner.localRotation * glm::dquat(0,0,1,0) * glm::conjugate(owner.localRotation));
     auto xAxis = (owner.localRotation * glm::dquat(0,1,0,0) * glm::conjugate(owner.localRotation));
