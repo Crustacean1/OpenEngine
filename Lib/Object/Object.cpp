@@ -20,16 +20,22 @@ std::string OpenEngine::Object::incrementIndex(std::string &index)
     return index;
 }
 
-OpenEngine::Object::Object()
+OpenEngine::Object::Object(Scene * _s)
+{
+    scene = _s;
+    parent = nullptr;
+    localRotation = globalRotation = glm::dquat(1, 0, 0, 0);
+    localScale = globalScale = glm::dquat(0, 1, 1, 1);
+    localPosition = globalPosition = glm::dquat(0, 0, 0, 0);
+    scene->add(this);
+
+    flushTransform();
+}
+OpenEngine::Object::Object(Object *_par)
 {
     localRotation = globalRotation = glm::dquat(1, 0, 0, 0);
     localScale = globalScale = glm::dquat(0, 1, 1, 1);
     localPosition = globalPosition = glm::dquat(0, 0, 0, 0);
-
-    flushTransform();
-}
-OpenEngine::Object::Object(Object *_par) : Object()
-{
     _par->addChild(this);
 }
 void OpenEngine::Object::addChild(OpenEngine::Object *_obj)

@@ -10,10 +10,12 @@ unsigned int OpenEngine::Texture2D::mainUnit = GL_TEXTURE0;
 
 OpenEngine::Texture2D::Texture2D() : texUnit(mainUnit = (mainUnit+1)%16){generate();}//To be changed
 
-void OpenEngine::Texture2D::loadFromFile(const std::string & filename)
+bool OpenEngine::Texture2D::loadFromFile(const std::string & filename)
 {
     data = stbi_load(filename.c_str(),&width,&height,&stride,0);
+    if(data==nullptr){return false;}
     innerFormat = (stride==3) ? GL_RGB : GL_RGBA;
+    return true;
 }
 void OpenEngine::Texture2D::generate()
 {

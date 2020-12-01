@@ -26,7 +26,7 @@ class Labirynth : public OpenEngine::Behaviour
     void debug(char * ptr);
 
 public:
-    Labirynth(OpenEngine::Object &_obj,OpenEngine::Material3D * _m, unsigned int _w, unsigned int _d,int _t,unsigned int _i, float _s = 1,float _p = 0.75f) :
+    Labirynth(OpenEngine::Object *_obj,OpenEngine::Material3D * _m, unsigned int _w, unsigned int _d,int _t,unsigned int _i, float _s = 1,float _p = 0.75f) :
      Behaviour(_obj), scale(_s), width(_w), depth(_d),probability(_p),threshold(_t),mat(_m),iterations(_i) {}
     void init() override;
     void update(double delta) override {}

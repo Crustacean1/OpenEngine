@@ -7,7 +7,7 @@
 namespace OpenEngine
 {
     class Shader;
-    class Material3D;
+    class Material;
     class Render3D;
     class Mesh;
     class Object;
@@ -17,25 +17,25 @@ namespace OpenEngine
         friend Render3D;
         protected:
         bool shouldRender = true;
-        std::list<std::tuple<Material3D*,Mesh*,std::list<Object*>::iterator>> meshes;
-        void assignMeshes();
-        void dropMeshes();
+
+        std::list<Object*>::iterator it;
+
+        Material * material = nullptr;
+        Mesh * mesh= nullptr;
+        int level = 5;
+
+        void flush();
 
     public:
-        Renderer(Object & _obj);
+        Renderer(Object * _obj);
         virtual void render() = 0;
         virtual void prepare() = 0;
 
-        int getIndexOf(Mesh * _m);
+        void setMaterial(Material * mat);
+        Material * getMaterial();
 
-        void setMaterial(Material3D * mat,unsigned int i);
-        Material3D * getMaterial(unsigned int i);
-
-        void addMesh(Mesh * _m,Material3D * _mat = nullptr);
-        void dropMesh(unsigned int _id);
-        void setMesh(Mesh * _m,unsigned int id);
-        Mesh * getMesh(unsigned int _id);
-        unsigned int getMeshesCount();
+        void setMesh(Mesh * _m,Material * mat);
+        Mesh * getMesh();
         
 
         ~Renderer();

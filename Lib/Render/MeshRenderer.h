@@ -15,7 +15,7 @@ namespace OpenEngine
     protected:
 
     public:
-        MeshRenderer(Object & object);
+        MeshRenderer(Object * object);
 
         void render() override;
         void prepare() override;

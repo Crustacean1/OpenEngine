@@ -12,9 +12,9 @@ namespace OpenEngine
     {
         protected:
 
-        BaseComponent(Object & _parent) : object(_parent){}
+        BaseComponent(Object * _parent) : object(_parent){}
     public:
-        Object &object;
+        Object *object;
         virtual void setManager(Scene * _s) = 0;
         virtual ~BaseComponent() {}
     };

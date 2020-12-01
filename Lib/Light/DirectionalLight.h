@@ -15,7 +15,7 @@ namespace OpenEngine
         friend Uniform<DirectionalLight>;
         glm::vec3 lastViewDirection;
     public:
-        DirectionalLight(Object & _obj, glm::vec3 _c,float _amb = 0.05f,float _diff = 0.5f,float _spec = 0.25f)
+        DirectionalLight(Object * _obj, glm::vec3 _c,float _amb = 0.05f,float _diff = 0.5f,float _spec = 0.25f)
         : Light(_obj), color(_c),ambient(_amb),diffuse(_diff),specular(_spec){}
         glm::vec3 color;
         float ambient;

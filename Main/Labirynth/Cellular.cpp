@@ -35,27 +35,26 @@ void Labirynth::iterate(int degree)
                     count += (g1[a*depth+b]==1);
                 }
             }
-            g2[i*depth+j] = (count<5)&(count>=3);
+            g2[i*depth+j] = (g1[i*depth+j]&((count<6)&(count>1))|(!g1[i*depth+j]&((count>5))));
         }
     }
 }
 void Labirynth::instantiate(int degree)
 {
     char * ptr = (degree%2) ? grid2 : grid1;
-    auto renderer = object.getComponent<OpenEngine::MeshRenderer>(0);
+    auto renderer = object->getComponent<OpenEngine::MeshRenderer>(0);
     auto mesh  = OpenEngine::SimpleMesh<OpenEngine::Vertex3pntxy,OpenEngine::V3Index>::generateCuboid(0.5,1,0.5);
     for(int i = 0;i<width;i++)
     {
         for(int j = 0;j<depth;j++)
         {
             if(!ptr[i*depth+j]){continue;}
-            auto child = new OpenEngine::Object();
-            child->addComponent<OpenEngine::MeshRenderer>()->addMesh(mesh,mat);
+            auto child = new OpenEngine::Object(object);
+            child->addComponent<OpenEngine::MeshRenderer>()->setMesh(mesh,mat);
             child->localPosition = glm::dquat(0,scale*i,1,scale*j);
-            object.addChild(child);
         }
     }
-    object.flushTransform();
+    object->flushTransform();
 }
 void Labirynth::init()
 {

@@ -341,13 +341,14 @@ void MeshLoader::createIndices(glm::uvec3 *indices, unsigned int indCount, std::
     {
         if(i>=(*it).second)
         {
-            (*mesh).second->flush();
+            (*mesh).second->computeTangentSpace();
             ptr = (unsigned int*)(*(++mesh)).second->getIndexBuffer().getData();
             it++;
         }
         *(ptr++) = map[indices[i][0] - 1][indices[i][1] - 1][indices[i][2] - 1];
     }
-    (*mesh).second->flush();
+    (*mesh).second->computeTangentSpace();
+    //(*mesh).second->flush();
 }
 
 std::vector<std::pair<Material3D *, SimpleMesh<Vertex3pntxy, V3Index> *>> MeshLoader::loadMesh(const char *filename)

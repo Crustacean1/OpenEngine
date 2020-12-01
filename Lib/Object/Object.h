@@ -23,16 +23,16 @@ namespace OpenEngine
         const std::string index = incrementIndex(mainIndex);
 
         Object *parent = nullptr;
-        Scene * scene = nullptr;
+        Scene *scene = nullptr;
 
         std::set<Object *> children;
-        std::map<std::string, std::list<BaseComponent*>> components;
+        std::map<std::string, std::list<BaseComponent *>> components;
 
         glm::dquat globalRotation;
         glm::dquat globalScale;
         glm::dquat globalPosition;
 
-        void updateComponentManagers(Scene * _s);
+        void updateComponentManagers(Scene *_s);
 
         // Scale->rotation->translation <- transform order
 
@@ -41,14 +41,14 @@ namespace OpenEngine
         glm::dquat localScale;
         glm::dquat localPosition;
 
-        Object();
+        Object(Scene *_scene);
         Object(Object *parent);
 
         ~Object();
         std::string getId() const;
 
-        Object * find(const std::string &_id);
-        Object * drop(const std::string &_id);
+        Object *find(const std::string &_id);
+        Object *drop(const std::string &_id);
 
         //Global transform
 
@@ -82,22 +82,22 @@ namespace OpenEngine
         void dropChild(Object *_child);
 
         template <typename K, typename... Args>
-        K* addComponent(Args... args);
+        K *addComponent(Args... args);
 
         template <typename K>
         void dropComponent(K *_comp);
 
-        template<typename K>
-        K * getComponent(unsigned int i);
+        template <typename K>
+        K *getComponent(unsigned int i);
 
-        template<typename K>
+        template <typename K>
         unsigned int getComponentCount();
 
-        Scene * getScene();
-        void setScene(Scene * _s);
+        Scene *getScene();
+        void setScene(Scene *_s);
         void dropScene();
 
-        Object * getParent(){return parent;}
+        Object *getParent() { return parent; }
 
         //Copy (in future also move) operators <- TODO
 
@@ -108,42 +108,38 @@ namespace OpenEngine
         //Add serializable class <- Would require unique indexing???(Or global map from prev memory address to current) Saving pointer links
     };
     template <typename K, typename... Args>
-    K * Object::addComponent(Args... args)
+    K *Object::addComponent(Args... args)
     {
-        if (components.find(typeid(K).name()) != components.end())
-        {
-            components[typeid(K).name()].push_back((BaseComponent*)new K(*this,args...));
-            return (K*)components[typeid(K).name()].back();
-        }
-        components[typeid(K).name()] = std::list<BaseComponent*>{(BaseComponent*)new K(*this,args...)};
-            return (K*)components[typeid(K).name()].back();
+        components[typeid(K).name()].push_back((BaseComponent *)new K(this, args...));
+        components[typeid(K).name()].back()->setManager(getScene());
+        return (K *)components[typeid(K).name()].back();
     }
     template <typename K>
     void Object::dropComponent(K *_comp)
     {
         if (components.find(typeid(K).name()) != components.end())
         {
-            components[typeid(K).name()].erase(std::find(components[typeid(K).name()],_comp));
+            components[typeid(K).name()].erase(std::find(components[typeid(K).name()], _comp));
         }
     }
-    template<typename K>
-    K * Object::getComponent(unsigned int i)
+    template <typename K>
+    K *Object::getComponent(unsigned int i)
     {
-        if(components.find(typeid(K).name())!=components.end())
+        if (components.find(typeid(K).name()) != components.end())
         {
-            if(i<components[typeid(K).name()].size())
+            if (i < components[typeid(K).name()].size())
             {
                 auto beg = components[typeid(K).name()].begin();
-                std::advance(beg,i);
-                return (K*)*beg;
+                std::advance(beg, i);
+                return (K *)*beg;
             }
-        } 
+        }
         return nullptr;
     }
-    template<typename K>
+    template <typename K>
     unsigned int Object::getComponentCount()
     {
-        if(components.find(typeid(K).name())==components.end())
+        if (components.find(typeid(K).name()) == components.end())
         {
             return 0;
         }

@@ -23,7 +23,7 @@ namespace OpenEngine
         Texture2D(const std::string & filename);
         Texture2D(unsigned char r,unsigned char g,unsigned char b);//Single color one pixel texture
 
-        void loadFromFile(const std::string & filename);
+        bool loadFromFile(const std::string & filename);
         void createFromColor(unsigned char r,unsigned char g,unsigned char b);
         void create(int x,int y,char channels = 3);
         void generate();

@@ -12,18 +12,18 @@ namespace OpenEngine
 {
     class Renderer;
     class Shader;
-    class Material3D;
+    class Material;
     class Camera;
     class Object;
     class Mesh;
     class Helios;
-    
+
     class InstanceMatrix;
 
     class InstantiatingBuffer
     {
     public:
-        void reallocate();
+        void reallocate(int i);
         Buffer<InstanceMatrix, GL_ARRAY_BUFFER> buff;
     };
 
@@ -34,19 +34,15 @@ namespace OpenEngine
     protected:
         Camera *mainCamera;
         InstantiatingBuffer iBuffer;
-        std::map<Material3D *,std::map<Mesh *,std::list<Object *>>> renderees;
-
-        std::list<Object *>::iterator add(Material3D *mat, Mesh *_mesh, Object *obj);
-        void drop(Material3D *_mat, Mesh *_mesh, std::list<Object *>::iterator it);
+        std::map<Material *, std::map<Mesh *, std::list<Object *>>> renderees;
 
     public:
-
         void add(Renderer *_renderer) override;
         void drop(Renderer *_renderer) override;
-        
+
         Render3D(Camera *_cam);
         void setCamera(Camera *_cam) { mainCamera = _cam; }
-        Helios * lightManager;
+        Helios *lightManager;
         virtual void execute();
         friend Renderer;
     };

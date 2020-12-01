@@ -16,6 +16,7 @@ void OpenEngine::Material3D::update()
 }
 void OpenEngine::Material3D::activate()
 {
+    update();
     shader->set("activeMaterialID", (int)getBinding());
 }
 OpenEngine::Material3D::Material3D() : diff(), spec(), norm(), shininess(32)
@@ -28,4 +29,17 @@ OpenEngine::Material3D::Material3D() : diff(), spec(), norm(), shininess(32)
     spec.flush();
     norm.createFromColor(127,127,255);
     norm.flush();
+}
+OpenEngine::CubeMaterial::CubeMaterial()
+{
+    //cubemap.createFromColor(200,200,200);
+}
+void OpenEngine::CubeMaterial::update()
+{
+    cubemap.bind();
+    shader->set(getName(),cubemap.getUnitID());
+}
+void OpenEngine::CubeMaterial::activate()
+{
+    //update();
 }

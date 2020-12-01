@@ -40,7 +40,7 @@ namespace OpenEngine
     protected:
 
         M *manager = nullptr;
-        Component(Object &_obj) : BaseComponent(_obj), manager(nullptr)
+        Component(Object *_obj) : BaseComponent(_obj), manager(nullptr)
         {}
 
     public:

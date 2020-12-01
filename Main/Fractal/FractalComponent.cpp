@@ -8,8 +8,7 @@ void FractalComponent::init()
 {
     if(counter<1){return;}
 
-    auto newObject1 = new OpenEngine::Object();
-    object.addChild(newObject1);
+    auto newObject1 = new OpenEngine::Object(object);
     newObject1->localPosition = glm::dquat(0,-1.5,0,0);
     newObject1->localRotation = glm::dquat(sqrt(2)/2,0,0,sqrt(2)/2);
     newObject1->localScale = glm::dquat(0,0.5,0.5,0.5);
@@ -17,8 +16,7 @@ void FractalComponent::init()
     //newObject1->addComponent<MeshRenderer>(SimpleMesh<Vertex3pc,V3Index>::generateSphere(6,1),nullptr,shader)->setManager(render);
     //newObject1->addComponent<FractalComponent>(bManager,render,shader,counter-1)->setManager(bManager);
 
-    auto newObject2 = new OpenEngine::Object();
-    object.addChild(newObject2);
+    auto newObject2 = new OpenEngine::Object(object);
     newObject2->localPosition = glm::dquat(0,1.5,0,0);
     newObject2->localRotation = glm::dquat(sqrt(2)/2,0,sqrt(2)/2,0);
     newObject2->localScale = glm::dquat(0,0.5,0.5,0.5);

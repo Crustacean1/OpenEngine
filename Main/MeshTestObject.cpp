@@ -15,8 +15,8 @@ float mod(float a, float b)
 void RotationController::update(double delta)
 {
     //std::cout << "I have no case and i must shite: " << object.localRotation.w << " " << object.localRotation.x << " " << object.localRotation.y << " " << object.localRotation.z << " " << std::endl;
-    object.localRotation = (glm::dquat)glm::angleAxis((float)(delta * rotationSpeed), axis) * object.localRotation;
-    object.flushTransform();
+    object->localRotation = (glm::dquat)glm::angleAxis((float)(delta * rotationSpeed), axis) * object->localRotation;
+    object->flushTransform();
 }
 
 void GridController::update(double delta)
@@ -25,17 +25,18 @@ void GridController::update(double delta)
     {
         return;
     }
-    object.localPosition.x = mod(target->getGlobalPosition().x, gap);
-    object.localPosition.y = mod(target->getGlobalPosition().y, gap);
-    object.localPosition.z = mod(target->getGlobalPosition().z, gap);
+    object->localPosition.x = mod(target->getGlobalPosition().x, gap);
+    object->localPosition.y = mod(target->getGlobalPosition().y, gap);
+    object->localPosition.z = mod(target->getGlobalPosition().z, gap);
 }
 void Roughener::init()
 {
     srand(time(0));
-    auto * comp = object.getComponent<OpenEngine::MeshRenderer>(0);
+    auto * comp = object->getComponent<OpenEngine::MeshRenderer>(0);
     if(comp==nullptr){return;}
-    comp->getMaterial(0)->norm.create(64,64,3);
-    unsigned char * data = comp->getMaterial(0)->norm.getData();
+    auto material  = (OpenEngine::Material3D*)comp->getMaterial();
+    material->norm.create(64,64,3);
+    unsigned char * data = material->norm.getData();
 
     float xangle,yangle;
 
@@ -51,6 +52,6 @@ void Roughener::init()
             
         }
     }
-    comp->getMaterial(0)->norm.flush();
-    comp->getMaterial(0)->activate();
+    material->norm.flush();
+    comp->getMaterial()->activate();
 }
