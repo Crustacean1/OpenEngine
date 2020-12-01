@@ -11,6 +11,7 @@ namespace OpenEngine
 {
     class MouseButtonInput;
     class MouseMovementInput;
+    class MouseScrollInput;
     class Mouse
     {
         static Mouse *ptr;
@@ -30,6 +31,7 @@ namespace OpenEngine
 
         void addButtonCallback(MouseButtonInput * _minput);
         void dropButtonCallback(MouseButtonInput * _minput);
+        void dropScrollCallback(MouseScrollInput * _minput){}
     };
 }; // namespace OpenEngine
 

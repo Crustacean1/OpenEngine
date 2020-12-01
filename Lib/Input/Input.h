@@ -20,6 +20,12 @@ namespace OpenEngine
         virtual void mouseButtonCallback(GLFWwindow *window, int button, int action, int mode) = 0;
         ~MouseButtonInput(){Mouse::getMouse()->dropButtonCallback(this);}
     };
+    class MouseScrollInput
+    {
+        public:
+        virtual void mouseScrollCallback(GLFWwindow * windwo,double xoff,double yoff) = 0;
+        ~MouseScrollInput(){Mouse::getMouse()->dropScrollCallback(this);}
+    };
     class KeyInput
     {
     public:

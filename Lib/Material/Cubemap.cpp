@@ -10,9 +10,9 @@ const char *OpenEngine::Cubemap::faces[6] = {"right", "left", "top", "bottom", "
 OpenEngine::Cubemap::Cubemap() : texUnit((mainUnit++) % 16)
 {
 }
-OpenEngine::Cubemap::Cubemap(const std::string &filename,const std::string & ext) : Cubemap()
+OpenEngine::Cubemap::Cubemap(const std::string &filename, const std::string &ext) : Cubemap()
 {
-    loadFromFile(filename,ext);
+    loadFromFile(filename, ext);
 }
 OpenEngine::Cubemap::Cubemap(unsigned char r, unsigned char g, unsigned char b) : Cubemap()
 {
@@ -25,7 +25,7 @@ void OpenEngine::Cubemap::generate()
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 void OpenEngine::Cubemap::bind()
@@ -34,22 +34,23 @@ void OpenEngine::Cubemap::bind()
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 }
 
-bool OpenEngine::Cubemap::loadFromFile(const std::string &dirname,const std::string &extension)
+bool OpenEngine::Cubemap::loadFromFile(const std::string &dirname, const std::string &extension)
 {
     generate();
     int width, height, channels;
     unsigned char *data;
     for (int i = 0; i < 6; i++)
     {
-        data = stbi_load((dirname + "/" + faces[i]+extension).c_str(), &width, &height, &channels, 0);
+        data = stbi_load((dirname + "/" + faces[i] + extension).c_str(), &width, &height, &channels, 0);
         if (!data)
         {
             return false;
         }
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height,
-                     0, GL_RGB , GL_UNSIGNED_BYTE, data);
+                     0, GL_RGB, GL_UNSIGNED_BYTE, data);
         stbi_image_free(data);
     }
+    glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
 }
 void OpenEngine::Cubemap::createFromColor(unsigned char r, unsigned char g, unsigned char b)
 {
@@ -60,4 +61,6 @@ void OpenEngine::Cubemap::createFromColor(unsigned char r, unsigned char g, unsi
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, 1, 1,
                      0, GL_RGB, GL_UNSIGNED_BYTE, data);
     }
+
+    glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
 }

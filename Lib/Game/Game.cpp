@@ -79,9 +79,9 @@ void OpenEngine::Game::loadGame()
 
     mat1->amb.loadFromFile("Resources/Images/wall.jpg");
     mat1->amb.flush();
-    mat1->diff.loadFromFile("Resources/Images/wall.jpg");
+    mat1->diff.createFromColor(64,64,64);
     mat1->diff.flush();
-    mat1->spec.loadFromFile("Resources/Images/wall.jpg");
+    mat1->spec.createFromColor(10,10,10);
     mat1->spec.flush();
     //mat1->norm.loadFromFile("Resources/Models/Model4/body_showroom_ddn.png");
     mat1->norm.createFromColor(4,128,255);
@@ -142,7 +142,7 @@ void OpenEngine::Game::loadGame()
     floor->localPosition = glm::dquat(0,0,-1,0);
 
     CubeMaterial * cmat = new CubeMaterial();
-    cmat->cubemap.loadFromFile("Resources/Images/cubemap1/",".jpg");
+    cmat->cubemap.loadFromFile("Resources/Images/cubemap2/",".png");
     //cmat->cubemap.createFromColor(128,64,64);
     cmat->shader = shader6;
 
@@ -156,13 +156,13 @@ void OpenEngine::Game::loadGame()
     physicsTest->addComponent<MeshRenderer>()->setMesh(SimpleMesh<Vertex3pntxy,V3Index>::generateCuboid(2,2,2),fMat);
     physicsTest->addComponent<Roughener>();
     physicsTest->localPosition = glm::dquat(0,0,20,0);
-    model->addComponent<Physical>(0.1,0.5)->actForce(glm::vec3(1,0,0));
+    model->addComponent<Physical>(0.1,0.8)->actForce(glm::vec3(1,0,0));
 
     auto camHolder = new Object(model);
     mouse->addMovementCallback(camHolder->addComponent<CameraControler>());
     camHolder->addChild(camObj);
-    camObj->localRotation = glm::dquat(0,0,1,0);
-    camObj->localPosition = glm::dquat(0,0,0,-10);
+    camObj->localRotation = glm::dquat(0.1,sqrt(1-0.01),0,0);
+    camObj->localPosition = glm::dquat(0,0,-4,-10);
     //camObj->localRotation = glm::dquat(0,0,1,0);
     //grid->addComponent<GridController>(model);
 
