@@ -2,6 +2,7 @@
 #include "../../Main/Fractal/FractalComponent.h"
 #include "../../Main/Labirynth/Cellular.h"
 #include "../Component/BehaviourManager.h"
+#include "../../Main/Asteroid/Asteroid.h"
 #include "../../Main/Compass/Compass.h"
 #include "../Light/DirectionalLight.h"
 #include "../../Main/MeshTestObject.h"
@@ -129,7 +130,7 @@ void OpenEngine::Game::loadGame()
     //camObj->flushTransform();
 
     Material3D * fMat = new Material3D();
-    fMat->diff.createFromColor(24,24,24);
+    fMat->diff.createFromColor(64,64,64);
     fMat->diff.flush();
     fMat->amb.createFromColor(8,8,8);
     fMat->amb.flush();
@@ -137,10 +138,10 @@ void OpenEngine::Game::loadGame()
     fMat->spec.flush();
     fMat->shininess = 32;
     fMat->shader = shader4;
-    auto floor = new Object(currentScene.get());
-    floor->addComponent<MeshRenderer>()->setMesh(SimpleMesh<Vertex3pntxy,V3Index>::generateCuboid(50,1,50),mat1);
-    floor->addComponent<Roughener>();
-    floor->localPosition = glm::dquat(0,0,-1,0);
+    //auto floor = new Object(currentScene.get());
+    //floor->addComponent<MeshRenderer>()->setMesh(SimpleMesh<Vertex3pntxy,V3Index>::generateCuboid(50,1,50),mat1);
+    //floor->addComponent<Roughener>();
+    //floor->localPosition = glm::dquat(0,0,-1,0);
 
     CubeMaterial * cmat = new CubeMaterial();
     cmat->cubemap.loadFromFile("Resources/Images/cubemap2/",".png");
@@ -169,6 +170,8 @@ void OpenEngine::Game::loadGame()
 
     auto compass = new Object(currentScene.get());
     compass->addComponent<Compass>();
+    auto ast1 = new Object(currentScene.get());
+    ast1->addComponent<AsteroidField>(fMat);
 
     std::cout << "Game loaded\n";
 }
