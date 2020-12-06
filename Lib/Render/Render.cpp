@@ -57,7 +57,7 @@ void OpenEngine::Render3D::execute()
             iBuffer.buff.flush();
             iBuffer.buff.setAttribs();
             material.first->getShader()->use();
-            glDrawElementsInstanced(mesh.first->getShape(), mesh.first->getMeshSize(), GL_UNSIGNED_INT, 0, mesh.second.size());
+            glDrawElementsInstanced(mesh.first->shape, mesh.first->getMeshSize(), GL_UNSIGNED_INT, 0, mesh.second.size());
         }
     }
 }

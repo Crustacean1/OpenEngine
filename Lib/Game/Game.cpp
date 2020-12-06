@@ -2,6 +2,7 @@
 #include "../../Main/Fractal/FractalComponent.h"
 #include "../../Main/Labirynth/Cellular.h"
 #include "../Component/BehaviourManager.h"
+#include "../../Main/Compass/Compass.h"
 #include "../Light/DirectionalLight.h"
 #include "../../Main/MeshTestObject.h"
 #include "../../Main/CameraObject.h"
@@ -156,7 +157,7 @@ void OpenEngine::Game::loadGame()
     physicsTest->addComponent<MeshRenderer>()->setMesh(SimpleMesh<Vertex3pntxy,V3Index>::generateCuboid(2,2,2),fMat);
     physicsTest->addComponent<Roughener>();
     physicsTest->localPosition = glm::dquat(0,0,20,0);
-    model->addComponent<Physical>(0.1,0.8)->actForce(glm::vec3(1,0,0));
+    model->addComponent<Physical>(0.1,0.3)->actForce(glm::vec3(1,0,0));
 
     auto camHolder = new Object(model);
     mouse->addMovementCallback(camHolder->addComponent<CameraControler>());
@@ -165,6 +166,9 @@ void OpenEngine::Game::loadGame()
     camObj->localPosition = glm::dquat(0,0,-4,-10);
     //camObj->localRotation = glm::dquat(0,0,1,0);
     //grid->addComponent<GridController>(model);
+
+    auto compass = new Object(currentScene.get());
+    compass->addComponent<Compass>();
 
     std::cout << "Game loaded\n";
 }

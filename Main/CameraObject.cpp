@@ -42,20 +42,20 @@ void CameraControler::update(double delta)
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
-        force += (object->getParent()->localRotation * glm::dquat(0, 0, 0, -1) * glm::conjugate(object->getParent()->localRotation )) * camSpeed;
+        force += (object->getParent()->localRotation * glm::dquat(0, 0, 0, -1) * glm::conjugate(object->getParent()->localRotation )) * camSpeed*10.0;
     }
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
     {
-        angular += glm::dquat(0, 0 , 0, 1) * camSpeed;
+        angular += glm::dquat(0, 0 , 0, 1) * camSpeed*4.0;
         //force += (object->getParent()->localRotation * glm::dquat(0, 1, 0, 0) * glm::conjugate(object->getParent()->localRotation )) * camSpeed;
     }
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
     {
-        force += (object->getParent()->localRotation * glm::dquat(0, 0, 0, 1) * glm::conjugate(object->getParent()->localRotation )) * camSpeed;
+        force += (object->getParent()->localRotation * glm::dquat(0, 0, 0, 1) * glm::conjugate(object->getParent()->localRotation )) * camSpeed*10.0;
     }
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     {
-        angular += glm::dquat(0, 0 , 0, -1) * camSpeed;
+        angular += glm::dquat(0, 0 , 0, -1) * camSpeed*4.0;
         //force += (object->getParent()->localRotation * glm::dquat(0, -1, 0, 0) * glm::conjugate(object->getParent()->localRotation )) * camSpeed;
     }
     phys->actForce(glm::vec3(force.x, force.y, force.z)*coeff);

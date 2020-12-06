@@ -11,7 +11,7 @@ namespace OpenEngine
     {
     public:
         virtual void activate() = 0;
-        virtual Shader * getShader() = 0;
+        virtual Shader *getShader() = 0;
     };
     class Material2D
     {
@@ -32,7 +32,7 @@ namespace OpenEngine
         Material3D();
         void update();
         void activate() override;
-        Shader * getShader(){return shader;}
+        Shader *getShader() { return shader; }
     };
     class CubeMaterial : public Material, public Uniform<CubeMaterial>
     {
@@ -44,7 +44,16 @@ namespace OpenEngine
         void update() override;
         void activate() override;
         CubeMaterial();
-        Shader * getShader(){return shader;}
+        Shader *getShader() { return shader; }
+    };
+    class EmptyMaterial : public Material, public Uniform<EmptyMaterial>
+    {
+    public:
+        constexpr static char *basename = "emptymaterial";
+        constexpr static unsigned int maxUniformsCount = 1;
+        void activate() override {}
+        void update() override {}
+        Shader *getShader() { return shader; }
     };
 }; // namespace OpenEngine
 
