@@ -1,8 +1,6 @@
 #ifndef BASECOMPONENT
 #define BASECOMPONENT
 
-#include "../Object/Object.h"
-
 namespace OpenEngine
 {
     class Object;
@@ -10,12 +8,20 @@ namespace OpenEngine
 
     class BaseComponent
     {
-        protected:
 
-        BaseComponent(Object * _parent) : object(_parent){}
+    protected:
+        BaseComponent(Object &_parent);
+        Object &object;
+
     public:
-        Object *object;
-        virtual void setManager(Scene * _s) = 0;
+        void setObject(Object &_obj);
+
+        virtual void onStart() {}
+        virtual void onDestroy() {}
+
+        virtual void onAttach() {}
+        virtual void onDetach() {}
+
         virtual ~BaseComponent() {}
     };
 

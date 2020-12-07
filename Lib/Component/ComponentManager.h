@@ -1,46 +1,57 @@
 #ifndef COMPONENTMANAGER
 #define COMPONENTMANAGER
 
-#include <list>
-#include "BaseComponent.h"
+#include <set>
+#include <map>
 //Note: put BaseComponent in separate file top avoid circular dependencies
 namespace OpenEngine
 {
-    template <typename T,typename M>
-    class Component;
 
-    template <typename T>
+    template <typename T, typename M>
     class ComponentManager
     {
-    protected:
-        //template<typename M>
-        //friend Component<T,M>;
+        static std::map<unsigned int, ComponentManager<T, M> *> managers;
+        static unsigned int mainIndex;
 
     protected:
-        std::list<T *> components;
+        std::set<T *> components;
 
     public:
+        virtual T *drop(T *_ptr);
         virtual void add(T *_ptr);
-        virtual void drop(T *_ptr);
-        static std::string getTypename() { return typeid(T).name(); }
+
+        static M *getInstance(T *ptr, unsigned int id);
+
+        ComponentManager(M *_ptr);
+
+        virtual ~ComponentManager();
     };
-    template <typename T>
-    void ComponentManager<T>::add(T *_ptr)
+    template <typename T, typename M>
+    T *ComponentManager<T, M>::drop(T *_ptr)
     {
-        components.push_back(_ptr);
-    }
-    template <typename T>
-    void ComponentManager<T>::drop(T *_ptr)
-    {
-        for (auto it = components.begin(); it != components.end(); it++)
+        auto it = components.find(_ptr);
+        if (it != components.end())
         {
-            if ((*it) == _ptr)
-            {
-                components.erase(it);
-                break;
-            }
+            return *it;
         }
+        return nullptr;
     }
+    template <typename T, typename M>
+    void ComponentManager<T, M>::add(T *_ptr)
+    {
+        components.insert(_ptr);
+    }
+    template <typename T, typename M>
+    M *ComponentManager<T, M>::getInstance(T *_ptr, unsigned int id)
+    {
+        if (id < mainIndex)
+        {
+            managers[id]->add(_ptr);
+        }
+        return nullptr;
+    }
+    template <typename T, typename M>
+    ComponentManager<T, M>::ComponentManager(M *_ptr) { managers[mainIndex++] = _ptr; }
 }; // namespace OpenEngine
 
 #endif /*COMPONENTMANAGER*/

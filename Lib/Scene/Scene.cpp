@@ -3,9 +3,8 @@
 #include <GLFW/glfw3.h>
 #include "../Object/Object.h"
 #include "../Render/Renderer.h"
-#include "../Component/BehaviourManager.h"
+#include "../Component/Behaviour/BehaviourManager.h"
 #include "../Window/Window.h"
-#include "../Component/ManagerTypes.h"
 #include <iostream>
 #include <fstream>
 
@@ -14,16 +13,16 @@ void OpenEngine::Scene::init()
 }
 void OpenEngine::Scene::add(Object* _object)
 {
-    if (objects.find(_object->getId()) != objects.end())
+    if(_object!=nullptr)
     {
-        return;
+        objects.insert(_object);
     }
-    objects[_object->getId()] = _object;
     _object->setScene(this);
 }
 OpenEngine::Object * OpenEngine::Scene::drop(Object * _object)
 {
-    objects.erase(objects.find(_object->getId()));
+    objects.erase(_object);
+    return _object;
 }
 void OpenEngine::Scene::loop()
 {
@@ -38,14 +37,7 @@ void OpenEngine::Scene::loop()
         glClear(GL_COLOR_BUFFER_BIT);
         glClear(GL_DEPTH_BUFFER_BIT);
 
-        for(auto & tm : tManagers)
-        {
-            tm.second->update(time2-time1);
-        }
-        for(auto & im : iManagers)
-        {
-            im.second->execute();
-        }
+        
 
         glfwSwapBuffers(window);
         n++;

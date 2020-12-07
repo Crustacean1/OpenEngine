@@ -5,7 +5,6 @@
 #include <map>
 #include "../Mesh/Mesh.h"
 #include "../Component/ComponentManager.h"
-#include "../Component/ManagerTypes.h"
 #include <vector>
 
 namespace OpenEngine
@@ -27,7 +26,7 @@ namespace OpenEngine
         Buffer<InstanceMatrix, GL_ARRAY_BUFFER> buff;
     };
 
-    class Render3D : public ComponentManager<Renderer>, public Invariant
+    class Render3D : public ComponentManager<Renderer,Render3D>
     {
         friend Renderer;
 
@@ -37,8 +36,8 @@ namespace OpenEngine
         std::map<Material *, std::map<Mesh *, std::list<Object *>>> renderees;
 
     public:
-        void add(Renderer *_renderer) override;
-        void drop(Renderer *_renderer) override;
+        void add(Renderer *_renderer);
+        Renderer* drop(Renderer *_renderer);
 
         Render3D(Camera *_cam);
         void setCamera(Camera *_cam) { mainCamera = _cam; }

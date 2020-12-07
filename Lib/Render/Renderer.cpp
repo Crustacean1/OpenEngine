@@ -5,7 +5,6 @@
 
 using namespace OpenEngine;
 
-Renderer::Renderer(Object *_obj) : Component(_obj) {}
 Renderer::~Renderer() {}
 
 void Renderer::flush()

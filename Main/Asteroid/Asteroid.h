@@ -1,7 +1,7 @@
 #ifndef ASTEROID
 #define ASTEROID
-
-#include "../../Lib/Component/Behaviour.h"
+#include "../../Lib/Component/Behaviour/Behaviour.h"
+#include "../../Lib/Component/Behaviour/BehaviourManager.h"
 
 namespace OpenEngine
 {
@@ -11,7 +11,7 @@ namespace OpenEngine
 class Asteroid : public OpenEngine::Behaviour
 {
 public:
-    Asteroid(OpenEngine::Object *_obj, OpenEngine::Material *mat);
+    Asteroid(OpenEngine::Object &_obj, OpenEngine::Material *mat);
     void init() override;
     void update(double delta) override;
 };
@@ -19,7 +19,7 @@ class AsteroidField : public OpenEngine::Behaviour
 {
 
 public:
-    AsteroidField(OpenEngine::Object *_obj, OpenEngine::Material *mat);
+    AsteroidField(OpenEngine::Object &_obj, OpenEngine::Material *mat);
     void init() override{}
     void update(double delta) override{}
 };

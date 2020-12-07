@@ -1,56 +1,50 @@
 #ifndef COMPONENT
 #define COMPONENT
 
-#include "ComponentManager.h"
 #include "BaseComponent.h"
-#include "../Scene/Scene.h"
-#include <string>
 #include <iostream>
 
 namespace OpenEngine
 {
     class Object;
 
-    template <typename T>
+    template <typename T,typename M>
     class ComponentManager;
 
     template <typename T, typename M>
     class Component : public BaseComponent
     {
         friend M;
-        friend Object;
-
-        void setManager(Scene *_s)
-        {
-            dropManager();
-            manager = _s->getComponentManager<M>();
-            if(manager==nullptr){return;}
-            manager->add((T *)this);
-        }
-        void dropManager()
-        {
-            if (manager == nullptr)
-            {
-                return;
-            }
-            manager = manager = nullptr;
-            manager->drop((T *)this);
-        }
 
     protected:
-
-        M *manager = nullptr;
-        Component(Object *_obj) : BaseComponent(_obj), manager(nullptr)
-        {}
+        M *manager;
+        Component(Object &_obj, T *ptr, unsigned int id = 0);
+        void setManagerInstance(unsigned int id = 0);
+        ~Component();
 
     public:
-        std::string getTypeName() { return typeid(T).name(); }
-
-        ~Component()
-        {
-            dropManager();
-        }
     };
+
+    template <typename T, typename M>
+    Component<T, M>::Component(Object &_obj, T *ptr, unsigned int id) : BaseComponent(_obj)
+    {
+        manager = M::getInstance(ptr, id);
+    }
+
+    template <typename T, typename M>
+    Component<T, M>::~Component()
+    {
+        manager->drop((T*)this);
+    }
+
+    template <typename T, typename M>
+    void Component<T, M>::setManagerInstance(unsigned int id)
+    {
+        if (manager != nullptr)
+        {
+            manager = M::getInstance(manager->drop(this), id);
+        }
+    }
 }; // namespace OpenEngine
 
 #endif /*COMPONENT*/

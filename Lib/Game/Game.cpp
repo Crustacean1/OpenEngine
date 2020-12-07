@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "../../Main/Fractal/FractalComponent.h"
 #include "../../Main/Labirynth/Cellular.h"
-#include "../Component/BehaviourManager.h"
+#include "../Component/Behaviour/BehaviourManager.h"
 #include "../../Main/Asteroid/Asteroid.h"
 #include "../../Main/Compass/Compass.h"
 #include "../Light/DirectionalLight.h"
@@ -23,7 +23,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-OpenEngine::Game::Game() : window(*new Window(800, 600, "OpenEngine Development"))
+OpenEngine::Game::Game() : window(*new Window(800, 600, "OpenEngine Development",glfwGetPrimaryMonitor(),NULL))
 {
     initGame();
 }

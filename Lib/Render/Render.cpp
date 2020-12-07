@@ -23,11 +23,11 @@ void OpenEngine::InstantiatingBuffer::reallocate(int i)
 
 void OpenEngine::Render3D::add(Renderer *_renderer)
 {
-    ComponentManager<Renderer>::add(_renderer);
+    ComponentManager<Renderer,Render3D>::add(_renderer);
 }
-void OpenEngine::Render3D::drop(Renderer *_renderer)
+OpenEngine::Renderer * OpenEngine::Render3D::drop(Renderer *_renderer)
 {
-    ComponentManager<Renderer>::drop(_renderer);
+    return ComponentManager<Renderer,Render3D>::drop(_renderer);
 }
 
 void OpenEngine::Render3D::execute()

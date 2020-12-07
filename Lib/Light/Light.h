@@ -13,7 +13,7 @@ namespace OpenEngine
     class Light : public Component<Light,Helios>
     {
     protected:
-        Light(Object * _obj);
+        Light(Object & _obj);
 
         bool active = true;
     public:

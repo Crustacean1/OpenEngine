@@ -1,13 +1,11 @@
 #ifndef OBJECT
 #define OBJECT
 
-#include <glm/glm.hpp>
-#include <glm/gtc/quaternion.hpp>
-#include <glm/gtx/quaternion.hpp>
 #include <string>
 #include <map>
 #include <set>
 #include <list>
+#include "../Component/Transform/Transform.h"
 
 namespace OpenEngine
 {
@@ -17,10 +15,7 @@ namespace OpenEngine
 
     class Object final
     {
-        static std::string incrementIndex(std::string &_index);
-        static std::string mainIndex;
-
-        const std::string index = incrementIndex(mainIndex);
+        friend BaseComponent;
 
         Object *parent = nullptr;
         Scene *scene = nullptr;
@@ -28,55 +23,17 @@ namespace OpenEngine
         std::set<Object *> children;
         std::map<std::string, std::list<BaseComponent *>> components;
 
-        glm::dquat globalRotation;
-        glm::dquat globalScale;
-        glm::dquat globalPosition;
-
-        void updateComponentManagers(Scene *_s);
+        void dropComponent(const std::list<BaseComponent*>::iterator & it);
 
         // Scale->rotation->translation <- transform order
 
     public:
-        glm::dquat localRotation;
-        glm::dquat localScale;
-        glm::dquat localPosition;
+        Transform transform;
 
         Object(Scene *_scene);
         Object(Object *parent);
 
         ~Object();
-        std::string getId() const;
-
-        Object *find(const std::string &_id);
-        Object *drop(const std::string &_id);
-
-        //Global transform
-
-        glm::vec3 getGlobalPosition();
-        glm::vec3 getGlobalScale();
-        glm::dquat getGlobalRotation();
-
-        void rotateGlobal(glm::dquat rotation);
-        void translateGlobal(glm::vec3 disp);
-        void scaleGlobal(glm::vec3 scale);
-
-        void setGlobalRotation(glm::dquat rotation);
-        void setGlobalPosition(glm::vec3 disp);
-        void setGlobalScale(glm::vec3 scale);
-
-        //Local transform
-
-        glm::vec3 getLocalPosition();
-        glm::vec3 getLocalScale();
-        glm::dquat getLocalRotation();
-
-        void setLocalRotation(glm::dquat rotation);
-        void setLocalPosition(glm::vec3 disp);
-        void setLocalScale(glm::vec3 scale);
-
-        void flushTransform();
-
-        //Access regulating functions
 
         void addChild(Object *_child);
         void dropChild(Object *_child);
@@ -98,6 +55,7 @@ namespace OpenEngine
         void dropScene();
 
         Object *getParent() { return parent; }
+        std::set<Object*>& getChildren(){return children;}
 
         //Copy (in future also move) operators <- TODO
 
@@ -107,11 +65,16 @@ namespace OpenEngine
         //Tags (rather not)
         //Add serializable class <- Would require unique indexing???(Or global map from prev memory address to current) Saving pointer links
     };
+
+    //
+    //               Template Implementation below
+    //
+
     template <typename K, typename... Args>
     K *Object::addComponent(Args... args)
     {
         components[typeid(K).name()].push_back((BaseComponent *)new K(this, args...));
-        components[typeid(K).name()].back()->setManager(getScene());
+        //components[typeid(K).name()].back()->setManager(getScene());
         return (K *)components[typeid(K).name()].back();
     }
     template <typename K>

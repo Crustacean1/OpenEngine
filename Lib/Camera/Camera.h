@@ -7,8 +7,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
-#include "../Component/Component.h"
-#include "../Component/ManagerTypes.h"
+#include "../Component/BaseComponent.h"
 
 namespace OpenEngine
 {
@@ -16,10 +15,10 @@ namespace OpenEngine
 
     class CameraManager;
 
-    class Camera : public Component<Camera,CameraManager>
+    class Camera : public BaseComponent
     {
     public:
-        Camera(Object *_obj) : Component(_obj) {}
+        Camera(Object &_obj);
         virtual glm::mat4 getViewMatrix(glm::vec3 _position, glm::dquat rotation, glm::vec3 scale) = 0;
         virtual glm::mat4 getProjectionMatrix() = 0;
         ~Camera(){}
@@ -43,7 +42,7 @@ namespace OpenEngine
         } projectionType;
 
     public:
-        BasicCamera(Object *_obj, double _fov = 45, double _aspect = 8.f/6.f, double _n = 0.1, double _f = 300);
+        BasicCamera(Object &_obj, double _fov = 45, double _aspect = 8.f/6.f, double _n = 0.1, double _f = 300);
 
         virtual glm::mat4 getViewMatrix(glm::vec3 _position, glm::dquat rotation, glm::vec3 scale);
         glm::mat4 getProjectionMatrix(){return projMat;}
@@ -64,8 +63,6 @@ namespace OpenEngine
             far = _f;
         }
     };
-
-    class CameraManager : public ComponentManager<Camera>, public Passive{};
 }; // namespace OpenEngine
 
 #endif /*CAMERA*/

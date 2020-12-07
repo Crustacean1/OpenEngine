@@ -4,8 +4,8 @@
 #include "../Lib/Object/Object.h"
 #include "../Lib/Camera/Camera.h"
 #include "../Lib/Input/Input.h"
-#include "../Lib/Component/Behaviour.h"
-#include "../Lib/Component/BehaviourManager.h"
+#include "../Lib/Component/Behaviour/Behaviour.h"
+#include "../Lib/Component/Behaviour/BehaviourManager.h"
 #include <iostream>
 
 class CameraControler : public OpenEngine::Behaviour, public OpenEngine::MouseMovementInput
@@ -19,11 +19,10 @@ public:
 
     double camSpeed = -2;
 
-    CameraControler(OpenEngine::Object *obj) : Behaviour(obj) {}
+    CameraControler(OpenEngine::Object &obj) : Behaviour(obj, this) {}
     void mouseMovementCallback(GLFWwindow *window, double xpos, double ypos);
     void update(double delta) override;
     void init() override;
 };
-
 
 #endif /*CAMERAOBJECT*/

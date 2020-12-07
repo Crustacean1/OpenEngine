@@ -2,12 +2,13 @@
 #include "../../Lib/Mesh/Mesh.h"
 #include "../../Lib/Material/Material.h"
 #include "../../Lib/Render/MeshRenderer.h"
-#include "../../Lib/Component/BehaviourManager.h"
+#include "../../Lib/Component/Behaviour/BehaviourManager.h"
 #include "../../Lib/Shader/Shader.h"
+#include "../../Lib/Object/Object.h"
 
 using namespace OpenEngine;
 
-Compass::Compass(OpenEngine::Object * _obj) : OpenEngine::Behaviour(_obj)
+Compass::Compass(OpenEngine::Object & _obj) : OpenEngine::Behaviour(_obj,this)
 {
     SimpleMesh<Vertex3pc,V2Index> * mesh = new SimpleMesh<Vertex3pc,V2Index>();
 
@@ -32,7 +33,7 @@ Compass::Compass(OpenEngine::Object * _obj) : OpenEngine::Behaviour(_obj)
     Shader * shader = new Shader("Shaders/Shader7/shader7.vert","Shaders/Shader7/shader7.frag");
     EmptyMaterial * mat = new EmptyMaterial();
     mat->shader = shader;
-    object->addComponent<MeshRenderer>()->setMesh(mesh,mat);
+    object.addComponent<MeshRenderer>()->setMesh(mesh,mat);
 }
 void Compass::init(){}
 void Compass::update(double delta){}

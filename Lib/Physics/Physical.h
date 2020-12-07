@@ -2,11 +2,15 @@
 #define PHYSICAL
 
 #include "../Component/Component.h"
-#include "Physics.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 namespace OpenEngine
 {
     class Object;
+    class PhysicManager;
+
     class Physical : Component<Physical, PhysicManager>
     {
         glm::vec3 angularMomentum;
