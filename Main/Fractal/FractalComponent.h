@@ -15,7 +15,7 @@ class FractalComponent : public OpenEngine::Behaviour
 public:
     int counter;
     FractalComponent(OpenEngine::Object &_obj, OpenEngine::BehaviourManager *_bm, OpenEngine::Render3D *_r,OpenEngine::Shader * _s, unsigned int _count = 5) : 
-                     OpenEngine::Behaviour(_obj,this), bManager(_bm), render(_r),shader(_s), counter(_count) {}
+                     OpenEngine::Behaviour(_obj), bManager(_bm), render(_r),shader(_s), counter(_count) {}
     void init() override;
     void update(double delta) override;
     BaseComponent* instantiate() override{return new FractalComponent(*this);}

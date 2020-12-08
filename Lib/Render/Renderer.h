@@ -28,8 +28,7 @@ namespace OpenEngine
         void flush();
 
     public:
-        template<typename T>
-        Renderer(Object & _obj,T * _ptr) : Component(_obj,_ptr){}
+        Renderer(Object & _obj) : Component(_obj){}
         virtual void render() = 0;
         virtual void prepare() = 0;
 

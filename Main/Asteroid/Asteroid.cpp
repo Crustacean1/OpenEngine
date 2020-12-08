@@ -8,7 +8,7 @@
 
 using namespace OpenEngine;
 
-Asteroid::Asteroid(Object & _obj,Material * _mat) : Behaviour(_obj,this)
+Asteroid::Asteroid(Object & _obj,Material * _mat) : Behaviour(_obj)
 {
     auto asteroid = SimpleMesh<Vertex3pntxy,V3Index>::generateSphere(40,2);
 
@@ -50,7 +50,7 @@ void Asteroid::update(double delta)
 {
 
 }
-AsteroidField::AsteroidField(Object & _obj,Material * _mat) : Behaviour(_obj,this)
+AsteroidField::AsteroidField(Object & _obj,Material * _mat) : Behaviour(_obj)
 {
     for(int i = 0;i<400;i++)
     {

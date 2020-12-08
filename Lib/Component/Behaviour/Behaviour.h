@@ -11,8 +11,7 @@ namespace OpenEngine
     class Behaviour : public Component<Behaviour,BehaviourManager>//Useless as of now, left for sake of clarity
     {
         public:
-        template<typename T>
-        Behaviour(Object & _obj,T * _ptr) : Component(_obj,_ptr){}
+        Behaviour(Object & _obj) : Component(_obj){}
         virtual void update(double delta){};
         virtual void init(){}
     };

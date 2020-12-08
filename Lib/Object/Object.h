@@ -12,6 +12,8 @@ namespace OpenEngine
     class Scene;
 
     class BaseComponent;
+    template<typename T,typename M>
+    class Component;
 
     class Object final
     {
@@ -23,7 +25,7 @@ namespace OpenEngine
         std::set<Object *> children;
         std::map<std::string, std::list<BaseComponent *>> components;
 
-        void dropComponent(const std::list<BaseComponent*>::iterator & it);
+        void dropComponent(const std::list<BaseComponent *>::iterator &it);
 
         // Scale->rotation->translation <- transform order
 
@@ -31,7 +33,7 @@ namespace OpenEngine
         Transform transform;
 
         Object(const Object &_obj);
-        Object(Object && _obj);
+        Object(Object &&_obj);
         Object(Scene *_scene);
         Object(Object *parent);
 
@@ -57,10 +59,10 @@ namespace OpenEngine
         void dropScene();
 
         Object *getParent() { return parent; }
-        std::set<Object*>& getChildren(){return children;}
+        std::set<Object *> &getChildren() { return children; }
 
         //Copy (in future also move) operators <- TODO
-        Object &operator=(const Object &_obj);  // Ultra important!!!!
+        Object &operator=(const Object &_obj); // Ultra important!!!!
 
         //Tags (rather not)
         //Add serializable class <- Would require unique indexing???(Or global map from prev memory address to current) Saving pointer links
@@ -71,12 +73,14 @@ namespace OpenEngine
     //
 
     template <typename K, typename... Args>
-    K *Object::addComponent(Args... args)
+    K* Object::addComponent(Args... args)
     {
-        K * ptr = new K(*this, args...);
+        K *ptr = new K(*this, args...);
         components[typeid(K).name()].push_back((BaseComponent *)ptr);
+        ptr->setManagerInstance(0);
         return (K *)components[typeid(K).name()].back();
     }
+
     template <typename K>
     void Object::dropComponent(K *_comp)
     {

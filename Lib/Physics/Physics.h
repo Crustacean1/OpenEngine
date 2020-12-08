@@ -10,15 +10,13 @@ namespace OpenEngine
     class PhysicManager : public ComponentManager<Physical, PhysicManager>
     {
     protected:
-        template <typename K>
-        PhysicManager(K *_ptr) : ComponentManager(_ptr) {}
 
         friend ComponentManager<Physical,PhysicManager>;
-        static unsigned int mainIndex;
+        //static unsigned int mainIndex;
         static std::map<unsigned int,PhysicManager*> managers;
 
     public:
-        PhysicManager() : ComponentManager(this) {}
+        PhysicManager(Scene * _scene) : ComponentManager(_scene) {}
         void update(double delta);
     };
 }; // namespace OpenEngine

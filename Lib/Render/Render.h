@@ -38,13 +38,13 @@ namespace OpenEngine
 
         friend ComponentManager<Renderer,Render3D>;
         static std::map<unsigned int,Render3D*> managers;
-        static unsigned int mainIndex;
+        //static unsigned int mainIndex;
 
     public:
         void add(Renderer *_renderer);
         Renderer* drop(Renderer *_renderer);
 
-        Render3D(Camera *_cam);
+        Render3D(Scene * _scene, Camera *_cam);
         void setCamera(Camera *_cam) { mainCamera = _cam; }
         Helios *lightManager;
         void render();

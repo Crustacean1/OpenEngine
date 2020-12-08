@@ -13,10 +13,10 @@ namespace OpenEngine
         protected:
         friend ComponentManager<Light,Helios>;
         static std::map<unsigned int,Helios*> managers;
-        static unsigned int mainIndex;
+        //static unsigned int mainIndex;
 
         public:
-        Helios(): ComponentManager(this){}
+        Helios(Scene * _scene): ComponentManager(_scene){}
         void illuminate(Camera * cam);
     };
 };

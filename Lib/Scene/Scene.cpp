@@ -11,7 +11,7 @@
 #include "../../Main/CameraObject.h"
 #include "../Input/Mouse.h"
 
-OpenEngine::Scene::Scene() : freud(*new BehaviourManager), picasso(*new Render3D(nullptr)), feynman(*new PhysicManager)
+OpenEngine::Scene::Scene() : freud(*new BehaviourManager(this)), picasso(*new Render3D(this,nullptr)), feynman(*new PhysicManager(this))
 {
 
 }

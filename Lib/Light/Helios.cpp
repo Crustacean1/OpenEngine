@@ -4,7 +4,7 @@
 #include "../Component/Transform/Transform.h"
 #include "../Object/Object.h"
 
-unsigned int OpenEngine::Helios::mainIndex = 0;
+//unsigned int OpenEngine::Helios::mainIndex = 0;
 std::map<unsigned int,OpenEngine::Helios *> OpenEngine::Helios::managers;
 
 void OpenEngine::Helios::illuminate(Camera *cam)

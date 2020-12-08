@@ -3,15 +3,17 @@
 
 #include <set>
 #include <map>
+#include "../Scene/Scene.h"
 //Note: put BaseComponent in separate file top avoid circular dependencies
 namespace OpenEngine
 {
+    class Scene;
 
     template <typename T, typename M>
     class ComponentManager
     {
         static std::map<unsigned int, M*> &__managers;
-        static unsigned int &__mainIndex;
+        //static unsigned int &__mainIndex;
 
     protected:
         std::set<T *> components;
@@ -22,7 +24,7 @@ namespace OpenEngine
 
         static M *getInstance(T *ptr, unsigned int id);
 
-        ComponentManager(M *_ptr);
+        ComponentManager(Scene * scene);
 
         virtual ~ComponentManager(){};
     };
@@ -44,7 +46,7 @@ namespace OpenEngine
     template <typename T, typename M>
     M *ComponentManager<T, M>::getInstance(T *_ptr, unsigned int id)
     {
-        if (id < __mainIndex)
+        if (__managers.find(id)!=__managers.end())
         {
             __managers[id]->add(_ptr);
             return __managers[id];
@@ -52,13 +54,13 @@ namespace OpenEngine
         return nullptr;
     }
     template <typename T, typename M>
-    ComponentManager<T, M>::ComponentManager(M *_ptr) { __managers[__mainIndex++] = _ptr; }
+    ComponentManager<T, M>::ComponentManager(Scene * _scene) { __managers[_scene->uid] = (M*)this; }
 }; // namespace OpenEngine
 
 template <typename T, typename M>
 std::map<unsigned int, M *> &OpenEngine::ComponentManager<T, M>::__managers = M::managers;
 
-template <typename T, typename M>
-unsigned int &OpenEngine::ComponentManager<T, M>::__mainIndex = M::mainIndex;
+//template <typename T, typename M>
+//unsigned int &OpenEngine::ComponentManager<T, M>::__mainIndex = M::mainIndex;
 
 #endif /*COMPONENTMANAGER*/

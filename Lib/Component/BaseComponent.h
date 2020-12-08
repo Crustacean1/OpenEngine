@@ -24,6 +24,8 @@ namespace OpenEngine
 
         virtual BaseComponent* instantiate() = 0;
 
+        void setManagerInstance(unsigned int id = 0){}
+
         virtual ~BaseComponent() {}
     };
 

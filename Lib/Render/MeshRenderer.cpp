@@ -4,7 +4,7 @@
 #include "../Material/Material.h"
 #include "Render.h"
 
-OpenEngine::MeshRenderer::MeshRenderer(Object & object) : Renderer::Renderer(object,this){}
+OpenEngine::MeshRenderer::MeshRenderer(Object & object) : Renderer::Renderer(object){}
 
 
 void OpenEngine::MeshRenderer::render(){}

@@ -11,7 +11,7 @@ namespace OpenEngine
     class Object;
     class PhysicManager;
 
-    class Physical : Component<Physical, PhysicManager>
+    class Physical : public Component<Physical, PhysicManager>
     {
         glm::vec3 angularMomentum;
         glm::vec3 powerMomentum;

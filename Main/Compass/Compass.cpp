@@ -9,7 +9,7 @@
 
 using namespace OpenEngine;
 
-Compass::Compass(OpenEngine::Object & _obj) : OpenEngine::Behaviour(_obj,this)
+Compass::Compass(OpenEngine::Object & _obj) : OpenEngine::Behaviour(_obj)
 {
     SimpleMesh<Vertex3pc,V2Index> * mesh = new SimpleMesh<Vertex3pc,V2Index>();
 

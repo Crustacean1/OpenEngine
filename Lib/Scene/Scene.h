@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include "../Utilities/UID/UID.h"
 
 namespace OpenEngine
 {
@@ -50,6 +51,8 @@ namespace OpenEngine
         void render();
         void update();
         void loop();
+
+        UID<Scene> uid;
     };
 }; // namespace OpenEngine
 

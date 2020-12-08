@@ -9,7 +9,7 @@
 #include "Physics.h"
 #include <iostream>
 
-OpenEngine::Physical::Physical(Object &_obj, double _ad, double _vd) : Component(_obj,this), velocity(glm::vec3(0, 0, 0)), acceleration(glm::vec3(0, 0, 0)), angularMomentum(glm::vec3(0, 0, 0)), powerMomentum(glm::vec3(0, 0, 0)), angDamp(_ad), velDamp(_vd) {}
+OpenEngine::Physical::Physical(Object &_obj, double _ad, double _vd) : Component(_obj), velocity(glm::vec3(0, 0, 0)), acceleration(glm::vec3(0, 0, 0)), angularMomentum(glm::vec3(0, 0, 0)), powerMomentum(glm::vec3(0, 0, 0)), angDamp(_ad), velDamp(_vd) {}
 
 void OpenEngine::Physical::update(double delta)
 {

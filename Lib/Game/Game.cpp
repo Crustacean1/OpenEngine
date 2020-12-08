@@ -126,10 +126,6 @@ void OpenEngine::Game::loadGame()
     fMat->spec.flush();
     fMat->shininess = 32;
     fMat->shader = shader4;
-    //auto floor = new Object(currentScene.get());
-    //floor->addComponent<MeshRenderer>()->setMesh(SimpleMesh<Vertex3pntxy,V3Index>::generateCuboid(50,1,50),mat1);
-    //floor->addComponent<Roughener>();
-    //floor->localPosition = glm::dquat(0,0,-1,0);
 
     CubeMaterial * cmat = new CubeMaterial();
     cmat->cubemap.loadFromFile("Resources/Images/cubemap2/",".png");
@@ -154,8 +150,8 @@ void OpenEngine::Game::loadGame()
     auto compass = new Object(currentScene);
     compass->addComponent<Compass>();
 
-    //auto ast1 = new Object(currentScene.get());
-    //ast1->addComponent<AsteroidField>(fMat);
+    auto ast1 = new Object(currentScene);
+    ast1->addComponent<AsteroidField>(fMat);
 
     std::cout << "Game loaded\n";
 }

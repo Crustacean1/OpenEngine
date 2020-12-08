@@ -8,10 +8,10 @@
 #include "../Light/Helios.h"
 #include "../Component/Transform/Transform.h"
 
-unsigned int OpenEngine::Render3D::mainIndex = 0;
+//unsigned int OpenEngine::Render3D::mainIndex = 0;
 std::map<unsigned int,OpenEngine::Render3D*> OpenEngine::Render3D::managers;
 
-OpenEngine::Render3D::Render3D(Camera *_cam) : ComponentManager(this), mainCamera(_cam), lightManager(new Helios()) {}
+OpenEngine::Render3D::Render3D(Scene * _scene,Camera *_cam) : ComponentManager(_scene), mainCamera(_cam), lightManager(new Helios(_scene)) {}
 
 void OpenEngine::InstantiatingBuffer::reallocate(int i)
 {
