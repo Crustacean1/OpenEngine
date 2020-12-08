@@ -30,6 +30,8 @@ namespace OpenEngine
     public:
         Transform transform;
 
+        Object(const Object &_obj);
+        Object(Object && _obj);
         Object(Scene *_scene);
         Object(Object *parent);
 
@@ -58,9 +60,7 @@ namespace OpenEngine
         std::set<Object*>& getChildren(){return children;}
 
         //Copy (in future also move) operators <- TODO
-
-        Object &operator()(const Object &_obj);
-        Object &operator=(const Object &_obj);
+        Object &operator=(const Object &_obj);  // Ultra important!!!!
 
         //Tags (rather not)
         //Add serializable class <- Would require unique indexing???(Or global map from prev memory address to current) Saving pointer links
@@ -73,8 +73,8 @@ namespace OpenEngine
     template <typename K, typename... Args>
     K *Object::addComponent(Args... args)
     {
-        components[typeid(K).name()].push_back((BaseComponent *)new K(this, args...));
-        //components[typeid(K).name()].back()->setManager(getScene());
+        K * ptr = new K(*this, args...);
+        components[typeid(K).name()].push_back((BaseComponent *)ptr);
         return (K *)components[typeid(K).name()].back();
     }
     template <typename K>

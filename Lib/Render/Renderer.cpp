@@ -11,7 +11,7 @@ void Renderer::flush()
 {
     if (manager != nullptr)
     {
-        manager->renderees[material][mesh].push_back(object);
+        manager->renderees[material][mesh].push_back(&object);
         manager->iBuffer.reallocate(manager->renderees[material][mesh].size());
         it = (--manager->renderees[material][mesh].end());
     }

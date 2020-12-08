@@ -3,14 +3,24 @@
 
 #include "../ComponentManager.h"
 #include "Behaviour.h"
+#include <map>
+
 namespace OpenEngine
 {
-    class BehaviourManager : public ComponentManager<Behaviour,BehaviourManager>
+    class BehaviourManager : public ComponentManager<Behaviour, BehaviourManager>
     {
-        public:
-        void add(Behaviour * _comp) override;
+    protected:
+        friend ComponentManager<Behaviour, BehaviourManager>;
+        static std::map<unsigned int,BehaviourManager *> managers;
+        static unsigned int mainIndex;
+        
+        template <typename K>
+        BehaviourManager(K *_ptr) : ComponentManager(_ptr) {}
+
+    public:
+        BehaviourManager() : ComponentManager(this) {}
         void update(double delta);
     };
-};
+}; // namespace OpenEngine
 
 #endif /*BEHAVIOURMANAGER*/

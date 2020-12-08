@@ -17,9 +17,10 @@ namespace OpenEngine
         friend M;
 
     protected:
+        friend Object;
         M *manager;
         Component(Object &_obj, T *ptr, unsigned int id = 0);
-        void setManagerInstance(unsigned int id = 0);
+        void setManagerInstance(T * ptr,unsigned int id = 0);
         ~Component();
 
     public:
@@ -38,12 +39,14 @@ namespace OpenEngine
     }
 
     template <typename T, typename M>
-    void Component<T, M>::setManagerInstance(unsigned int id)
+    void Component<T, M>::setManagerInstance(T * ptr,unsigned int id)
     {
         if (manager != nullptr)
         {
-            manager = M::getInstance(manager->drop(this), id);
+            manager = M::getInstance(manager->drop((T*)this), id);
+            return;
         }
+        manager = M::getInstance(ptr,id);
     }
 }; // namespace OpenEngine
 

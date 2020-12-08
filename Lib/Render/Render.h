@@ -3,6 +3,7 @@
 
 #include <set>
 #include <map>
+#include <list>
 #include "../Mesh/Mesh.h"
 #include "../Component/ComponentManager.h"
 #include <vector>
@@ -35,6 +36,10 @@ namespace OpenEngine
         InstantiatingBuffer iBuffer;
         std::map<Material *, std::map<Mesh *, std::list<Object *>>> renderees;
 
+        friend ComponentManager<Renderer,Render3D>;
+        static std::map<unsigned int,Render3D*> managers;
+        static unsigned int mainIndex;
+
     public:
         void add(Renderer *_renderer);
         Renderer* drop(Renderer *_renderer);
@@ -42,7 +47,7 @@ namespace OpenEngine
         Render3D(Camera *_cam);
         void setCamera(Camera *_cam) { mainCamera = _cam; }
         Helios *lightManager;
-        virtual void execute();
+        void render();
         friend Renderer;
     };
 }; // namespace OpenEngine

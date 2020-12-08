@@ -9,17 +9,17 @@ namespace OpenEngine
 {
     class Game
     {
-        std::map<unsigned int, std::shared_ptr<Scene>> scenes;
-        std::shared_ptr<Scene> currentScene = nullptr;
+        std::map<unsigned int, Scene *> scenes;
+        Scene *currentScene = nullptr;
         Window &window;
 
     public:
         Game();
         void initGame();
-        void loadGame();//For testing , will be replaced
+        void loadGame(); //For testing , will be replaced
         void gameLoop();
 
-        void addScene(std::shared_ptr<Scene> _scene);
+        void addScene(Scene *_scene);
         void switchScene(unsigned int _scene);
     };
 }; // namespace OpenEngine

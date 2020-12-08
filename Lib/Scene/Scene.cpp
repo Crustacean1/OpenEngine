@@ -1,5 +1,6 @@
 #include "Scene.h"
-#include "../Render/SimpleRender.h"
+#include "../Render/Render.h"
+#include "../Physics/Physics.h"
 #include <GLFW/glfw3.h>
 #include "../Object/Object.h"
 #include "../Render/Renderer.h"
@@ -7,9 +8,23 @@
 #include "../Window/Window.h"
 #include <iostream>
 #include <fstream>
+#include "../../Main/CameraObject.h"
+#include "../Input/Mouse.h"
 
+OpenEngine::Scene::Scene() : freud(*new BehaviourManager), picasso(*new Render3D(nullptr)), feynman(*new PhysicManager)
+{
+
+}
 void OpenEngine::Scene::init()
 {
+    auto * camera = new Object(this);
+    camera->addComponent<BasicCamera>();
+    camera->addComponent<CameraControler>();
+    Mouse::getMouse()->addMovementCallback(camera->getComponent<CameraControler>(0));
+
+    picasso.setCamera(camera->getComponent<BasicCamera>(0));
+
+
 }
 void OpenEngine::Scene::add(Object* _object)
 {
@@ -37,7 +52,9 @@ void OpenEngine::Scene::loop()
         glClear(GL_COLOR_BUFFER_BIT);
         glClear(GL_DEPTH_BUFFER_BIT);
 
-        
+        freud.update(time2-time1);
+        feynman.update(time2-time1);
+        picasso.render();
 
         glfwSwapBuffers(window);
         n++;

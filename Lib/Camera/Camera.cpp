@@ -33,3 +33,8 @@ void OpenEngine::BasicCamera::computeProjectionMatrix()
 {
     projMat = glm::perspective(glm::radians(fov), aspect, near, far);
 }
+
+OpenEngine::BaseComponent* OpenEngine::BasicCamera::instantiate()
+{
+    return new BasicCamera(object,fov,aspect,near,far);
+}

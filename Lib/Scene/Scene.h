@@ -12,11 +12,8 @@ namespace OpenEngine
     class Object;
     class Render3D;
     class BehaviourManager;
-    class Physics;
+    class PhysicManager;
 
-    class Temporal;
-    class Invariant;
-    class Passive;
 
     template <typename K,typename M>
     class ComponentManager;
@@ -38,11 +35,12 @@ namespace OpenEngine
 
         BehaviourManager &freud;
         Render3D & picasso;
-        Physics & feynman;
+        PhysicManager & feynman;
 
         SceneState state;
         //Render???
     public:
+        Scene();
 
         void init();
 

@@ -69,3 +69,41 @@ void OpenEngine::Object::dropScene()
     scene->drop(this);
     scene = nullptr;
 }
+OpenEngine::Object::Object::Object(const Object & _obj) : transform(*this)
+{
+    scene = _obj.scene;
+    parent = _obj.parent;
+    for(auto & a : _obj.components)
+    {
+        for(auto & b : a.second)
+        {
+            components[a.first].push_back(b->instantiate());
+        }
+    }
+}
+OpenEngine::Object::Object(OpenEngine::Object && _obj) : transform(*this)
+{
+    scene = _obj.scene;
+    parent = _obj.parent;
+    for(auto & a : _obj.components)
+    {
+        for(auto & b : a.second)
+        {
+            components[a.first].push_back(b);
+            b = nullptr;
+        }
+    }
+}
+OpenEngine::Object & OpenEngine::Object::operator=(const OpenEngine::Object & _obj)
+{
+    scene = _obj.scene;
+    parent = _obj.parent;
+    for(auto & a : _obj.components)
+    {
+        for(auto & b : a.second)
+        {
+            components[a.first].push_back(b->instantiate());
+        }
+    }
+    return *this;
+}

@@ -13,6 +13,7 @@
 #include "../Material/Material.h"
 #include "../Light/PointLight.h"
 #include "../Physics/Physical.h"
+#include "../Physics/Physics.h"
 #include "../Shader/Shader.h"
 #include "../Object/Object.h"
 #include "../Camera/Camera.h"
@@ -52,22 +53,9 @@ void OpenEngine::Game::loadGame()
 
     //Scene Setup
 
-    scenes[1] = std::shared_ptr<Scene>(new Scene);
+    scenes[1] = new Scene;
     currentScene = scenes[1];
-
-    BehaviourManager * bManager = (new BehaviourManager);
-    PhysicManager * pManager = new PhysicManager();
-
-    Object *camObj = (new Object(currentScene.get()));
-    BasicCamera * mainCamera = camObj->addComponent<BasicCamera>();
-    camObj->localPosition = glm::dquat(0,0,0,0);
-
-    Render3D * sRender = new Render3D(mainCamera);
-
-    currentScene->addComponentManager(bManager);
-    currentScene->addComponentManager(sRender);
-    currentScene->addComponentManager(sRender->lightManager);
-    currentScene->addComponentManager(pManager);
+    currentScene->init();
 
     Shader * shader1 = (new Shader("Shaders/Shader1/shader1.vert", "Shaders/Shader1/shader1.frag"));
     Shader * shader2 = (new Shader("Shaders/Shader2/shader2.vert", "Shaders/Shader2/shader2.frag"));
@@ -106,19 +94,19 @@ void OpenEngine::Game::loadGame()
 
     //Fractal
 
-    auto lamp2 = new Object(currentScene.get());
-    lamp2->localRotation = glm::dquat(-sqrt(2)/2,sqrt(2)/2 ,0,0);
+    auto lamp2 = new Object(currentScene);
+    lamp2->transform.localRotation = glm::dquat(-sqrt(2)/2,sqrt(2)/2 ,0,0);
     lamp2->addComponent<DirectionalLight>(glm::vec3(1,1,1),0.2,1.7,1.3)->shader = shader4;
 
-    auto lamp1 = new Object(currentScene.get());
-    lamp1->localRotation = glm::dquat(-0.1,sqrt(0.99) ,0,0);
+    auto lamp1 = new Object(currentScene);
+    lamp1->transform.localRotation = glm::dquat(-0.1,sqrt(0.99) ,0,0);
     lamp1->addComponent<DirectionalLight>(glm::vec3(1,1,1),0.2,0.7,1.3)->shader = shader4;
 
-    auto model = new Object(currentScene.get());
+    auto model = new Object(currentScene);
     model->addComponent<Model>(shader4);
-    model->localPosition = glm::dquat(0,0,10,0);
+    model->transform.localPosition = glm::dquat(0,0,10,0);
 
-    model->localScale = glm::dquat(0,0.06,0.06,0.06);
+    model->transform.localScale = glm::dquat(0,0.06,0.06,0.06);
     //mouse->addMovementCallback(camObj->addComponent<CameraControler>());
     //camObj->localPosition = glm::dquat(0,0,-4,-8);
     //camObj->localRotation = glm::angleAxis(glm::radians(170.f),glm::vec3(1,0,0));
@@ -148,30 +136,26 @@ void OpenEngine::Game::loadGame()
     //cmat->cubemap.createFromColor(128,64,64);
     cmat->shader = shader6;
 
-    auto cmap = new Object(currentScene.get());
+    auto cmap = new Object(currentScene);
     cmap->addComponent<MeshRenderer>()->setMesh(SimpleMesh<Vertex3pntxy,V3Index>::generateCuboid(1,1,1),cmat);
 
     //auto grid = new Object(currentScene.get());
     //grid->addComponent<MeshRenderer>()->setMesh(SimpleMesh<Vertex3p,V2Index>::generateGrid(11,50),mat2);
 
-    auto physicsTest = new Object(currentScene.get());
+    auto physicsTest = new Object(currentScene);
     physicsTest->addComponent<MeshRenderer>()->setMesh(SimpleMesh<Vertex3pntxy,V3Index>::generateCuboid(2,2,2),fMat);
     physicsTest->addComponent<Roughener>();
-    physicsTest->localPosition = glm::dquat(0,0,20,0);
+    physicsTest->transform.localPosition = glm::dquat(0,0,20,0);
     model->addComponent<Physical>(0.1,0.3)->actForce(glm::vec3(1,0,0));
 
-    auto camHolder = new Object(model);
-    mouse->addMovementCallback(camHolder->addComponent<CameraControler>());
-    camHolder->addChild(camObj);
-    camObj->localRotation = glm::dquat(0.1,sqrt(1-0.01),0,0);
-    camObj->localPosition = glm::dquat(0,0,-4,-10);
     //camObj->localRotation = glm::dquat(0,0,1,0);
     //grid->addComponent<GridController>(model);
 
-    auto compass = new Object(currentScene.get());
+    auto compass = new Object(currentScene);
     compass->addComponent<Compass>();
-    auto ast1 = new Object(currentScene.get());
-    ast1->addComponent<AsteroidField>(fMat);
+
+    //auto ast1 = new Object(currentScene.get());
+    //ast1->addComponent<AsteroidField>(fMat);
 
     std::cout << "Game loaded\n";
 }

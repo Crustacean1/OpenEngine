@@ -2,6 +2,7 @@
 #include "../../Lib/Mesh/Mesh.h"
 #include "../../Lib/Material/Material.h"
 #include "../../Lib/Render/MeshRenderer.h"
+#include "../../Lib/Render/Render.h"
 #include "../../Lib/Component/Behaviour/BehaviourManager.h"
 #include "../../Lib/Shader/Shader.h"
 #include "../../Lib/Object/Object.h"

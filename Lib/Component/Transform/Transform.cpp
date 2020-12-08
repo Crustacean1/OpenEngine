@@ -2,10 +2,7 @@
 #include "../../Object/Object.h"
 // Global getters
 
-OpenEngine::Transform::Transform(Object & _obj) : BaseComponent(_obj)
-{
-
-}
+OpenEngine::Transform::Transform(Object &_obj) : BaseComponent(_obj) {}
 
 glm::vec3 OpenEngine::Transform::getGlobalPosition()
 {
@@ -24,21 +21,6 @@ glm::vec3 OpenEngine::Transform::getGlobalScale()
     return glm::vec3(globalScale.x * localScale.x,
                      globalScale.y * localScale.y,
                      globalScale.z * localScale.z);
-}
-
-// Local getters
-
-glm::vec3 OpenEngine::Transform::getLocalPosition()
-{
-    return glm::vec3(localPosition.x, localPosition.y, localPosition.z);
-}
-glm::dquat OpenEngine::Transform::getLocalRotation()
-{
-    return localRotation;
-}
-glm::vec3 OpenEngine::Transform::getLocalScale()
-{
-    return glm::vec3(localScale.x, localScale.y, localScale.z);
 }
 
 //Global setter
@@ -88,4 +70,21 @@ void OpenEngine::Transform::flushTransform()
     {
         child->transform.flushTransform();
     }
+}
+
+glm::dquat OpenEngine::Transform::transformVector(glm::vec3 vec)
+{
+    glm::dquat temp(0, vec.x * localScale.x, vec.y * localScale.y, vec.z * localScale.z);
+    temp = localRotation * temp * glm::conjugate(localRotation);
+    temp = glm::dquat(temp.w * globalScale.w, temp.x * globalScale.x, temp.y * globalScale.y, temp.z * globalScale.z);
+    temp = globalRotation * temp * glm::conjugate(globalRotation);
+    return temp;
+}
+glm::dquat OpenEngine::Transform::transformPosition(glm::vec3 vec)
+{
+    glm::dquat temp(0, vec.x * localScale.x, vec.y * localScale.y, vec.z * localScale.z);
+    temp = localPosition + localRotation * temp * glm::conjugate(localRotation);
+    temp = glm::dquat(temp.w * globalScale.w, temp.x * globalScale.x, temp.y * globalScale.y, temp.z * globalScale.z);
+    temp = globalPosition + globalRotation * temp * glm::conjugate(globalRotation);
+    return temp;
 }

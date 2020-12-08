@@ -6,8 +6,13 @@
 #include "../Mesh/Mesh.h"
 #include "../Camera/Camera.h"
 #include "../Light/Helios.h"
+#include "../Component/Transform/Transform.h"
 
-OpenEngine::Render3D::Render3D(Camera *_cam) : mainCamera(_cam), lightManager(new Helios()) {}
+unsigned int OpenEngine::Render3D::mainIndex = 0;
+std::map<unsigned int,OpenEngine::Render3D*> OpenEngine::Render3D::managers;
+
+OpenEngine::Render3D::Render3D(Camera *_cam) : ComponentManager(this), mainCamera(_cam), lightManager(new Helios()) {}
+
 void OpenEngine::InstantiatingBuffer::reallocate(int i)
 {
     if (i + 1 > buff.getSize())
@@ -23,18 +28,22 @@ void OpenEngine::InstantiatingBuffer::reallocate(int i)
 
 void OpenEngine::Render3D::add(Renderer *_renderer)
 {
-    ComponentManager<Renderer,Render3D>::add(_renderer);
+    ComponentManager<Renderer, Render3D>::add(_renderer);
 }
-OpenEngine::Renderer * OpenEngine::Render3D::drop(Renderer *_renderer)
+OpenEngine::Renderer *OpenEngine::Render3D::drop(Renderer *_renderer)
 {
-    return ComponentManager<Renderer,Render3D>::drop(_renderer);
+    return ComponentManager<Renderer, Render3D>::drop(_renderer);
 }
 
-void OpenEngine::Render3D::execute()
+void OpenEngine::Render3D::render()
 {
     glm::mat4 view;
     lightManager->illuminate(mainCamera);
     InstanceMatrix *mv;
+    if (mainCamera == nullptr)
+    {
+        return;
+    }
 
     for (auto &material : renderees)
     {
@@ -43,15 +52,14 @@ void OpenEngine::Render3D::execute()
             material.first->activate();
             material.first->getShader()->set("proj", mainCamera->getProjectionMatrix());
         }
-        int i = 0;
         for (auto &mesh : material.second)
         {
             mv = iBuffer.buff.getData();
             for (auto &obj : mesh.second)
             {
-                (mv++)->mat = mainCamera->getViewMatrix(obj->getGlobalPosition(),
-                                                        obj->getGlobalRotation(),
-                                                        obj->getGlobalScale());
+                (mv++)->mat = mainCamera->getViewMatrix(obj->transform.getGlobalPosition(),
+                                                        obj->transform.getGlobalRotation(),
+                                                        obj->transform.getGlobalScale());
             }
             mesh.first->bind();
             iBuffer.buff.flush();

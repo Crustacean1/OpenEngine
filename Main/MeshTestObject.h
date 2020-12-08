@@ -24,6 +24,7 @@ class RotationController : public OpenEngine::Behaviour
     RotationController(OpenEngine::Object & _obj,glm::vec3 _ax = glm::vec3(0,1,0)) : OpenEngine::Behaviour(_obj,this), axis(_ax){}
     double rotationSpeed = 0.5;
     void update(double delta);
+    BaseComponent* instantiate(){return new RotationController(*this);}
 };
 class GridController : public OpenEngine::Behaviour
 {
@@ -33,6 +34,7 @@ class GridController : public OpenEngine::Behaviour
     GridController(OpenEngine::Object & _obj,OpenEngine::Object * _targ) : OpenEngine::Behaviour(_obj,this), target(_targ){} 
     void setTarget(OpenEngine::Object * _targ){target = _targ;}
     void update(double delta);
+    BaseComponent* instantiate(){return new GridController(*this);}
 };
 class Roughener : public OpenEngine::Behaviour
 {
@@ -40,5 +42,6 @@ class Roughener : public OpenEngine::Behaviour
     Roughener(OpenEngine::Object & _obj):Behaviour(_obj,this){}
     void update(double delta){}
     void init();
+    BaseComponent* instantiate(){return new Roughener(*this);}
 };
 #endif /*MESHTESTOBJECT*/

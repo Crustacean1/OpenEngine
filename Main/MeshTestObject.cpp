@@ -1,6 +1,7 @@
 #include "MeshTestObject.h"
 #include "../Lib/Mesh/Mesh.h"
 #include "../Lib/Render/MeshRenderer.h"
+#include "../Lib/Render/Render.h"
 #include "../Lib/Shader/Shader.h"
 #include "../Lib/Material/Material.h"
 #include <iostream>
@@ -15,8 +16,8 @@ float mod(float a, float b)
 void RotationController::update(double delta)
 {
     //std::cout << "I have no case and i must shite: " << object.localRotation.w << " " << object.localRotation.x << " " << object.localRotation.y << " " << object.localRotation.z << " " << std::endl;
-    object->localRotation = (glm::dquat)glm::angleAxis((float)(delta * rotationSpeed), axis) * object->localRotation;
-    object->flushTransform();
+    object.transform.localRotation = (glm::dquat)glm::angleAxis((float)(delta * rotationSpeed), axis) * object.transform.localRotation;
+    object.transform.flushTransform();
 }
 
 void GridController::update(double delta)
@@ -25,14 +26,14 @@ void GridController::update(double delta)
     {
         return;
     }
-    object->localPosition.x = mod(target->getGlobalPosition().x, gap);
-    object->localPosition.y = mod(target->getGlobalPosition().y, gap);
-    object->localPosition.z = mod(target->getGlobalPosition().z, gap);
+    object.transform.localPosition.x = mod(target->transform.getGlobalPosition().x, gap);
+    object.transform.localPosition.y = mod(target->transform.getGlobalPosition().y, gap);
+    object.transform.localPosition.z = mod(target->transform.getGlobalPosition().z, gap);
 }
 void Roughener::init()
 {
     srand(time(0));
-    auto * comp = object->getComponent<OpenEngine::MeshRenderer>(0);
+    auto * comp = object.getComponent<OpenEngine::MeshRenderer>(0);
     if(comp==nullptr){return;}
     auto material  = (OpenEngine::Material3D*)comp->getMaterial();
     material->norm.create(64,64,3);

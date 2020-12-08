@@ -14,15 +14,16 @@ class CameraControler : public OpenEngine::Behaviour, public OpenEngine::MouseMo
     double prevY;
 
 public:
-    double xfactor = 0.002;
-    double yfactor = -0.002;
+    double xfactor = -0.001;
+    double yfactor = -0.001;
 
-    double camSpeed = -2;
+    double camSpeed = -0.5;
 
     CameraControler(OpenEngine::Object &obj) : Behaviour(obj, this) {}
     void mouseMovementCallback(GLFWwindow *window, double xpos, double ypos);
     void update(double delta) override;
     void init() override;
+    BaseComponent* instantiate(){return new CameraControler(*this);}
 };
 
 #endif /*CAMERAOBJECT*/

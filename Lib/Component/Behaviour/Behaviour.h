@@ -2,6 +2,7 @@
 #define BEHAVIOUR
 
 #include "../Component.h"
+#include <list>
 
 namespace OpenEngine
 {

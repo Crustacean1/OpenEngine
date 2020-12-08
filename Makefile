@@ -18,7 +18,7 @@ ${target}: test ${objects}
 	g++ -o ${target} ${objects} -g -std=c++20 -L/home/kamil2/Libraries/glfw-3.3.2/build/src -lglfw3 -lrt -lm -ldl -lX11 -lpthread -lGL
 
 %.o: %.cpp %.h
-	g++ -g -Wvolatile -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c $< -o ${subst cpp,o,$<}
+	g++ -g -fdiagnostics-show-option -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c $< -o ${subst cpp,o,$<}
 
 %.h: %.cpp
 	touch ${subst cpp,h,$<}

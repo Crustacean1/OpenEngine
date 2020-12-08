@@ -3,6 +3,7 @@
 
 #include "../Component/Component.h"
 #include <tuple>
+#include <list>
 
 namespace OpenEngine
 {

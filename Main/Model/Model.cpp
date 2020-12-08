@@ -2,7 +2,9 @@
 #include "../../Lib/Loaders/MeshLoader.h"
 #include "../../Lib/Loaders/MaterialLoader.h"
 #include "../../Lib/Render/MeshRenderer.h"
+#include "../../Lib/Render/Render.h"
 #include "../../Lib/Mesh/Mesh.h"
+#include "../../Lib/Object/Object.h"
 #include "../../Lib/Material/Material.h"
 
 void Model::init()
@@ -13,7 +15,7 @@ void Model::init()
     for(int i =0;i<meshes.size();i++)
     {
         meshes[i].first->shader = shader;
-        auto renderer = object->addComponent<OpenEngine::MeshRenderer>();
+        auto renderer = object.addComponent<OpenEngine::MeshRenderer>();
         renderer->setMesh(meshes[i].second,meshes[i].first);
     }
 }

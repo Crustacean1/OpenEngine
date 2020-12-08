@@ -3,14 +3,17 @@
 #include "../Camera/Camera.h"
 #include "../Component/Transform/Transform.h"
 #include "../Object/Object.h"
-//#include <iostream>
-void OpenEngine::Helios::illuminate(Camera * cam)
+
+unsigned int OpenEngine::Helios::mainIndex = 0;
+std::map<unsigned int,OpenEngine::Helios *> OpenEngine::Helios::managers;
+
+void OpenEngine::Helios::illuminate(Camera *cam)
 {
     glm::vec4 lPos;
-    for(auto & component : components)
+    for (auto &component : components)
     {
         component->illuminate(cam->getViewMatrix(component->object.transform.getGlobalPosition(),
-                                  component->object.transform.getGlobalRotation(),
-                                  component->object.transform.getGlobalScale()));
+                                                 component->object.transform.getGlobalRotation(),
+                                                 component->object.transform.getGlobalScale()));
     }
 }

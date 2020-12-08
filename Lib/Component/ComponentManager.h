@@ -10,8 +10,8 @@ namespace OpenEngine
     template <typename T, typename M>
     class ComponentManager
     {
-        static std::map<unsigned int, ComponentManager<T, M> *> managers;
-        static unsigned int mainIndex;
+        static std::map<unsigned int, M*> &__managers;
+        static unsigned int &__mainIndex;
 
     protected:
         std::set<T *> components;
@@ -24,7 +24,7 @@ namespace OpenEngine
 
         ComponentManager(M *_ptr);
 
-        virtual ~ComponentManager();
+        virtual ~ComponentManager(){};
     };
     template <typename T, typename M>
     T *ComponentManager<T, M>::drop(T *_ptr)
@@ -44,14 +44,21 @@ namespace OpenEngine
     template <typename T, typename M>
     M *ComponentManager<T, M>::getInstance(T *_ptr, unsigned int id)
     {
-        if (id < mainIndex)
+        if (id < __mainIndex)
         {
-            managers[id]->add(_ptr);
+            __managers[id]->add(_ptr);
+            return __managers[id];
         }
         return nullptr;
     }
     template <typename T, typename M>
-    ComponentManager<T, M>::ComponentManager(M *_ptr) { managers[mainIndex++] = _ptr; }
+    ComponentManager<T, M>::ComponentManager(M *_ptr) { __managers[__mainIndex++] = _ptr; }
 }; // namespace OpenEngine
+
+template <typename T, typename M>
+std::map<unsigned int, M *> &OpenEngine::ComponentManager<T, M>::__managers = M::managers;
+
+template <typename T, typename M>
+unsigned int &OpenEngine::ComponentManager<T, M>::__mainIndex = M::mainIndex;
 
 #endif /*COMPONENTMANAGER*/

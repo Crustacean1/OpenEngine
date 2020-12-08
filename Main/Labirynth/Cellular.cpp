@@ -4,6 +4,8 @@
 #include "../../Lib/Mesh/Mesh.h"
 #include "../../Lib/Material/Material.h"
 #include "../../Lib/Render/MeshRenderer.h"
+#include "../../Lib/Render/Render.h"
+#include "../../Lib/Object/Object.h"
 #include <iostream>
 
 void Labirynth::fill()
@@ -42,7 +44,7 @@ void Labirynth::iterate(int degree)
 void Labirynth::instantiate(int degree)
 {
     char * ptr = (degree%2) ? grid2 : grid1;
-    auto renderer = object->getComponent<OpenEngine::MeshRenderer>(0);
+    auto renderer = object.getComponent<OpenEngine::MeshRenderer>(0);
     auto mesh  = OpenEngine::SimpleMesh<OpenEngine::Vertex3pntxy,OpenEngine::V3Index>::generateCuboid(0.5,1,0.5);
     for(int i = 0;i<width;i++)
     {
@@ -51,10 +53,10 @@ void Labirynth::instantiate(int degree)
             if(!ptr[i*depth+j]){continue;}
             auto child = new OpenEngine::Object(object);
             child->addComponent<OpenEngine::MeshRenderer>()->setMesh(mesh,mat);
-            child->localPosition = glm::dquat(0,scale*i,1,scale*j);
+            child->transform.localPosition = glm::dquat(0,scale*i,1,scale*j);
         }
     }
-    object->flushTransform();
+    object.transform.flushTransform();
 }
 void Labirynth::init()
 {

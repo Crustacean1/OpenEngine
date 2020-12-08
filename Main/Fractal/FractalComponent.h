@@ -18,6 +18,7 @@ public:
                      OpenEngine::Behaviour(_obj,this), bManager(_bm), render(_r),shader(_s), counter(_count) {}
     void init() override;
     void update(double delta) override;
+    BaseComponent* instantiate() override{return new FractalComponent(*this);}
 };
 
 #endif /*FRACTALCOMPONENT*/

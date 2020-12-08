@@ -24,7 +24,7 @@ namespace OpenEngine
         double mass;
 
     public:
-        Physical(Object *_obj,double _ad=0.5,double _vd = 0.5);
+        Physical(Object &_obj,double _ad=0.5,double _vd = 0.5);
         void update(double delta);
 
         glm::vec3 getDisplacement(double delta);
@@ -44,6 +44,8 @@ namespace OpenEngine
 
         void setVelocityDampening(double _d){velDamp = _d;}
         void setAngularDampening(double _d){angDamp = _d;}
+
+        BaseComponent* instantiate() override{return new Physical(*this);}
     };
 }; // namespace OpenEngine
 

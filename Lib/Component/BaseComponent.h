@@ -22,6 +22,8 @@ namespace OpenEngine
         virtual void onAttach() {}
         virtual void onDetach() {}
 
+        virtual BaseComponent* instantiate() = 0;
+
         virtual ~BaseComponent() {}
     };
 
