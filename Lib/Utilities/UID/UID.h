@@ -9,13 +9,13 @@ namespace OpenEngine
     class UID
     {
         static uint64_t mainIndex;
-        uint64_t index;
+        uint64_t index = (mainIndex++);
 
         UID& operator=(const UID & a){}  //
         UID(const UID& a){} // prevents copies
 
         public:
-        UID() : index(mainIndex++){}
+        UID(){}
         uint64_t getId(){return index;}
         operator uint64_t() const {return index;}
     };

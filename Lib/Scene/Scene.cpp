@@ -13,7 +13,6 @@
 
 OpenEngine::Scene::Scene() : freud(*new BehaviourManager(this)), picasso(*new Render3D(this,nullptr)), feynman(*new PhysicManager(this))
 {
-
 }
 void OpenEngine::Scene::init()
 {

@@ -15,8 +15,7 @@ namespace OpenEngine
     class BehaviourManager;
     class PhysicManager;
 
-
-    template <typename K,typename M>
+    template <typename K, typename M>
     class ComponentManager;
 
     enum SceneState
@@ -28,15 +27,11 @@ namespace OpenEngine
         End
     };
 
-    class Scene
+    class Scene //Important notice: order matters, UID should be placed on top of objects which might require it
     {
         std::set<Object *> objects;
         double time1 = 0;
         double time2 = 0;
-
-        BehaviourManager &freud;
-        Render3D & picasso;
-        PhysicManager & feynman;
 
         SceneState state;
         //Render???
@@ -53,6 +48,11 @@ namespace OpenEngine
         void loop();
 
         UID<Scene> uid;
+
+    private:
+        BehaviourManager &freud;
+        Render3D &picasso;
+        PhysicManager &feynman;
     };
 }; // namespace OpenEngine
 
