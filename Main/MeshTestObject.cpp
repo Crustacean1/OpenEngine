@@ -4,6 +4,7 @@
 #include "../Lib/Render/Render.h"
 #include "../Lib/Shader/Shader.h"
 #include "../Lib/Material/Material.h"
+#include "../Lib/Loaders/TextureLoader/TextureLoader.h"
 #include <iostream>
 #include <ctime>
 #include <stdlib.h>
@@ -36,8 +37,8 @@ void Roughener::init()
     auto * comp = object.getComponent<OpenEngine::MeshRenderer>(0);
     if(comp==nullptr){return;}
     auto material  = (OpenEngine::Material3D*)comp->getMaterial();
-    material->norm.create(64,64,3);
-    unsigned char * data = material->norm.getData();
+    material->norm= OpenEngine::TextureLoader::create(64,64,3);
+    unsigned char * data = material->norm->getData();
 
     float xangle,yangle;
 
@@ -53,6 +54,6 @@ void Roughener::init()
             
         }
     }
-    material->norm.flush();
+    material->norm->flush();
     comp->getMaterial()->activate();
 }

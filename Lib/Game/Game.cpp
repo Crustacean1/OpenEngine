@@ -9,7 +9,7 @@
 #include "../../Main/CameraObject.h"
 #include "../Render/MeshRenderer.h"
 #include "../../Main/Model/Model.h"
-#include "../Loaders/MeshLoader.h"
+#include "../Loaders/MeshLoader/MeshLoader.h"
 #include "../Material/Material.h"
 #include "../Light/PointLight.h"
 #include "../Physics/Physical.h"
@@ -64,34 +64,7 @@ void OpenEngine::Game::loadGame()
     Shader * shader5 = (new Shader("Shaders/Shader5/shader5.vert", "Shaders/Shader5/shader5.frag","Shaders/Shader5/shader5.geom"));
     Shader * shader6 = (new Shader("Shaders/Shader6/shader6.vert", "Shaders/Shader6/shader6.frag"));
 
-    Material3D * mat1 = new Material3D();
-    mat1->shader = shader4;
-
-    mat1->amb.loadFromFile("Resources/Images/wall.jpg");
-    mat1->amb.flush();
-    mat1->diff.createFromColor(64,64,64);
-    mat1->diff.flush();
-    mat1->spec.createFromColor(10,10,10);
-    mat1->spec.flush();
-    //mat1->norm.loadFromFile("Resources/Models/Model4/body_showroom_ddn.png");
-    mat1->norm.createFromColor(4,128,255);
-    mat1->norm.flush();
-
-    mat1->shininess = 16.f;
-    mat1->update();
-    mat1->activate();
-
     Material3D * mat2 = new Material3D();
-    mat2->shader = shader2;
-    mat2->amb.createFromColor(255,255,255);
-    mat2->amb.flush();
-    mat2->diff.createFromColor(255,255,255);
-    mat2->diff.flush();
-    mat2->spec.createFromColor(255,255,255);
-    mat2->spec.flush();
-    mat2->update();
-    mat2->activate();
-
     //Fractal
 
     auto lamp2 = new Object(currentScene);
@@ -118,14 +91,6 @@ void OpenEngine::Game::loadGame()
     //camObj->flushTransform();
 
     Material3D * fMat = new Material3D();
-    fMat->diff.createFromColor(64,64,64);
-    fMat->diff.flush();
-    fMat->amb.createFromColor(8,8,8);
-    fMat->amb.flush();
-    fMat->spec.createFromColor(48,48,48);
-    fMat->spec.flush();
-    fMat->shininess = 32;
-    fMat->shader = shader4;
 
     CubeMaterial * cmat = new CubeMaterial();
     cmat->cubemap.loadFromFile("Resources/Images/cubemap2/",".png");

@@ -1,6 +1,6 @@
 #include "Model.h"
-#include "../../Lib/Loaders/MeshLoader.h"
-#include "../../Lib/Loaders/MaterialLoader.h"
+#include "../../Lib/Loaders/MeshLoader/MeshLoader.h"
+#include "../../Lib/Loaders/MaterialLoader/MaterialLoader.h"
 #include "../../Lib/Render/MeshRenderer.h"
 #include "../../Lib/Render/Render.h"
 #include "../../Lib/Mesh/Mesh.h"

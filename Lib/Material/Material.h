@@ -24,10 +24,10 @@ namespace OpenEngine
 
         float shininess;
 
-        Texture2D amb;
-        Texture2D diff;
-        Texture2D spec;
-        Texture2D norm;
+        std::shared_ptr<Texture2D> amb;
+        std::shared_ptr<Texture2D> diff;
+        std::shared_ptr<Texture2D> spec;
+        std::shared_ptr<Texture2D> norm;
 
         Material3D();
         void update();

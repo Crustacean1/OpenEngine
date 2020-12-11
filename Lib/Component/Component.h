@@ -49,6 +49,7 @@ namespace OpenEngine
             }
             return;
         }
+        manager = M::getInstance((T *)this, id);
     }
 }; // namespace OpenEngine
 

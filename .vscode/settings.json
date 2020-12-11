@@ -73,7 +73,8 @@
         "cfenv": "cpp",
         "cinttypes": "cpp",
         "typeindex": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "codecvt": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled",
     "cmake.configureOnOpen": false

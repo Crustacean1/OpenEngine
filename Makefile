@@ -3,7 +3,7 @@
 headers := ${wildcard */*/*/*/*.h} ${wildcard */*/*/*.h} ${wildcard */*/*.h} ${wildcard */*.h}
 sources := ${wildcard */*/*/*/*.c*} ${wildcard */*/*/*.c*} ${wildcard */*/*.c*} ${wildcard */*.c*} main.cpp
 
-cppobjs := ${wildcard */*/*/*./*cpp} ${wildcard */*/*/*.cpp} ${wildcard */*/*.cpp} ${wildcard */*.cpp} main.cpp
+cppobjs := ${wildcard */*/*/*/*./*cpp} ${wildcard */*/*/*.cpp} ${wildcard */*/*.cpp} ${wildcard */*.cpp} main.cpp
 cppobjs := ${cppobjs:%.cpp=%.o}
 
 objects:=  ${sources}
