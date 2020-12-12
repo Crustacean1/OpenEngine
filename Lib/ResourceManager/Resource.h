@@ -10,8 +10,10 @@ namespace OpenEngine
     class Resource
     {
         public:
-        static const Loader<T> * defaultLoader;
+        static const Loader<T> * defLoader;
     };
+    template<typename T>
+    const Loader<T> * Resource<T>::defLoader = T::defaultLoader;
 };
 
 #endif /*RESOURCE*/

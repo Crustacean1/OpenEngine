@@ -34,17 +34,17 @@ std::map<std::string,OpenEngine::Material3D*> OpenEngine::MaterialLoader::load(c
         else if(buff=="Ka")
         {
             file>>r>>g>>b;
-            currentMaterial->amb = ResourceManager::create<Texture2D>(r*255,g*255,b*255,255);
+            currentMaterial->amb->createFromColor(r*255,g*255,b*255);
         }
         else if(buff=="Kd")
         {
             file>>r>>g>>b;
-            currentMaterial->diff = ResourceManager::create<Texture2D>(r*255,g*255,b*255,255);
+            currentMaterial->diff->createFromColor(r*255,g*255,b*255);
         }
         else if(buff=="Ks")
         {
             file>>r>>g>>b;
-            currentMaterial->spec = ResourceManager::create<Texture2D>(r*255,g*255,b*255,255);
+            currentMaterial->spec->createFromColor(r*255,g*255,b*255);
         }
         else if(buff=="map_Ka")
         {

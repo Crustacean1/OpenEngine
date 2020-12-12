@@ -21,10 +21,8 @@ namespace OpenEngine
     public:
         template <typename T>
         static std::shared_ptr<T> load(std::string filename);
-
-        template <typename T, typename... Args>
-        static std::shared_ptr<T> create(Args... args);
         //UID * operator[](const std::string & index);
+        static void confess();
     };
 
     template <typename T>
@@ -40,25 +38,13 @@ namespace OpenEngine
                     return std::static_pointer_cast<T>(resources[typeid(T).name()][fullPath]);
                 }
             }
-            return T::defaultLoader->load(filename.c_str());
+            resources[typeid(T).name()][fullPath] = T::defLoader->load(filename.c_str());
+            return std::static_pointer_cast<T>(resources[typeid(T).name()][fullPath]);
         }
         catch (const std::exception &e)
         {
             std::cout << e.what() << '\n';
         }
-    }
-    template <typename T, typename... Args>
-    std::shared_ptr<T> ResourceManager::create(Args... args)
-    {
-        try
-        {
-            return T::defaultLoader->create(args...);
-        }
-        catch(const std::exception& e)
-        {
-            std::cout << e.what() << '\n';
-        }
-        
     }
 }; // namespace OpenEngine
 

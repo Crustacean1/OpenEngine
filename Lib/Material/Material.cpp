@@ -21,12 +21,12 @@ void OpenEngine::Material3D::activate()
     update();
     shader->set("activeMaterialID", (int)getBinding());
 }
-OpenEngine::Material3D::Material3D() : amb(nullptr),diff(nullptr), spec(nullptr), norm(nullptr), shininess(32)
+OpenEngine::Material3D::Material3D() : amb(new Texture2D()),diff(new Texture2D()), spec(new Texture2D()), norm(new Texture2D()), shininess(32)
 {
-    diff = ResourceManager::create<Texture2D>(127,127,127);
-    amb = ResourceManager::create<Texture2D>(127,127,127);
-    spec = ResourceManager::create<Texture2D>(127,127,127);
-    norm = ResourceManager::create<Texture2D>(127,127,127);
+    diff->createFromColor(127,127,127);
+    amb->createFromColor(127,127,127);
+    spec->createFromColor(127,127,127);
+    norm->createFromColor(127,127,255);
 }
 OpenEngine::CubeMaterial::CubeMaterial()
 {

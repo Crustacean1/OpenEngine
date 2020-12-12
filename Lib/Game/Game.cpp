@@ -2,6 +2,7 @@
 #include "../../Main/Fractal/FractalComponent.h"
 #include "../../Main/Labirynth/Cellular.h"
 #include "../Component/Behaviour/BehaviourManager.h"
+#include "../ResourceManager/ResourceManager.h"
 #include "../../Main/Asteroid/Asteroid.h"
 #include "../../Main/Compass/Compass.h"
 #include "../Light/DirectionalLight.h"
@@ -65,6 +66,7 @@ void OpenEngine::Game::loadGame()
     Shader * shader6 = (new Shader("Shaders/Shader6/shader6.vert", "Shaders/Shader6/shader6.frag"));
 
     Material3D * mat2 = new Material3D();
+    mat2->shader = shader4;
     //Fractal
 
     auto lamp2 = new Object(currentScene);
@@ -91,6 +93,7 @@ void OpenEngine::Game::loadGame()
     //camObj->flushTransform();
 
     Material3D * fMat = new Material3D();
+    fMat->shader = shader4;
 
     CubeMaterial * cmat = new CubeMaterial();
     cmat->cubemap.loadFromFile("Resources/Images/cubemap2/",".png");
@@ -124,4 +127,5 @@ void OpenEngine::Game::gameLoop()
 {
     glClearColor(0.f, 0.f, 0.f, 1.f);
     currentScene->loop();
+    ResourceManager::confess();
 }

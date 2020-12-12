@@ -37,7 +37,7 @@ void Roughener::init()
     auto * comp = object.getComponent<OpenEngine::MeshRenderer>(0);
     if(comp==nullptr){return;}
     auto material  = (OpenEngine::Material3D*)comp->getMaterial();
-    material->norm= OpenEngine::TextureLoader::create(64,64,3);
+    material->norm->createFromColor(64,64,3);
     unsigned char * data = material->norm->getData();
 
     float xangle,yangle;

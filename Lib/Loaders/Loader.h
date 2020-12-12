@@ -6,11 +6,12 @@
 
 namespace OpenEngine
 {
+    std::string getFullResourcePath(std::string filename);
     template<typename T>
     class Loader
     {
         public:
-        virtual std::shared_ptr<T> load(std::string filename) = 0;
+        virtual std::shared_ptr<T> load(std::string filename) const = 0;
     };
 };
 

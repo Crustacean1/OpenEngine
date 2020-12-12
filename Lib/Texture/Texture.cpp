@@ -6,15 +6,16 @@
 
 unsigned int OpenEngine::Texture2D::mainUnit = GL_TEXTURE0;
 
-template<typename T>
-OpenEngine::Loader<T> * OpenEngine::Resource<T>::defaultLoader = new TextureLoader();
+const OpenEngine::Loader<OpenEngine::Texture2D> * OpenEngine::Texture2D::defaultLoader = new TextureLoader();
 
 OpenEngine::Texture2D::Texture2D() : texUnit(mainUnit = ((mainUnit + 1) % 16))
 {
+    glGenTextures(1, &textureID);
     s_wrap = GL_REPEAT;
     t_wrap = GL_REPEAT;
     min_filter = GL_LINEAR_MIPMAP_LINEAR;
     mag_filter = GL_LINEAR;
+    setParams();
 }
 OpenEngine::Texture2D::Texture2D(unsigned char *_data, unsigned int _w, unsigned int _h, unsigned int _stride) : Texture2D()
 {
@@ -40,7 +41,7 @@ OpenEngine::Texture2D::Texture2D(OpenEngine::Texture2D &&b)
     mag_filter = b.mag_filter;
     data = b.data;
     b.data = nullptr;
-    generate();
+    setParams();
     flush();
 }
 OpenEngine::Texture2D &OpenEngine::Texture2D::operator=(const Texture2D &b)
@@ -59,8 +60,9 @@ OpenEngine::Texture2D &OpenEngine::Texture2D::operator=(const Texture2D &b)
     mag_filter = b.mag_filter;
     data = new unsigned char[width * height * stride];
     memcpy(data, b.data, width * height * stride * sizeof(unsigned char));
-    generate();
+    setParams();
     flush();
+    return * this;
 }
 void OpenEngine::Texture2D::load(unsigned char *_data, unsigned int _w, unsigned int _h, unsigned int _stride)
 {
@@ -73,13 +75,11 @@ void OpenEngine::Texture2D::load(unsigned char *_data, unsigned int _w, unsigned
     height = _h;
     stride = _stride;
     deduceInnerFormat();
-    generate();
+    setParams();
     flush();
 }
-
-void OpenEngine::Texture2D::generate()
+void OpenEngine::Texture2D::setParams()
 {
-    glGenTextures(1, &textureID);
     bind();
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, s_wrap);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, t_wrap);
@@ -126,4 +126,37 @@ OpenEngine::Texture2D::~Texture2D()
     {
         delete[] data;
     }
+}
+
+void OpenEngine::Texture2D::create(unsigned int x,unsigned int y,unsigned int _stride)
+{
+    if(stride>4)
+    {
+        return;
+    }
+    if(data!=nullptr)
+    {
+        delete[] data;
+    }
+    width = x;
+    height = y;
+    stride = _stride;
+    data = new unsigned char[width*height*stride];
+    deduceInnerFormat();
+    flush();
+}
+void OpenEngine::Texture2D::createFromColor(unsigned char r,unsigned char g,unsigned char b)
+{
+    if(data!=nullptr)
+    {
+        delete [] data;
+    }
+    width = height = 1;
+    stride = 3;
+    data = new unsigned char[3];
+    data[0] = r;
+    data[1] = g;
+    data[2] = b;
+    deduceInnerFormat();
+    flush();
 }
