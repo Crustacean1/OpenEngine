@@ -1,7 +1,6 @@
 #include "Material.h"
 #include "../Shader/Shader.h"
 #include "../Loaders/TextureLoader/TextureLoader.h"
-#include "../ResourceManager/ResourceManager.h"
 
 void OpenEngine::Material3D::update()
 {

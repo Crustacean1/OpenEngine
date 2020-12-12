@@ -2,7 +2,6 @@
 #include "../../Main/Fractal/FractalComponent.h"
 #include "../../Main/Labirynth/Cellular.h"
 #include "../Component/Behaviour/BehaviourManager.h"
-#include "../ResourceManager/ResourceManager.h"
 #include "../../Main/Asteroid/Asteroid.h"
 #include "../../Main/Compass/Compass.h"
 #include "../Light/DirectionalLight.h"
@@ -127,5 +126,4 @@ void OpenEngine::Game::gameLoop()
 {
     glClearColor(0.f, 0.f, 0.f, 1.f);
     currentScene->loop();
-    ResourceManager::confess();
 }

@@ -19,10 +19,11 @@ void OpenEngine::Scene::init()
     auto * camera = new Object(this);
     camera->addComponent<BasicCamera>();
     camera->addComponent<CameraControler>();
+    camera->transform.localScale = glm::dquat(0,0.2,0.2,0.2);
     Mouse::getMouse()->addMovementCallback(camera->getComponent<CameraControler>(0));
+    Mouse::getMouse()->addScrollCallback(camera->getComponent<CameraControler>(0));
 
     picasso.setCamera(camera->getComponent<BasicCamera>(0));
-
 
 }
 void OpenEngine::Scene::add(Object* _object)

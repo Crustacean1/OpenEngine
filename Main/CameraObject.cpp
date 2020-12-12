@@ -20,6 +20,11 @@ void CameraControler::mouseMovementCallback(GLFWwindow *window, double xpos, dou
     object.transform.localRotation = glm::angleAxis((float)(xpos*xfactor),glm::vec3(0,1,0))*glm::angleAxis((float)(ypos*yfactor),glm::vec3(1,0,0));
 
 }
+void CameraControler::mouseScrollCallback(GLFWwindow * _window,double x,double y)
+{
+    spos += y*sfactor;
+    object.transform.localScale = glm::dquat(spos,spos,spos,spos);
+}
 void CameraControler::update(double delta)
 {
     GLFWwindow *window = OpenEngine::Window::getMainWindow();

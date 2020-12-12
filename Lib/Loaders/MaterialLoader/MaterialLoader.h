@@ -10,7 +10,7 @@ namespace OpenEngine
     class MaterialLoader
     {
         public:
-        std::map<std::string,Material3D *> load(const char * filename);
+        std::map<std::string,Material3D *> load(std::string filename);
     };
 };
 

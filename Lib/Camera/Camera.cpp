@@ -13,13 +13,17 @@ glm::mat4 OpenEngine::BasicCamera::getViewMatrix(glm::vec3 _position, glm::dquat
 
     //Object transforms
     glm::vec3 scale = object.transform.getGlobalScale();
-    a = glm::scale(a, _scale);
-
+    //scale /=(scale.x*scale.x+scale.y*scale.y+scale.z*scale.z);
+    
+    a = glm::scale(a,_scale);
     a = (glm::mat4)glm::mat4_cast(_rotation) * a;
-    a = glm::translate(glm::mat4(1.f), _position - object.transform.getGlobalPosition()) * a;
+    a = glm::translate(glm::mat4(1.f), (_position - object.transform.getGlobalPosition())) * a;
 
-    //Camera transforms, can be buffererd per frame
+    //Camera transforms, can be buffered per frame
     a = (glm::mat4)glm::mat4_cast(glm::inverse(object.transform.getGlobalRotation())) * a;
+    //a = glm::scale(a, scale);
+
+
     //a = glm::scale(a,scale);
 
     //a= glm::mat4(1.f);

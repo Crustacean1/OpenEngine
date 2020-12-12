@@ -3,11 +3,10 @@
 
 #include <string>
 #include <memory>
-#include "../ResourceManager/Resource.h"
 
 namespace OpenEngine
 {
-    class Texture2D : public Resource<Texture2D>
+    class Texture2D
     {
         static unsigned int mainUnit;
         int texUnit;
@@ -51,8 +50,6 @@ namespace OpenEngine
         int t_wrap;
         int min_filter;
         int mag_filter;
-
-        static const Loader<Texture2D> * defaultLoader; //default resource loader
     };
 }; // namespace OpenEngine
 

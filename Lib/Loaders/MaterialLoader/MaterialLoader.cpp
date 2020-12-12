@@ -1,6 +1,5 @@
 #include "../../Material/Material.h"
 #include "MaterialLoader.h"
-#include "../../ResourceManager/ResourceManager.h"
 #include "../TextureLoader/TextureLoader.h"
 #include <iostream>
 #include <fstream>
@@ -11,7 +10,7 @@ std::string getBasename(std::string a)
     return a.substr(0,a.find_last_of("/")+1);
 }
 
-std::map<std::string,OpenEngine::Material3D*> OpenEngine::MaterialLoader::load(const char * filename)
+std::map<std::string,OpenEngine::Material3D*> OpenEngine::MaterialLoader::load(std::string filename)
 {
     std::ifstream file(filename);
     Material3D * currentMaterial;
@@ -49,22 +48,22 @@ std::map<std::string,OpenEngine::Material3D*> OpenEngine::MaterialLoader::load(c
         else if(buff=="map_Ka")
         {
             file>>buff;
-            currentMaterial->amb = ResourceManager::load<Texture2D>(dirname+buff);
+            currentMaterial->amb = TextureLoader::getInstance()->load(dirname+buff);
         }
         else if(buff=="map_Kd")
         {
             file>>buff;
-            currentMaterial->diff = ResourceManager::load<Texture2D>(dirname+buff);
+            currentMaterial->diff = TextureLoader::getInstance()->load(dirname+buff);
         }
         else if(buff=="map_Bump")
         {
             file>>buff;
-            currentMaterial->norm = ResourceManager::load<Texture2D>(dirname+buff);
+            currentMaterial->norm = TextureLoader::getInstance()->load(dirname+buff);
         }
         else if(buff=="map_Ks")
         {
             file>>buff;
-            currentMaterial->spec = ResourceManager::load<Texture2D>(dirname+buff);
+            currentMaterial->spec = TextureLoader::getInstance()->load(dirname+buff);
         }
         else
         {

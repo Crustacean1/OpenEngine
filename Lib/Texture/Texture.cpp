@@ -6,8 +6,6 @@
 
 unsigned int OpenEngine::Texture2D::mainUnit = GL_TEXTURE0;
 
-const OpenEngine::Loader<OpenEngine::Texture2D> * OpenEngine::Texture2D::defaultLoader = new TextureLoader();
-
 OpenEngine::Texture2D::Texture2D() : texUnit(mainUnit = ((mainUnit + 1) % 16))
 {
     glGenTextures(1, &textureID);
