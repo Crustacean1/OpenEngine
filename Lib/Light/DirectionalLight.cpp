@@ -3,7 +3,7 @@
 #include <iostream>
 void OpenEngine::DirectionalLight::update()
 {
-    shader->set(getName()+(std::string)".active",Light::active);
+    shader->set(getName()+(std::string)".isActiev",Light::active);
     shader->set(getName()+(std::string)".dir",lastViewDirection);
     shader->set(getName()+(std::string)".color",color);
     shader->set(getName()+(std::string)".ambient",ambient);

@@ -3,7 +3,7 @@
 
 void OpenEngine::PointLight::update()
 {
-    shader->set(getName()+(std::string)".active",Light::active);
+    shader->set(getName()+(std::string)".isActive",Light::active);
     shader->set(getName()+(std::string)".pos",lastViewPosition);
     shader->set(getName()+(std::string)".color",color);
     shader->set(getName()+(std::string)".ambient",ambient);

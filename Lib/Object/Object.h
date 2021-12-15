@@ -8,6 +8,7 @@
 #include <map>
 #include <set>
 #include <list>
+#include <typeinfo>
 
 namespace OpenEngine
 {

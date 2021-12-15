@@ -1,0 +1,586 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+make: *** No rule to make target 'all'.  Stop.
+ 
+# GNU Make 4.3
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2020 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Wed Dec 15 19:38:27 2021
+
+# Variables
+
+# environment
+GDK_BACKEND = x11
+# environment
+LC_ALL = C
+# environment
+NO_AT_BRIDGE = 1
+# environment
+I3SOCK = /run/user/1003/i3/ipc-socket.4108
+# environment
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1003/vscode-ipc-0a1d350a-6286-4f62-8ecb-f367aa26c8ee.sock
+# environment
+VSCODE_CWD = /home/kamil2
+# default
+MAKE_COMMAND := make
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# default
+.VARIABLES := 
+# environment
+PWD = /home/kamil2/Desktop/Programming/C++/OpenGL/OpenEngine
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+MAIL = /var/spool/mail/kamil2
+# environment
+OLDPWD = /home/kamil2
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+VSCODE_LOG_STACK = false
+# automatic
+%F = $(notdir $%)
+# environment
+VSCODE_CODE_CACHE_PATH = /home/kamil2/.config/Code - OSS/CachedData/b3318bc0524af3d74034b8bb8a64df0ccf35549a
+# environment
+XDG_SESSION_PATH = /org/freedesktop/DisplayManager/Session2
+# environment
+LANG = C
+# environment
+XAUTHORITY = /home/kamil2/.Xauthority
+# default
+.LOADED := 
+# default
+.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
+# makefile
+MAKEFLAGS = pqrR
+# makefile
+CURDIR := /home/kamil2/Desktop/Programming/C++/OpenGL/OpenEngine
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+MFLAGS = -pqrR
+# default
+.SHELLFLAGS := -c
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+XDG_SESSION_DESKTOP = i3
+# environment
+VSCODE_CRASH_REPORTER_START_OPTIONS = {"companyName":"Microsoft","productName":"Code - OSS","submitURL":"","uploadToServer":false}
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST := Makefile
+# automatic
+@F = $(notdir $@)
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# environment
+VSCODE_PID = 62924
+# makefile (from 'Makefile', line 4)
+sources :=  Lib/Buffer/Buffer.cpp Lib/Camera/Camera.cpp Lib/Component/BaseComponent.cpp Lib/Component/Behaviour.cpp Lib/Component/BehaviourManager.cpp Lib/Component/Component.cpp Lib/Component/ComponentManager.cpp Lib/Exception/Exception.cpp Lib/Ext/glad.c Lib/Game/Game.cpp Lib/Input/Input.cpp Lib/Input/Keyboard.cpp Lib/Input/Mouse.cpp Lib/Light/DirectionalLight.cpp Lib/Light/Helios.cpp Lib/Light/Light.cpp Lib/Light/PointLight.cpp Lib/Loaders/MaterialLoader.cpp Lib/Loaders/MeshLoader.cpp Lib/Log/Log.cpp Lib/Material/Material.cpp Lib/Mesh/Mesh.cpp Lib/Object/Object.cpp Lib/Render/MeshRenderer.cpp Lib/Render/Render.cpp Lib/Render/Renderer.cpp Lib/Render/SimpleRender.cpp Lib/Scene/Scene.cpp Lib/Shader/Shader.cpp Lib/Texture/Texture.cpp Lib/Uniform/Uniform.cpp Lib/VAO/VAO.cpp Lib/Window/Window.cpp Main/Fractal/FractalComponent.cpp Main/Labirynth/Cellular.cpp Main/Model/Model.cpp Main/CameraObject.cpp Main/MeshTestObject.cpp main.cpp
+# environment
+XDG_SESSION_TYPE = x11
+# makefile (from 'Makefile', line 7)
+cppobjs := Lib/Buffer/Buffer.o Lib/Camera/Camera.o Lib/Component/BaseComponent.o Lib/Component/Behaviour.o Lib/Component/BehaviourManager.o Lib/Component/Component.o Lib/Component/ComponentManager.o Lib/Exception/Exception.o Lib/Game/Game.o Lib/Input/Input.o Lib/Input/Keyboard.o Lib/Input/Mouse.o Lib/Light/DirectionalLight.o Lib/Light/Helios.o Lib/Light/Light.o Lib/Light/PointLight.o Lib/Loaders/MaterialLoader.o Lib/Loaders/MeshLoader.o Lib/Log/Log.o Lib/Material/Material.o Lib/Mesh/Mesh.o Lib/Object/Object.o Lib/Render/MeshRenderer.o Lib/Render/Render.o Lib/Render/Renderer.o Lib/Render/SimpleRender.o Lib/Scene/Scene.o Lib/Shader/Shader.o Lib/Texture/Texture.o Lib/Uniform/Uniform.o Lib/VAO/VAO.o Lib/Window/Window.o Main/Fractal/FractalComponent.o Main/Labirynth/Cellular.o Main/Model/Model.o Main/CameraObject.o Main/MeshTestObject.o main.o
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# automatic
+*F = $(notdir $*)
+# environment
+CHROME_DESKTOP = code-oss.desktop
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1003/bus
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+# environment
+BREAKPAD_DUMP_LOCATION = /home/kamil2/.config/Code - OSS/exthost Crash Reports
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# makefile
+SHELL = /bin/sh
+# default
+MAKECMDGOALS := all
+# makefile (from 'Makefile', line 11)
+objects := Lib/Buffer/Buffer.o Lib/Camera/Camera.o Lib/Component/BaseComponent.o Lib/Component/Behaviour.o Lib/Component/BehaviourManager.o Lib/Component/Component.o Lib/Component/ComponentManager.o Lib/Exception/Exception.o Lib/Ext/glad.o Lib/Game/Game.o Lib/Input/Input.o Lib/Input/Keyboard.o Lib/Input/Mouse.o Lib/Light/DirectionalLight.o Lib/Light/Helios.o Lib/Light/Light.o Lib/Light/PointLight.o Lib/Loaders/MaterialLoader.o Lib/Loaders/MeshLoader.o Lib/Log/Log.o Lib/Material/Material.o Lib/Mesh/Mesh.o Lib/Object/Object.o Lib/Render/MeshRenderer.o Lib/Render/Render.o Lib/Render/Renderer.o Lib/Render/SimpleRender.o Lib/Scene/Scene.o Lib/Shader/Shader.o Lib/Texture/Texture.o Lib/Uniform/Uniform.o Lib/VAO/VAO.o Lib/Window/Window.o Main/Fractal/FractalComponent.o Main/Labirynth/Cellular.o Main/Model/Model.o Main/CameraObject.o Main/MeshTestObject.o main.o
+# environment
+SHLVL = 0
+# environment
+MAKELEVEL := 0
+# default
+MAKE = $(MAKE_COMMAND)
+# environment
+PATH = /usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/local/go/bin
+# default
+MAKEFILES := 
+# makefile (from 'Makefile', line 15)
+.PHONY = test prep clean %.h
+# environment
+MOTD_SHOWN = pam
+# automatic
+^F = $(notdir $^)
+# makefile (from 'Makefile', line 3)
+headers :=  Lib/Buffer/Buffer.h Lib/Camera/Camera.h Lib/Component/BaseComponent.h Lib/Component/Behaviour.h Lib/Component/BehaviourManager.h Lib/Component/Component.h Lib/Component/ComponentManager.h Lib/Exception/Exception.h Lib/Ext/stb_image.h Lib/Game/Game.h Lib/Input/Input.h Lib/Input/Keyboard.h Lib/Input/Mouse.h Lib/Light/DirectionalLight.h Lib/Light/Helios.h Lib/Light/Light.h Lib/Light/PointLight.h Lib/Loaders/MaterialLoader.h Lib/Loaders/MeshLoader.h Lib/Log/Log.h Lib/Material/Material.h Lib/Mesh/Mesh.h Lib/Object/Object.h Lib/Render/MeshRenderer.h Lib/Render/Render.h Lib/Render/Renderer.h Lib/Render/SimpleRender.h Lib/Scene/Scene.h Lib/Shader/Shader.h Lib/Texture/Texture.h Lib/Uniform/Uniform.h Lib/VAO/VAO.h Lib/Window/Window.h Main/Fractal/FractalComponent.h Main/Labirynth/Cellular.h Main/Model/Model.h Main/CameraObject.h Main/MeshTestObject.h
+# environment
+VSCODE_LOG_NATIVE = false
+# automatic
+?F = $(notdir $?)
+# environment
+XDG_SEAT = seat0
+# environment
+XDG_CURRENT_DESKTOP = i3
+# automatic
++F = $(notdir $+)
+# environment
+XDG_SEAT_PATH = /org/freedesktop/DisplayManager/Seat0
+# environment
+DESKTOP_SESSION = i3
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = i3
+# 'override' directive
+GNUMAKEFLAGS := 
+# environment
+LOGNAME = kamil2
+# environment
+XDG_VTNR = 1
+# makefile
+.DEFAULT_GOAL := OpenEngine
+# environment
+DISPLAY = :0
+# environment
+GTK_MODULES = canberra-gtk-module
+# environment
+USER = kamil2
+# default
+MAKE_VERSION := 4.3
+# 'override' directive
+.SHELLSTATUS := 0
+ 
+# environment
+_ = /usr/bin/make
+# environment
+XDG_RUNTIME_DIR = /run/user/1003
+# environment
+XDG_SESSION_CLASS = user
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/services/extensions/node/extensionHostProcess
+# environment
+HOME = /home/kamil2
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+VSCODE_IPC_HOOK = /run/user/1003/vscode-b3071441-1.62.0-main.sock
+# environment
+XDG_SESSION_ID = 2
+# default
+.RECIPEPREFIX := 
+# automatic
+<F = $(notdir $<)
+# default
+SUFFIXES := 
+# environment
+VSCODE_CLI = 1
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink guile load
+# makefile (from 'Makefile', line 13)
+target := OpenEngine
+# variable set hash-table stats:
+# Load=92/1024=9%, Rehash=0, Collisions=6/134=4%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# Lib/Buffer (device 2065, inode 7220085): 5 files, no impossibilities.
+# Lib/Scene (device 2065, inode 7349286): 5 files, no impossibilities.
+# Lib/Uniform (device 2065, inode 6562204): 5 files, no impossibilities.
+# Lib/Utilities/UID (device 2065, inode 6170246): 3 files, no impossibilities.
+# Main/Model (device 2065, inode 6951360): 5 files, no impossibilities.
+# Main (device 2065, inode 5523215): 13 files, no impossibilities.
+# Resources/Models/Model8 (device 2065, inode 6951350): 5 files, no impossibilities.
+# Lib/Loaders (device 2065, inode 7093764): 12 files, no impossibilities.
+# Lib/Log (device 2065, inode 7747044): 5 files, no impossibilities.
+# Lib/Loaders/MaterialLoader (device 2065, inode 7349345): 3 files, no impossibilities.
+# Lib/Physics (device 2065, inode 6298089): 5 files, no impossibilities.
+# Shaders/Shader2 (device 2065, inode 4198033): 4 files, no impossibilities.
+# Shaders/Shader3 (device 2065, inode 4198050): 4 files, no impossibilities.
+# Shaders/Shader4 (device 2065, inode 7483770): 4 files, no impossibilities.
+# Resources/Models/Model7 (device 2065, inode 7864415): 25 files, no impossibilities.
+# Main/Compass (device 2065, inode 8127304): 3 files, no impossibilities.
+# Resources/Models/1 (device 2065, inode 7864405): 3 files, no impossibilities.
+# Resources (device 2065, inode 3279614): 4 files, no impossibilities.
+# Resources/Models/Model1 (device 2065, inode 7864402): 4 files, no impossibilities.
+# Lib/Input (device 2065, inode 7093896): 11 files, no impossibilities.
+# Lib/Window (device 2065, inode 6562157): 5 files, no impossibilities.
+# Lib/Exception (device 2065, inode 7614463): 5 files, no impossibilities.
+# Main/Labirynth (device 2065, inode 6170213): 5 files, no impossibilities.
+# Resources/Models (device 2065, inode 3278749): 12 files, no impossibilities.
+# Lib/Loaders/ShaderLoader (device 2065, inode 7093832): 2 files, no impossibilities.
+# Main/Asteroid (device 2065, inode 8127314): 3 files, no impossibilities.
+# Lib/Object (device 2065, inode 6298275): 5 files, no impossibilities.
+# Lib/Render (device 2065, inode 6695508): 14 files, no impossibilities.
+# Resources/Models/Model2 (device 2065, inode 7864409): 8 files, no impossibilities.
+# Lib/VAO (device 2065, inode 7483855): 5 files, no impossibilities.
+# Shaders/Shader1 (device 2065, inode 4194343): 4 files, no impossibilities.
+# Shaders/Shader5 (device 2065, inode 7746675): 5 files, no impossibilities.
+# Lib/Camera (device 2065, inode 6170152): 5 files, no impossibilities.
+# Resources/Models/4 (device 2065, inode 7864408): 4 files, no impossibilities.
+# Lib/Component/Behaviour (device 2065, inode 7614539): 4 files, no impossibilities.
+# Lib/Texture (device 2065, inode 6170083): 5 files, no impossibilities.
+# . (device 2065, inode 3277235): 19 files, no impossibilities.
+# Resources/Models/Model3 (device 2065, inode 7864411): 4 files, no impossibilities.
+# Lib/Component (device 2065, inode 6298306): 17 files, no impossibilities.
+# Lib/Shader (device 2065, inode 6821201): 5 files, no impossibilities.
+# Resources/Models/Model6 (device 2065, inode 7864414): 11 files, no impossibilities.
+# Resources/Models/Model4 (device 2065, inode 7864412): 23 files, no impossibilities.
+# Lib/Light (device 2065, inode 6170185): 14 files, no impossibilities.
+# Resources/Models/2 (device 2065, inode 7864406): 6 files, no impossibilities.
+# Lib/Loaders/MeshLoader (device 2065, inode 7220176): 3 files, no impossibilities.
+# Lib/Ext (device 2065, inode 7869747): 5 files, no impossibilities.
+# Main/Fractal (device 2065, inode 6170080): 5 files, no impossibilities.
+# Lib/Loaders/CubemapLoader (device 2065, inode 7220175): 2 files, no impossibilities.
+# Lib/Component/Transform (device 2065, inode 7483944): 3 files, no impossibilities.
+# Lib/Utilities/Singleton (device 2065, inode 7746681): 3 files, no impossibilities.
+# Lib/Utilities (device 2065, inode 6170245): 4 files, no impossibilities.
+# Lib/Loaders/TextureLoader (device 2065, inode 7093833): 3 files, no impossibilities.
+# Shaders (device 2065, inode 3277878): 7 files, no impossibilities.
+# Resources/Images (device 2065, inode 7093758): 7 files, no impossibilities.
+# Lib/Game (device 2065, inode 6951473): 5 files, no impossibilities.
+# Lib/Material (device 2065, inode 6170183): 6 files, no impossibilities.
+# Lib/Mesh (device 2065, inode 6434326): 5 files, no impossibilities.
+# Lib/Collider (device 2065, inode 6298087): 4 files, no impossibilities.
+# Tests (device 2065, inode 5523214): 2 files, no impossibilities.
+# Lib (device 2065, inode 5523213): 25 files, no impossibilities.
+
+# 407 files, no impossibilities in 60 directories.
+
+# Implicit Rules
+
+%.o: %.cpp %.h
+ 
+#  recipe to execute (from 'Makefile', line 21):
+	g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c $< -o ${subst cpp,o,$<}
+
+%.h: %.cpp
+#  recipe to execute (from 'Makefile', line 24):
+	touch ${subst cpp,h,$<}
+
+# 2 implicit rules, 0 (0.0%) terminal.
+# Files
+
+# Not a target:
+Main/MeshTestObject.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Log/Log.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Main/Labirynth/Cellular.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Window/Window.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Exception/Exception.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Light/PointLight.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Scene/Scene.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Main/CameraObject.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Camera/Camera.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Render/MeshRenderer.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2021-12-15 12:19:19.197282033
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+Lib/Ext/glad.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Shader/Shader.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Input/Input.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+clean:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 30):
+	rm -f ${cppobjs}
+
+# Not a target:
+Lib/Component/BaseComponent.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Object/Object.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Main/Fractal/FractalComponent.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Texture/Texture.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Input/Keyboard.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Component/ComponentManager.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+ 
+# Not a target:
+Lib/Light/Helios.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Render/Renderer.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+all:
+#  Command line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has not been updated.
+
+# Not a target:
+Lib/Material/Material.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Game/Game.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Light/DirectionalLight.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+prep:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 28):
+	clear
+
+# Not a target:
+Main/Model/Model.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Component/Behaviour.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Mesh/Mesh.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+test:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 26):
+	@echo obj targets: ${objects}
+
+# Not a target:
+main.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Buffer/Buffer.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Loaders/MeshLoader.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Component/BehaviourManager.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Render/SimpleRender.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Light/Light.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Component/Component.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/VAO/VAO.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Input/Mouse.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Uniform/Uniform.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Loaders/MaterialLoader.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Lib/Render/Render.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+ 
+OpenEngine: test Lib/Buffer/Buffer.o Lib/Camera/Camera.o Lib/Component/BaseComponent.o Lib/Component/Behaviour.o Lib/Component/BehaviourManager.o Lib/Component/Component.o Lib/Component/ComponentManager.o Lib/Exception/Exception.o Lib/Ext/glad.o Lib/Game/Game.o Lib/Input/Input.o Lib/Input/Keyboard.o Lib/Input/Mouse.o Lib/Light/DirectionalLight.o Lib/Light/Helios.o Lib/Light/Light.o Lib/Light/PointLight.o Lib/Loaders/MaterialLoader.o Lib/Loaders/MeshLoader.o Lib/Log/Log.o Lib/Material/Material.o Lib/Mesh/Mesh.o Lib/Object/Object.o Lib/Render/MeshRenderer.o Lib/Render/Render.o Lib/Render/Renderer.o Lib/Render/SimpleRender.o Lib/Scene/Scene.o Lib/Shader/Shader.o Lib/Texture/Texture.o Lib/Uniform/Uniform.o Lib/VAO/VAO.o Lib/Window/Window.o Main/Fractal/FractalComponent.o Main/Labirynth/Cellular.o Main/Model/Model.o Main/CameraObject.o Main/MeshTestObject.o main.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 18):
+	g++ -o ${target} ${objects} -g -std=c++20 -L/home/kamil2/Libraries/glfw-3.3.2/build/src -lglfw3 -lrt -lm -ldl -lX11 -lpthread -lGL
+
+# files hash-table stats:
+# Load=47/1024=5%, Rehash=0, Collisions=6/98=6%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 391 / storage = 5436 B / avg = 13 B
+# current buf: size = 8162 B / used = 5436 B / count = 391 / avg = 13 B
+
+# strcache performance: lookups = 528 / hit rate = 25%
+# hash-table stats:
+# Load=391/8192=5%, Rehash=0, Collisions=10/528=2%
+# Finished Make data base on Wed Dec 15 19:38:27 2021
+
+ 

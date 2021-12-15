@@ -1,0 +1,104 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/kamil2/Desktop/Programming/C++/OpenGL/OpenEngine'
+ 
+echo obj targets: Lib/Buffer/Buffer.o Lib/Camera/Camera.o Lib/Component/BaseComponent.o Lib/Component/Behaviour.o Lib/Component/BehaviourManager.o Lib/Component/Component.o Lib/Component/ComponentManager.o Lib/Exception/Exception.o Lib/Ext/glad.o Lib/Game/Game.o Lib/Input/Input.o Lib/Input/Keyboard.o Lib/Input/Mouse.o Lib/Light/DirectionalLight.o Lib/Light/Helios.o Lib/Light/Light.o Lib/Light/PointLight.o Lib/Loaders/MaterialLoader.o Lib/Loaders/MeshLoader.o Lib/Log/Log.o Lib/Material/Material.o Lib/Mesh/Mesh.o Lib/Object/Object.o Lib/Render/MeshRenderer.o Lib/Render/Render.o Lib/Render/Renderer.o Lib/Render/SimpleRender.o Lib/Scene/Scene.o Lib/Shader/Shader.o Lib/Texture/Texture.o Lib/Uniform/Uniform.o Lib/VAO/VAO.o Lib/Window/Window.o Main/Fractal/FractalComponent.o Main/Labirynth/Cellular.o Main/Model/Model.o Main/CameraObject.o Main/MeshTestObject.o main.o
+ 
+touch Lib/Buffer/Buffer.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Buffer/Buffer.cpp -o Lib/Buffer/Buffer.o
+touch Lib/Camera/Camera.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Camera/Camera.cpp -o Lib/Camera/Camera.o
+touch Lib/Component/BaseComponent.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Component/BaseComponent.cpp -o Lib/Component/BaseComponent.o
+touch Lib/Component/Behaviour.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Component/Behaviour.cpp -o Lib/Component/Behaviour.o
+ 
+touch Lib/Component/BehaviourManager.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Component/BehaviourManager.cpp -o Lib/Component/BehaviourManager.o
+touch Lib/Component/Component.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Component/Component.cpp -o Lib/Component/Component.o
+ 
+touch Lib/Component/ComponentManager.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Component/ComponentManager.cpp -o Lib/Component/ComponentManager.o
+touch Lib/Exception/Exception.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Exception/Exception.cpp -o Lib/Exception/Exception.o
+ 
+cc    -c -o Lib/Ext/glad.o Lib/Ext/glad.c
+touch Lib/Game/Game.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Game/Game.cpp -o Lib/Game/Game.o
+touch Lib/Input/Input.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Input/Input.cpp -o Lib/Input/Input.o
+ 
+touch Lib/Input/Keyboard.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Input/Keyboard.cpp -o Lib/Input/Keyboard.o
+touch Lib/Input/Mouse.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Input/Mouse.cpp -o Lib/Input/Mouse.o
+ 
+touch Lib/Light/DirectionalLight.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Light/DirectionalLight.cpp -o Lib/Light/DirectionalLight.o
+touch Lib/Light/Helios.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Light/Helios.cpp -o Lib/Light/Helios.o
+touch Lib/Light/Light.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Light/Light.cpp -o Lib/Light/Light.o
+ 
+touch Lib/Light/PointLight.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Light/PointLight.cpp -o Lib/Light/PointLight.o
+touch Lib/Loaders/MaterialLoader.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Loaders/MaterialLoader.cpp -o Lib/Loaders/MaterialLoader.o
+touch Lib/Loaders/MeshLoader.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Loaders/MeshLoader.cpp -o Lib/Loaders/MeshLoader.o
+ 
+touch Lib/Log/Log.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Log/Log.cpp -o Lib/Log/Log.o
+ 
+touch Lib/Material/Material.h
+ 
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Material/Material.cpp -o Lib/Material/Material.o
+touch Lib/Mesh/Mesh.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Mesh/Mesh.cpp -o Lib/Mesh/Mesh.o
+touch Lib/Object/Object.h
+ 
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Object/Object.cpp -o Lib/Object/Object.o
+touch Lib/Render/MeshRenderer.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Render/MeshRenderer.cpp -o Lib/Render/MeshRenderer.o
+ 
+touch Lib/Render/Render.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Render/Render.cpp -o Lib/Render/Render.o
+touch Lib/Render/Renderer.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Render/Renderer.cpp -o Lib/Render/Renderer.o
+ 
+touch Lib/Render/SimpleRender.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Render/SimpleRender.cpp -o Lib/Render/SimpleRender.o
+touch Lib/Scene/Scene.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Scene/Scene.cpp -o Lib/Scene/Scene.o
+ 
+touch Lib/Shader/Shader.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Shader/Shader.cpp -o Lib/Shader/Shader.o
+touch Lib/Texture/Texture.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Texture/Texture.cpp -o Lib/Texture/Texture.o
+ 
+touch Lib/Uniform/Uniform.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Uniform/Uniform.cpp -o Lib/Uniform/Uniform.o
+ 
+touch Lib/VAO/VAO.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/VAO/VAO.cpp -o Lib/VAO/VAO.o
+touch Lib/Window/Window.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Lib/Window/Window.cpp -o Lib/Window/Window.o
+ 
+touch Main/Fractal/FractalComponent.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Main/Fractal/FractalComponent.cpp -o Main/Fractal/FractalComponent.o
+touch Main/Labirynth/Cellular.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Main/Labirynth/Cellular.cpp -o Main/Labirynth/Cellular.o
+ 
+touch Main/Model/Model.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Main/Model/Model.cpp -o Main/Model/Model.o
+touch Main/CameraObject.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Main/CameraObject.cpp -o Main/CameraObject.o
+ 
+touch Main/MeshTestObject.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c Main/MeshTestObject.cpp -o Main/MeshTestObject.o
+touch main.h
+g++ -g -I/home/kamil2/Libraries/glfw-3.3.2/include/ -I/home/kamil2/Libraries/GLAD/ -I/home/kamil2/Libraries/glm -std=c++20 -c main.cpp -o main.o
+ 
+g++ -o OpenEngine Lib/Buffer/Buffer.o Lib/Camera/Camera.o Lib/Component/BaseComponent.o Lib/Component/Behaviour.o Lib/Component/BehaviourManager.o Lib/Component/Component.o Lib/Component/ComponentManager.o Lib/Exception/Exception.o Lib/Ext/glad.o Lib/Game/Game.o Lib/Input/Input.o Lib/Input/Keyboard.o Lib/Input/Mouse.o Lib/Light/DirectionalLight.o Lib/Light/Helios.o Lib/Light/Light.o Lib/Light/PointLight.o Lib/Loaders/MaterialLoader.o Lib/Loaders/MeshLoader.o Lib/Log/Log.o Lib/Material/Material.o Lib/Mesh/Mesh.o Lib/Object/Object.o Lib/Render/MeshRenderer.o Lib/Render/Render.o Lib/Render/Renderer.o Lib/Render/SimpleRender.o Lib/Scene/Scene.o Lib/Shader/Shader.o Lib/Texture/Texture.o Lib/Uniform/Uniform.o Lib/VAO/VAO.o Lib/Window/Window.o Main/Fractal/FractalComponent.o Main/Labirynth/Cellular.o Main/Model/Model.o Main/CameraObject.o Main/MeshTestObject.o main.o -g -std=c++20 -L/home/kamil2/Libraries/glfw-3.3.2/build/src -lglfw3 -lrt -lm -ldl -lX11 -lpthread -lGL
+make: Leaving directory '/home/kamil2/Desktop/Programming/C++/OpenGL/OpenEngine'
+ 

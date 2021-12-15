@@ -19,7 +19,7 @@ struct Material
 
 struct DirectionalLight
 {
-    int active;
+    int isActive;
     vec3 dir;
     vec3 color;
 
@@ -29,7 +29,7 @@ struct DirectionalLight
 };
 struct PointLight
 {
-    int active;
+    int isActive;
     vec3 pos;
     vec3 color;
 
@@ -79,12 +79,12 @@ void main()
     //rColor = texture(materials[activeMaterialID].norm,fTex);
     for(int i = 0;i<16;i++)
     {
-        if(pLights[i].active==0){continue;}
+        if(pLights[i].isActive==0){continue;}
         rColor += vec4(computeLight(pLights[i],fPos,normal,materials[activeMaterialID]),0);
     }
     for(int i = 0;i<16;i++)
     {
-        if(dLights[i].active==0){continue;}
+        if(dLights[i].isActive==0){continue;}
         rColor += vec4(computeLight(dLights[i],fPos,normal,materials[activeMaterialID]),0);
     }
     //rColor = texture(materials[activeMaterialID].norm,fTex);
