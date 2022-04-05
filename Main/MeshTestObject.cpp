@@ -16,7 +16,6 @@ float mod(float a, float b)
 
 void RotationController::update(double delta)
 {
-    //std::cout << "I have no case and i must shite: " << object.localRotation.w << " " << object.localRotation.x << " " << object.localRotation.y << " " << object.localRotation.z << " " << std::endl;
     object.transform.localRotation = (glm::dquat)glm::angleAxis((float)(delta * rotationSpeed), axis) * object.transform.localRotation;
     object.transform.flushTransform();
 }

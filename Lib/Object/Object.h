@@ -6,6 +6,7 @@
 #include <set>
 #include <list>
 #include "../Component/Transform/Transform.h"
+#include <typeinfo>
 
 namespace OpenEngine
 {
