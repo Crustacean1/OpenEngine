@@ -2,14 +2,14 @@
 #define MESHTESTOBJECT
 
 #include "../Lib/Object/Object.h"
-#include "../Lib/Component/Behaviour.h"
-#include "../Lib/Component/BehaviourManager.h"
+#include "../Lib/Component/Behaviour/Behaviour.h"
+#include "../Lib/Component/Behaviour/BehaviourManager.h"
 #include <iostream>
 
 namespace OpenEngine
 {
     class MeshRenderer;
-    class Render;
+    class Render3D;
     class Shader;
     class Mesh;
     class Object;
@@ -24,15 +24,17 @@ class RotationController : public OpenEngine::Behaviour
     RotationController(OpenEngine::Object & _obj,glm::vec3 _ax = glm::vec3(0,1,0)) : OpenEngine::Behaviour(_obj), axis(_ax){}
     double rotationSpeed = 0.5;
     void update(double delta);
+    BaseComponent* instantiate(){return new RotationController(*this);}
 };
 class GridController : public OpenEngine::Behaviour
 {
     OpenEngine::Object * target;
     public:
-    double gap = 1;
+    double gap = 10;
     GridController(OpenEngine::Object & _obj,OpenEngine::Object * _targ) : OpenEngine::Behaviour(_obj), target(_targ){} 
     void setTarget(OpenEngine::Object * _targ){target = _targ;}
     void update(double delta);
+    BaseComponent* instantiate(){return new GridController(*this);}
 };
 class Roughener : public OpenEngine::Behaviour
 {
@@ -40,5 +42,6 @@ class Roughener : public OpenEngine::Behaviour
     Roughener(OpenEngine::Object & _obj):Behaviour(_obj){}
     void update(double delta){}
     void init();
+    BaseComponent* instantiate(){return new Roughener(*this);}
 };
 #endif /*MESHTESTOBJECT*/

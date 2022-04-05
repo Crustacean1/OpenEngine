@@ -1,56 +1,56 @@
 #ifndef COMPONENT
 #define COMPONENT
 
-#include "ComponentManager.h"
 #include "BaseComponent.h"
-#include "../Scene/Scene.h"
-#include <string>
 #include <iostream>
 
 namespace OpenEngine
 {
     class Object;
 
-    template <typename T>
+    template <typename T, typename M>
     class ComponentManager;
 
-    template <typename T>
-    class Component : public BaseComponent
+    template <typename T, typename M>
+    class Component : public BaseComponent // T must inherit Component<T,M>
     {
-        friend ComponentManager<T>;
-        friend Object;
-
-        void setManager(Scene *_s)
-        {
-            dropManager();
-            manager = _s->getComponentManager<T>(0);
-            if(manager==nullptr){return;}
-            manager->add((T *)this);
-        }
-        void dropManager()
-        {
-            if (manager == nullptr)
-            {
-                return;
-            }
-            manager = nullptr;
-            manager->drop((T *)this);
-        }
+        friend M;
 
     protected:
-
-        ComponentManager<T> *manager = nullptr;
-        Component(Object &_obj) : BaseComponent(_obj), manager(nullptr)
-        {}
+        friend Object;
+        M *manager;
+        Component(Object &_obj, unsigned int id = 0);
+        ~Component();
 
     public:
-        std::string getTypeName() { return typeid(T).name(); }
-
-        ~Component()
-        {
-            dropManager();
-        }
+        void setManagerInstance(unsigned int id = 0);
     };
+    template <typename T, typename M>
+    Component<T, M>::Component(Object &_obj, unsigned int id) : BaseComponent(_obj)
+    {
+        manager = M::getInstance((T *)this, id);
+    }
+
+    template <typename T, typename M>
+    Component<T, M>::~Component()
+    {
+        manager->drop((T *)this);
+    }
+
+    template <typename T, typename M>
+    void Component<T, M>::setManagerInstance(unsigned int id)
+    {
+        if (manager != nullptr)
+        {
+            auto tMan = M::getInstance((T *)this, id);
+            if (tMan != nullptr)
+            {
+                manager = tMan;
+            }
+            return;
+        }
+        manager = M::getInstance((T *)this, id);
+    }
 }; // namespace OpenEngine
 
 #endif /*COMPONENT*/

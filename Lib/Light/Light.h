@@ -8,11 +8,12 @@
 namespace OpenEngine
 {
     class Shader;
+    class Helios;
 
-    class Light : public Component<Light>
+    class Light : public Component<Light,Helios>
     {
     protected:
-        Light(Object & _obj) : Component(_obj){}
+        Light(Object & _obj):Component(_obj){}
 
         bool active = true;
     public:

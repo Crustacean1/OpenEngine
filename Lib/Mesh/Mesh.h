@@ -13,13 +13,12 @@ namespace OpenEngine
     class Mesh
     {
     protected:
-        unsigned int shape;
 
     public:
+        unsigned int shape;
         virtual void bind() = 0;
         virtual void unbind() = 0;
         virtual unsigned int getMeshSize() = 0;
-        virtual unsigned int getShape() { return shape; }
     };
     template <typename V, typename I>
     class SimpleMesh : public Mesh //Resource

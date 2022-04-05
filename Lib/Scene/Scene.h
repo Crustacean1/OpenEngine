@@ -6,14 +6,16 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include "../Utilities/UID/UID.h"
 
 namespace OpenEngine
 {
     class Object;
-    class Render;
+    class Render3D;
     class BehaviourManager;
+    class PhysicManager;
 
-    template <typename K>
+    template <typename K, typename M>
     class ComponentManager;
 
     enum SceneState
@@ -25,54 +27,33 @@ namespace OpenEngine
         End
     };
 
-    class Scene
+    class Scene //Important notice: order matters, UID should be placed on top of objects which might require it
     {
-        std::map<std::string, Object *> objects;
-        std::map<std::string, std::vector<void *>> managers;
+        std::set<Object *> objects;
         double time1 = 0;
         double time2 = 0;
 
         SceneState state;
         //Render???
     public:
-        template <typename T>
-        ComponentManager<T> *getComponentManager(unsigned int i);
+        Scene();
 
         void init();
 
         void add(Object *_object);
         Object *drop(Object *_object);
 
-        template <typename T>
-        void addComponentManager(ComponentManager<T> *cManager);
-
         void render();
         void update();
         void loop();
+
+        UID<Scene> uid;
+
+    private:
+        BehaviourManager &freud;
+        Render3D &picasso;
+        PhysicManager &feynman;
     };
-    template <typename T>
-    ComponentManager<T> *Scene::getComponentManager(unsigned int i)
-    {
-        if (managers.find(ComponentManager<T>::getTypename()) == managers.end())
-        {
-            return nullptr;
-        }
-        if (!(i < managers[ComponentManager<T>::getTypename()].size()))
-        {
-            return nullptr;
-        }
-        return (ComponentManager<T> *)managers[ComponentManager<T>::getTypename()][i];
-    }
-    template <typename T>
-    void Scene::addComponentManager(ComponentManager<T> *cManager)
-    {
-        if (managers.find(ComponentManager<T>::getTypename()) == managers.end())
-        {
-            managers[ComponentManager<T>::getTypename()] = std::vector<void *>{(void *)cManager};
-            return;
-        }
-        managers[ComponentManager<T>::getTypename()].push_back((void*)cManager);
-    }
 }; // namespace OpenEngine
 
 #endif /*SCENE*/

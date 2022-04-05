@@ -19,6 +19,7 @@ namespace OpenEngine
 
         void render() override;
         void prepare() override;
+        BaseComponent * instantiate(){return new MeshRenderer(*this);}
     };
 }; // namespace OpenEngine
 

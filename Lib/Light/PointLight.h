@@ -2,6 +2,7 @@
 #define POINTLIGHT
 
 #include "Light.h"
+#include "Helios.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -16,7 +17,7 @@ namespace OpenEngine
         glm::vec3 lastViewPosition;
 
     public:
-        PointLight(Object &_obj, glm::vec3 _c = glm::vec3(1,1,1), float _amb = 0.05f, float _diff = 0.5f, float _spec = 0.25f)
+        PointLight(Object&_obj, glm::vec3 _c = glm::vec3(1,1,1), float _amb = 0.05f, float _diff = 0.5f, float _spec = 0.25f)
             : Light(_obj), color(_c),ambient(_amb),diffuse(_diff),specular(_spec) {}
         glm::vec3 color;
         float ambient;
@@ -25,6 +26,7 @@ namespace OpenEngine
 
         void update();
         void illuminate(const glm::mat4 & mat);
+        BaseComponent* instantiate() override{return new PointLight(*this);}
     };
 }; // namespace OpenEngine
 

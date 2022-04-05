@@ -1,7 +1,8 @@
 #ifndef CELLULAR
 #define CELLULAR
 
-#include "../../Lib/Component/Behaviour.h"
+#include "../../Lib/Component/Behaviour/Behaviour.h"
+#include "../../Lib/Component/Behaviour/BehaviourManager.h"
 
 namespace OpenEngine{class Material3D;};
 
@@ -29,6 +30,7 @@ public:
      Behaviour(_obj), scale(_s), width(_w), depth(_d),probability(_p),threshold(_t),mat(_m),iterations(_i) {}
     void init() override;
     void update(double delta) override {}
+    BaseComponent* instantiate() override{return new Labirynth(*this);}
 };
 
 #endif /*CELLULAR*/

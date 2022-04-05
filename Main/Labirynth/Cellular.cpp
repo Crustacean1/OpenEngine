@@ -4,6 +4,8 @@
 #include "../../Lib/Mesh/Mesh.h"
 #include "../../Lib/Material/Material.h"
 #include "../../Lib/Render/MeshRenderer.h"
+#include "../../Lib/Render/Render.h"
+#include "../../Lib/Object/Object.h"
 #include <iostream>
 
 void Labirynth::fill()
@@ -35,7 +37,7 @@ void Labirynth::iterate(int degree)
                     count += (g1[a*depth+b]==1);
                 }
             }
-            g2[i*depth+j] = g1[i*depth+j]&(count>=threshold);
+            g2[i*depth+j] = (g1[i*depth+j]&((count<6)&(count>1))|(!g1[i*depth+j]&((count>5))));
         }
     }
 }
@@ -49,13 +51,12 @@ void Labirynth::instantiate(int degree)
         for(int j = 0;j<depth;j++)
         {
             if(!ptr[i*depth+j]){continue;}
-            auto child = new OpenEngine::Object();
-            child->addComponent<OpenEngine::MeshRenderer>()->addMesh(mesh,mat);
-            child->localPosition = glm::dquat(0,scale*i,1,scale*j);
-            object.addChild(child);
+            auto child = new OpenEngine::Object(object);
+            child->addComponent<OpenEngine::MeshRenderer>()->setMesh(mesh,mat);
+            child->transform.localPosition = glm::dquat(0,scale*i,1,scale*j);
         }
     }
-    object.flushTransform();
+    object.transform.flushTransform();
 }
 void Labirynth::init()
 {

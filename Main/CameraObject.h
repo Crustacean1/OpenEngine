@@ -4,27 +4,31 @@
 #include "../Lib/Object/Object.h"
 #include "../Lib/Camera/Camera.h"
 #include "../Lib/Input/Input.h"
-#include "../Lib/Component/Behaviour.h"
-#include "../Lib/Component/BehaviourManager.h"
+#include "../Lib/Component/Behaviour/Behaviour.h"
+#include "../Lib/Component/Behaviour/BehaviourManager.h"
 #include <iostream>
 
-class CameraControler : public OpenEngine::Behaviour, public OpenEngine::MouseMovementInput
+class CameraControler : public OpenEngine::Behaviour, public OpenEngine::MouseMovementInput, public OpenEngine::MouseScrollInput
 {
-    OpenEngine::Object &owner;
     double prevX;
     double prevY;
 
+    double spos = 1;
+
 public:
-    double xfactor = 0.002;
-    double yfactor = -0.002;
+    double xfactor = -0.001;
+    double yfactor = -0.001;
 
-    double camSpeed = 2;
+    double sfactor = 0.01;
 
-    CameraControler(OpenEngine::Object &obj) : owner(obj), Behaviour(obj) {}
+    double camSpeed = -0.5;
+
+    CameraControler(OpenEngine::Object &obj) : Behaviour(obj) {}
     void mouseMovementCallback(GLFWwindow *window, double xpos, double ypos);
+    void mouseScrollCallback(GLFWwindow * window,double x,double y);
     void update(double delta) override;
     void init() override;
+    BaseComponent* instantiate(){return new CameraControler(*this);}
 };
-
 
 #endif /*CAMERAOBJECT*/

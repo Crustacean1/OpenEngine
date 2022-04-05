@@ -1,8 +1,10 @@
 #include "MeshTestObject.h"
 #include "../Lib/Mesh/Mesh.h"
 #include "../Lib/Render/MeshRenderer.h"
+#include "../Lib/Render/Render.h"
 #include "../Lib/Shader/Shader.h"
 #include "../Lib/Material/Material.h"
+#include "../Lib/Loaders/TextureLoader/TextureLoader.h"
 #include <iostream>
 #include <ctime>
 #include <stdlib.h>
@@ -14,9 +16,8 @@ float mod(float a, float b)
 
 void RotationController::update(double delta)
 {
-    //std::cout << "I have no case and i must shite: " << object.localRotation.w << " " << object.localRotation.x << " " << object.localRotation.y << " " << object.localRotation.z << " " << std::endl;
-    object.localRotation = (glm::dquat)glm::angleAxis((float)(delta * rotationSpeed), axis) * object.localRotation;
-    object.flushTransform();
+    object.transform.localRotation = (glm::dquat)glm::angleAxis((float)(delta * rotationSpeed), axis) * object.transform.localRotation;
+    object.transform.flushTransform();
 }
 
 void GridController::update(double delta)
@@ -25,23 +26,24 @@ void GridController::update(double delta)
     {
         return;
     }
-    object.localPosition.x = mod(target->getGlobalPosition().x, gap);
-    object.localPosition.y = mod(target->getGlobalPosition().y, gap);
-    object.localPosition.z = mod(target->getGlobalPosition().z, gap);
+    object.transform.localPosition.x = mod(target->transform.getGlobalPosition().x, gap);
+    object.transform.localPosition.y = mod(target->transform.getGlobalPosition().y, gap);
+    object.transform.localPosition.z = mod(target->transform.getGlobalPosition().z, gap);
 }
 void Roughener::init()
 {
     srand(time(0));
     auto * comp = object.getComponent<OpenEngine::MeshRenderer>(0);
     if(comp==nullptr){return;}
-    comp->getMaterial(0)->norm.create(32,32,3);
-    unsigned char * data = comp->getMaterial(0)->norm.getData();
+    auto material  = (OpenEngine::Material3D*)comp->getMaterial();
+    material->norm->createFromColor(64,64,3);
+    unsigned char * data = material->norm->getData();
 
     float xangle,yangle;
 
-    for(unsigned int i = 0,k = 0;i<32;i++)
+    for(unsigned int i = 0,k = 0;i<64;i++)
     {
-        for(unsigned int j = 0;j<32;j++)
+        for(unsigned int j = 0;j<64;j++)
         {
             xangle = 80 + (float)(rand()%9999)/500.f;
             yangle = 80 + (float)(rand()%9999)/500.f;
@@ -51,6 +53,6 @@ void Roughener::init()
             
         }
     }
-    comp->getMaterial(0)->norm.flush();
-    comp->getMaterial(0)->activate();
+    material->norm->flush();
+    comp->getMaterial()->activate();
 }

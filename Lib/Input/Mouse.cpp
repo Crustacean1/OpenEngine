@@ -14,7 +14,8 @@ void OpenEngine::Mouse::createMouse(GLFWwindow *_window)
     }
     ptr = new Mouse();
     glfwSetCursorPosCallback(_window, Mouse::movementCallbackInvoker);
-    glfwSetMouseButtonCallback(_window, buttonCallbackInvoker);
+    glfwSetMouseButtonCallback(_window, Mouse::buttonCallbackInvoker);
+    glfwSetScrollCallback(_window,Mouse::scrollCallbackInvoker);
 }
 void OpenEngine::Mouse::movementCallbackInvoker(GLFWwindow *_window, double x, double y)
 {
@@ -28,6 +29,13 @@ void OpenEngine::Mouse::buttonCallbackInvoker(GLFWwindow *_window, int button, i
     for (const auto &func : ptr->buttonCallbacks)
     {
         func->mouseButtonCallback(_window, button, action, mode);
+    }
+}
+void OpenEngine::Mouse::scrollCallbackInvoker(GLFWwindow * _window,double x,double y)
+{
+    for (const auto &func : ptr->scrollCallbacks)
+    {
+        func->mouseScrollCallback(_window,x,y);
     }
 }
 
@@ -58,6 +66,21 @@ void OpenEngine::Mouse::dropButtonCallback(MouseButtonInput *_minput)
         if ((*it) == _minput)
         {
             buttonCallbacks.erase(it);
+            return;
+        }
+    }
+}
+void OpenEngine::Mouse::addScrollCallback(MouseScrollInput * _minput)
+{
+    scrollCallbacks.push_front(_minput);
+}
+void OpenEngine::Mouse::dropScrollCallback(MouseScrollInput *_minput)
+{
+    for (auto it = scrollCallbacks.begin(); it != scrollCallbacks.end(); it++)
+    {
+        if ((*it) == _minput)
+        {
+            scrollCallbacks.erase(it);
             return;
         }
     }
